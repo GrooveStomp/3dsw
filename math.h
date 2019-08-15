@@ -1,7 +1,7 @@
 /******************************************************************************
   File: math.h
   Created: 2019-08-13
-  Updated: 2019-08-13
+  Updated: 2019-08-15
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -41,6 +41,7 @@ struct triangle {
                 float p[9];
                 struct vec3 v[3];
         };
+        unsigned int color;
 };
 
 struct mesh {
@@ -54,6 +55,18 @@ struct mat4x4 {
 
 void
 Vec3Debug(struct vec3 vec3);
+
+float
+Vec3DotProduct(struct vec3 left, struct vec3 right);
+
+struct vec3
+Vec3CrossProduct(struct vec3 left, struct vec3 right);
+
+void
+Vec3Normalize(struct vec3 *vec3);
+
+struct vec3
+Vec3Subtract(struct vec3 minuend, struct vec3 subtrahend);
 
 void
 TriangleDebug(struct triangle triangle);

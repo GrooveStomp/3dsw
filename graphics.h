@@ -1,7 +1,7 @@
 /******************************************************************************
   File: graphics.h
   Created: 2019-07-16
-  Updated: 2019-08-13
+  Updated: 2019-08-15
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -51,9 +51,17 @@ GraphicsClearScreen(struct graphics *graphics, unsigned int color);
 
 
 //! \brief Draw a triangle with the given set of x and y coordinates
+//! Only draws the lines, doesn't fill the polygon.
 //! \param[in, out] graphics Graphics state to be changed
 void
-GraphicsDrawTriangle(struct graphics *graphics, struct triangle triangle, unsigned int color);
+GraphicsTriangleWireframe(struct graphics *graphics, struct triangle triangle, unsigned int color);
+
+//! \brief Draw a triangle with the given set of x and y coordinates
+//! Fills the specified polygon with the given color.
+//! \param[in, out] graphics Graphics state to be changed
+//! \see Source: http://www.sunshine2k.de/coding/java/TriangleRasterization/TriangleRasterization.html
+void
+GraphicsTriangleSolid(struct graphics *graphics, struct triangle triangle, unsigned int color);
 
 void
 GraphicsDrawLine(struct graphics *graphics, int x1, int y1, int x2, int y2, unsigned int color);

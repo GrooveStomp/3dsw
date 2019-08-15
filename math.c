@@ -1,13 +1,14 @@
 /******************************************************************************
   File: math.c
   Created: 2019-08-07
-  Updated: 2019-08-13
+  Updated: 2019-08-15
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
 #include <stdlib.h> // malloc, free
 #include <string.h> // memset
 #include <stdio.h> // printf
+#include <math.h> // sqrtf
 
 #include "math.h"
 
@@ -32,6 +33,37 @@ void TriangleDebug(struct triangle t) {
 
         printf("(struct triangle){\n  .p = { %.1f, %.1f, %.1f, %.1f, %.1f, %.1f, %.1f, %.1f, %.1f }\n}\n",
                t.p[0], t.p[1], t.p[2], t.p[3], t.p[4], t.p[5], t.p[6], t.p[7], t.p[8]);
+}
+
+float Vec3DotProduct(struct vec3 left, struct vec3 right) {
+        return left.x * right.x + left.y * right.y + left.z * right.z;
+}
+
+struct vec3 Vec3CrossProduct(struct vec3 left, struct vec3 right) {
+        struct vec3 cross = { 0 };
+
+        cross.x = left.y * right.z - left.z * right.y;
+        cross.y = left.z * right.x - left.x * right.z;
+        cross.z = left.x * right.y - left.y * right.x;
+
+        return cross;
+}
+
+void Vec3Normalize(struct vec3 *vec3) {
+        float l = sqrtf(vec3->x * vec3->x + vec3->y * vec3->y + vec3->z * vec3->z);
+        vec3->x /= l;
+        vec3->y /= l;
+        vec3->z /= l;
+}
+
+struct vec3 Vec3Subtract(struct vec3 minuend, struct vec3 subtrahend) {
+        struct vec3 vec3 = { 0 };
+
+        vec3.x = minuend.x - subtrahend.x;
+        vec3.y = minuend.y - subtrahend.y;
+        vec3.z = minuend.z - subtrahend.z;
+
+        return vec3;
 }
 
 struct mesh *MeshInit(int numTris) {

@@ -1,7 +1,7 @@
 /******************************************************************************
   File: main.c
   Created: 2019-08-07
-  Updated: 2019-08-13
+  Updated: 2019-08-15
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -15,6 +15,7 @@
 #include "graphics.h"
 #include "input.h"
 #include "math.h"
+#include "color.h"
 
 #pragma GCC diagnostic ignored "-Wmissing-braces"
 
@@ -63,6 +64,8 @@ int main(int argc, char **argv) {
         float aspect = (float)SCREEN_HEIGHT / (float)SCREEN_WIDTH;
         float fovRad = 1.0f / tanf(fov * 0.5f / 180.0f * 3.14159f);
 
+        struct vec3 camera = { 0 };
+
         struct mat4x4 matProj = { 0 };
         matProj.m[0][0] = aspect * fovRad;
         matProj.m[1][1] = fovRad;
@@ -79,7 +82,7 @@ int main(int argc, char **argv) {
         int running = 1;
         SDL_Event event;
         while (running) {
-                count += 0.1;
+                count += 0.01;
                 struct timespec start;
                 clock_gettime(CLOCK_REALTIME, &start);
 
@@ -122,23 +125,50 @@ int main(int argc, char **argv) {
                         translated.v[1].z = rotatedzx.v[1].z + 3.0f;
                         translated.v[2].z = rotatedzx.v[2].z + 3.0f;
 
-                        struct triangle projected;
-                        projected.v[0] = Mat4x4MultiplyVec3d(matProj, translated.v[0]);
-                        projected.v[1] = Mat4x4MultiplyVec3d(matProj, translated.v[1]);
-                        projected.v[2] = Mat4x4MultiplyVec3d(matProj, translated.v[2]);
+                        // Calculate the normal.
+                        struct vec3 line1;
+                        line1.x = translated.v[1].x - translated.v[0].x;
+                        line1.y = translated.v[1].y - translated.v[0].y;
+                        line1.z = translated.v[1].z - translated.v[0].z;
 
-                        projected.v[0].x += 1.0f; projected.v[0].y += 1.0f;
-                        projected.v[1].x += 1.0f; projected.v[1].y += 1.0f;
-                        projected.v[2].x += 1.0f; projected.v[2].y += 1.0f;
+                        struct vec3 line2;
+                        line2.x = translated.v[2].x - translated.v[0].x;
+                        line2.y = translated.v[2].y - translated.v[0].y;
+                        line2.z = translated.v[2].z - translated.v[0].z;
 
-                        projected.v[0].x *= 0.5f * (float)SCREEN_WIDTH;
-                        projected.v[0].y *= 0.5f * (float)SCREEN_HEIGHT;
-                        projected.v[1].x *= 0.5f * (float)SCREEN_WIDTH;
-                        projected.v[1].y *= 0.5f * (float)SCREEN_HEIGHT;
-                        projected.v[2].x *= 0.5f * (float)SCREEN_WIDTH;
-                        projected.v[2].y *= 0.5f * (float)SCREEN_HEIGHT;
+                        struct vec3 normal = Vec3CrossProduct(line1, line2);
+                        Vec3Normalize(&normal);
 
-                        GraphicsDrawTriangle(graphics, projected, 0xFFFFFFFF);
+                        if (Vec3DotProduct(normal, Vec3Subtract(translated.v[0], camera)) < 0) {
+                                // Illumination
+                                struct vec3 lightDirection = { 0.0f, 0.0f, -1.0f };
+                                Vec3Normalize(&lightDirection);
+
+                                // How similar is normal to light direction?
+                                float dp = Vec3DotProduct(normal, lightDirection);
+                                struct color color = ColorInitFloat(dp, dp, dp, 1.0);
+
+                                struct triangle projected;
+                                projected.v[0] = Mat4x4MultiplyVec3d(matProj, translated.v[0]);
+                                projected.v[1] = Mat4x4MultiplyVec3d(matProj, translated.v[1]);
+                                projected.v[2] = Mat4x4MultiplyVec3d(matProj, translated.v[2]);
+
+                                projected.v[0].x += 1.0f; projected.v[0].y += 1.0f;
+                                projected.v[1].x += 1.0f; projected.v[1].y += 1.0f;
+                                projected.v[2].x += 1.0f; projected.v[2].y += 1.0f;
+
+                                projected.v[0].x *= 0.5f * (float)SCREEN_WIDTH;
+                                projected.v[0].y *= 0.5f * (float)SCREEN_HEIGHT;
+                                projected.v[1].x *= 0.5f * (float)SCREEN_WIDTH;
+                                projected.v[1].y *= 0.5f * (float)SCREEN_HEIGHT;
+                                projected.v[2].x *= 0.5f * (float)SCREEN_WIDTH;
+                                projected.v[2].y *= 0.5f * (float)SCREEN_HEIGHT;
+
+                                // Draw solid faces.
+                                GraphicsTriangleSolid(graphics, projected, color.rgba);
+                                // Draw wireframe faces.
+                                GraphicsTriangleWireframe(graphics, projected, ColorBlack.rgba);
+                        }
                 }
 
                 GraphicsEnd(graphics);

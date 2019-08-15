@@ -12,7 +12,7 @@ LIBS    += $(shell sdl2-config --libs) -lSDL2main -lm
 CFLAGS  += -std=c11 -pedantic -Wall -D_GNU_SOURCE
 
 SRC_DEP  =
-SRC      = main.c graphics.c input.c math.c
+SRC      = main.c graphics.c input.c math.c color.c
 OBJFILES = $(patsubst %.c,%.o,$(SRC))
 LINTFILES= $(patsubst %.c,__%.c,$(SRC)) $(patsubst %.c,_%.c,$(SRC))
 
