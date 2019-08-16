@@ -51,7 +51,7 @@ int TriangleCompareFn(const void *left, const void *right) {
 }
 
 int main(int argc, char **argv) {
-        struct graphics *graphics = GraphicsInit("3D Software Demo", SCREEN_WIDTH, SCREEN_HEIGHT);
+        struct graphics *graphics = GraphicsInit("3D Software Demo", SCREEN_WIDTH, SCREEN_HEIGHT, 4);
         struct input *input = InputInit();
 
         struct mesh *ship = MeshInitFromObj("videoship.obj");

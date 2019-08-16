@@ -1,7 +1,7 @@
 /******************************************************************************
   File: graphics.c
   Created: 2019-06-25
-  Updated: 2019-08-15
+  Updated: 2019-08-16
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -23,24 +23,26 @@ struct graphics {
         SDL_Texture *texture;
         unsigned int width;
         unsigned int height;
+        unsigned int scale;
 
         unsigned char *pixels;
         int bytesPerRow;
 };
 
-struct graphics *GraphicsInit(char *title, int width, int height) {
+struct graphics *GraphicsInit(char *title, int width, int height, int scale) {
         struct graphics *g = (struct graphics *)malloc(sizeof(struct graphics));
         memset(g, 0, sizeof(struct graphics));
 
         g->width = width;
         g->height = height;
+        g->scale = scale;
 
         SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_EVENTS);
 
         g->window = SDL_CreateWindow(
                 title,
                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                g->width, g->height,
+                g->width * g->scale, g->height * g->scale,
                 SDL_WINDOW_SHOWN
         );
         if (NULL == g->window) {
@@ -115,10 +117,18 @@ void GraphicsClearScreen(struct graphics *graphics, unsigned int color) {
         }
 }
 
+void PutPixelScaled(struct graphics *graphics, int x, int y, unsigned int color) {
+        for (int sy = y; sy < y + graphics->scale; sy++) {
+                for (int sx = x; sx < x + graphics->scale; sx++) {
+                        unsigned int *pixel = (unsigned int *)&graphics->pixels[y * graphics->bytesPerRow + x * 4];
+                        *pixel = color;
+                }
+        }
+}
+
 void PutPixel(struct graphics *graphics, int x, int y, unsigned int color) {
         if (x >= 0 && x < graphics->width && y >= 0 && y < graphics->height) {
-                unsigned int *pixel = (unsigned int *)&graphics->pixels[y * graphics->bytesPerRow + x * 4];
-                *pixel = color;
+                PutPixelScaled(graphics, x, y, color);
         }
 }
 

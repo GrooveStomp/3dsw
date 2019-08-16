@@ -1,7 +1,7 @@
 /******************************************************************************
   File: graphics.h
   Created: 2019-07-16
-  Updated: 2019-08-15
+  Updated: 2019-08-16
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -20,7 +20,7 @@
 //! \param[in] debug Whether to enabled the debugging UI
 //! \return The initialized graphics object
 struct graphics *
-GraphicsInit(char *title, int width, int height);
+GraphicsInit(char *title, int width, int height, int scale);
 
 //! \brief De-initializes and frees memory for the given graphics object
 //! \param[in,out] graphics The initialized opcode object to be cleaned and reclaimed
