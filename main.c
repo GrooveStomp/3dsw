@@ -1,7 +1,7 @@
 /******************************************************************************
   File: main.c
   Created: 2019-08-07
-  Updated: 2019-08-15
+  Updated: 2019-08-16
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -29,34 +29,35 @@
 
 const double msPerFrame = HZ_TO_MS(60);
 
+//! \brief Compare the Z-Sorting order of two triangles
+//!
+//! \param left pointer to a triangle
+//! \param right pointer to a triangle
+//! \return 0 if their sort values are the same, -1 if left comes first, otherwise 1
+int TriangleCompareFn(const void *left, const void *right) {
+        const struct triangle *l = (const struct triangle *)left;
+        const struct triangle *r = (const struct triangle *)right;
+
+        float zl = (l->v[0].z + l->v[1].z + l->v[2].z / 3.0f);
+        float zr = (r->v[0].z + r->v[1].z + r->v[2].z / 3.0f);
+
+        if (zl == zr) {
+                return 0;
+        } else if (zl > zr) {
+                return -1;
+        } else {
+                return 1;
+        }
+}
+
 int main(int argc, char **argv) {
         struct graphics *graphics = GraphicsInit("3D Software Demo", SCREEN_WIDTH, SCREEN_HEIGHT);
         struct input *input = InputInit();
-        struct mesh *mesh = MeshInit(12);
 
-        // South
-        mesh->tris[0] = (struct triangle){ 0.0, 0.0, 0.0,  0.0, 1.0, 0.0,  1.0, 1.0, 0.0 };
-        mesh->tris[1] = (struct triangle){ 0.0, 0.0, 0.0,  1.0, 1.0, 0.0,  1.0, 0.0, 0.0 };
-
-        // East
-        mesh->tris[2] = (struct triangle){ 1.0, 0.0, 0.0,  1.0, 1.0, 0.0,  1.0, 1.0, 1.0 };
-        mesh->tris[3] = (struct triangle){ 1.0, 0.0, 0.0,  1.0, 1.0, 1.0,  1.0, 0.0, 1.0 };
-
-        // North
-        mesh->tris[4] = (struct triangle){ 1.0, 0.0, 1.0,  1.0, 1.0, 1.0,  0.0, 1.0, 1.0 };
-        mesh->tris[5] = (struct triangle){ 1.0, 0.0, 1.0,  0.0, 1.0, 1.0,  0.0, 0.0, 1.0 };
-
-        // West
-        mesh->tris[6] = (struct triangle){ 0.0, 0.0, 1.0,  0.0, 1.0, 1.0,  0.0, 1.0, 0.0 };
-        mesh->tris[7] = (struct triangle){ 0.0, 0.0, 1.0,  0.0, 1.0, 0.0,  0.0, 0.0, 0.0 };
-
-        // Top
-        mesh->tris[8] = (struct triangle){ 0.0, 1.0, 0.0,  0.0, 1.0, 1.0,  1.0, 1.0, 1.0 };
-        mesh->tris[9] = (struct triangle){ 0.0, 1.0, 0.0,  1.0, 1.0, 1.0,  1.0, 1.0, 0.0 };
-
-        // Bottom
-        mesh->tris[10] = (struct triangle){ 0.0, 0.0, 1.0,  0.0, 0.0, 0.0,  1.0, 0.0, 0.0 };
-        mesh->tris[11] = (struct triangle){ 0.0, 0.0, 1.0,  1.0, 0.0, 0.0,  1.0, 0.0, 1.0 };
+        struct mesh *ship = MeshInitFromObj("videoship.obj");
+        if (NULL == ship) {
+                fprintf(stderr, "There was a problem initializing the mesh");
+        }
 
         float near = 0.1f;
         float far = 1000.0f;
@@ -78,6 +79,9 @@ int main(int argc, char **argv) {
         clock_gettime(CLOCK_REALTIME, &progStart);
         double totalElapsedTime = 0.0;
         double count = 0.0;
+
+        struct triangle *renderTris = malloc(sizeof(struct triangle) * ship->count);
+        int renderTrisCount = 0;
 
         int running = 1;
         SDL_Event event;
@@ -109,11 +113,12 @@ int main(int argc, char **argv) {
                 GraphicsBegin(graphics);
                 GraphicsClearScreen(graphics, 0x000000FF);
 
-                for (int i = 0; i < mesh->count; i++) {
-                        struct triangle rotatedz = mesh->tris[i];
-                        rotatedz.v[0] = Mat4x4MultiplyVec3d(matRotZ, mesh->tris[i].v[0]);
-                        rotatedz.v[1] = Mat4x4MultiplyVec3d(matRotZ, mesh->tris[i].v[1]);
-                        rotatedz.v[2] = Mat4x4MultiplyVec3d(matRotZ, mesh->tris[i].v[2]);
+                renderTrisCount = 0;
+                for (int i = 0; i < ship->count; i++) {
+                        struct triangle rotatedz = ship->tris[i];
+                        rotatedz.v[0] = Mat4x4MultiplyVec3d(matRotZ, ship->tris[i].v[0]);
+                        rotatedz.v[1] = Mat4x4MultiplyVec3d(matRotZ, ship->tris[i].v[1]);
+                        rotatedz.v[2] = Mat4x4MultiplyVec3d(matRotZ, ship->tris[i].v[2]);
 
                         struct triangle rotatedzx = rotatedz;
                         rotatedzx.v[0] = Mat4x4MultiplyVec3d(matRotX, rotatedz.v[0]);
@@ -121,9 +126,9 @@ int main(int argc, char **argv) {
                         rotatedzx.v[2] = Mat4x4MultiplyVec3d(matRotX, rotatedz.v[2]);
 
                         struct triangle translated = rotatedzx;
-                        translated.v[0].z = rotatedzx.v[0].z + 3.0f;
-                        translated.v[1].z = rotatedzx.v[1].z + 3.0f;
-                        translated.v[2].z = rotatedzx.v[2].z + 3.0f;
+                        translated.v[0].z = rotatedzx.v[0].z + 8.0f;
+                        translated.v[1].z = rotatedzx.v[1].z + 8.0f;
+                        translated.v[2].z = rotatedzx.v[2].z + 8.0f;
 
                         // Calculate the normal.
                         struct vec3 line1;
@@ -149,6 +154,8 @@ int main(int argc, char **argv) {
                                 struct color color = ColorInitFloat(dp, dp, dp, 1.0);
 
                                 struct triangle projected;
+                                projected.color = color.rgba;
+
                                 projected.v[0] = Mat4x4MultiplyVec3d(matProj, translated.v[0]);
                                 projected.v[1] = Mat4x4MultiplyVec3d(matProj, translated.v[1]);
                                 projected.v[2] = Mat4x4MultiplyVec3d(matProj, translated.v[2]);
@@ -164,11 +171,20 @@ int main(int argc, char **argv) {
                                 projected.v[2].x *= 0.5f * (float)SCREEN_WIDTH;
                                 projected.v[2].y *= 0.5f * (float)SCREEN_HEIGHT;
 
-                                // Draw solid faces.
-                                GraphicsTriangleSolid(graphics, projected, color.rgba);
-                                // Draw wireframe faces.
-                                GraphicsTriangleWireframe(graphics, projected, ColorBlack.rgba);
+                                // Store triangles for sorting.
+                                renderTris[renderTrisCount] = projected;
+                                renderTrisCount++;
                         }
+                }
+
+                // Sort the triangles from back to front.
+                qsort(renderTris, renderTrisCount, sizeof(struct triangle), TriangleCompareFn);
+
+                for (int i = 0; i < renderTrisCount; i++) {
+                        // Draw solid faces.
+                        GraphicsTriangleSolid(graphics, renderTris[i], renderTris[i].color);
+                        // Draw wireframe faces.
+                        GraphicsTriangleWireframe(graphics, renderTris[i], ColorBlack.rgba);
                 }
 
                 GraphicsEnd(graphics);
@@ -187,7 +203,7 @@ int main(int argc, char **argv) {
                 nanosleep(&sleep, NULL);
         }
 
-        MeshDeinit(mesh);
+        MeshDeinit(ship);
         GraphicsDeinit(graphics);
 
         return 0;

@@ -1,7 +1,7 @@
 /******************************************************************************
   File: math.c
   Created: 2019-08-07
-  Updated: 2019-08-15
+  Updated: 2019-08-16
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -74,6 +74,85 @@ struct mesh *MeshInit(int numTris) {
         memset(mesh->tris, 0, sizeof(struct triangle) * numTris);
 
         mesh->count = numTris;
+
+        return mesh;
+}
+
+struct mesh *MeshInitFromObj(char *objFile) {
+        FILE *file = fopen(objFile, "r");
+        if (NULL == file) {
+                fprintf(stderr, "Couldn't open %s", objFile);
+                return NULL;
+        }
+
+        // First scan through the file to see how much data we need to read.
+        int numFaces = 0;
+        int numVertices = 0;
+        char line[256];
+        while (NULL != fgets(line, sizeof(line), file)) {
+                switch (line[0]) {
+                        case 'v':
+                                numVertices++;
+                                break;
+                        case 'f':
+                                numFaces++;
+                                break;
+                }
+        }
+        if (ferror(file)) {
+                fprintf(stderr, "I/O error while reading %s", objFile);
+                return NULL;
+        }
+        rewind(file);
+
+        // Now size our data containers appropriately.
+        struct mesh *mesh = (struct mesh *)malloc(sizeof(struct mesh));
+        memset(mesh, 0, sizeof(struct mesh));
+
+        mesh->tris = (struct triangle *)malloc(sizeof(struct triangle) * numFaces);
+        memset(mesh->tris, 0, sizeof(struct triangle) * numFaces);
+
+        mesh->count = numFaces;
+
+        struct vec3 *vertex = (struct vec3 *)malloc(sizeof(struct vec3) * numVertices);
+        memset(vertex, 0, sizeof(struct vec3) * numVertices);
+
+        int vertIdx = 0;
+        int faceIdx = 0;
+        // Finally, read through the file, filling out our data containers.
+        while (NULL != fgets(line, sizeof(line), file)) {
+                float x, y, z;
+                int i1, i2, i3;
+
+                switch (line[0]) {
+                        case 'v': {
+                                sscanf(line, "v %f %f %f", &x, &y, &z);
+                                vertex[vertIdx].x = x;
+                                vertex[vertIdx].y = y;
+                                vertex[vertIdx].z = z;
+                                vertIdx++;
+                                break;
+                        }
+                        case 'f': {
+                                sscanf(line, "f %d %d %d", &i1, &i2, &i3);
+                                mesh->tris[faceIdx].v[0] = vertex[i1 - 1];
+                                mesh->tris[faceIdx].v[1] = vertex[i2 - 1];
+                                mesh->tris[faceIdx].v[2] = vertex[i3 - 1];
+                                faceIdx++;
+                                break;
+                        }
+                }
+        }
+        if (ferror(file)) {
+                fprintf(stderr, "I/O error while reading %s", objFile);
+                free(vertex);
+                free(mesh->tris);
+                free(mesh);
+                return NULL;
+        }
+
+        fclose(file);
+        free(vertex);
 
         return mesh;
 }

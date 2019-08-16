@@ -1,7 +1,7 @@
 /******************************************************************************
   File: math.h
   Created: 2019-08-13
-  Updated: 2019-08-15
+  Updated: 2019-08-16
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -73,6 +73,9 @@ TriangleDebug(struct triangle triangle);
 
 struct mesh *
 MeshInit(int numTris);
+
+struct mesh *
+MeshInitFromObj(char *objFile);
 
 void
 MeshDeinit(struct mesh *mesh);
