@@ -153,6 +153,7 @@ struct mesh *MeshInitFromObj(char *objFile) {
                                 vertex[vertIdx].x = x;
                                 vertex[vertIdx].y = y;
                                 vertex[vertIdx].z = z;
+                                vertex[vertIdx].w = 1.0f;
                                 vertIdx++;
                                 break;
                         }
@@ -245,10 +246,6 @@ struct mat4x4 Mat4x4RotateZ(float rad) {
 
 struct mat4x4 Mat4x4Translate(float x, float y, float z) {
         struct mat4x4 res = Mat4x4Identity();
-        res.m[0][0] = 1.0f;
-        res.m[1][1] = 1.0f;
-        res.m[2][2] = 1.0f;
-        res.m[3][3] = 1.0f;
         res.m[3][0] = x;
         res.m[3][1] = y;
         res.m[3][2] = z;

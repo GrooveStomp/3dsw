@@ -77,25 +77,21 @@ int main(int argc, char **argv) {
 
                 struct mat4x4 matRotZ = Mat4x4RotateZ(theta * 0.5f);
                 struct mat4x4 matRotX = Mat4x4RotateX(theta);
-                // struct mat4x4 matTrans = Mat4x4Translate(0.0f, 0.0f, 8.0f);
+                struct mat4x4 matTrans = Mat4x4Translate(0.0f, 0.0f, 8.0f);
 
                 struct mat4x4 matWorld = Mat4x4Identity();
                 matWorld = Mat4x4Multiply(matRotZ, matRotX);
-                // matWorld = Mat4x4Multiply(matWorld, matTrans);
+                matWorld = Mat4x4Multiply(matWorld, matTrans);
 
                 GraphicsBegin(graphics);
                 GraphicsClearScreen(graphics, 0x000000FF);
 
                 renderTrisCount = 0;
                 for (int i = 0; i < ship->count; i++) {
-                        struct triangle transformed = { 0 };
-                        transformed.v[0] = Mat4x4MultiplyVec3(matWorld, ship->tris[i].v[0]);
-                        transformed.v[1] = Mat4x4MultiplyVec3(matWorld, ship->tris[i].v[1]);
-                        transformed.v[2] = Mat4x4MultiplyVec3(matWorld, ship->tris[i].v[2]);
-
-                        transformed.v[0].z = transformed.v[0].z + 8.0f;
-                        transformed.v[1].z = transformed.v[1].z + 8.0f;
-                        transformed.v[2].z = transformed.v[2].z + 8.0f;
+                        struct triangle transformed = ship->tris[i];
+                        transformed.v[0] = Mat4x4MultiplyVec3(matWorld, transformed.v[0]);
+                        transformed.v[1] = Mat4x4MultiplyVec3(matWorld, transformed.v[1]);
+                        transformed.v[2] = Mat4x4MultiplyVec3(matWorld, transformed.v[2]);
 
                         // Calculate the normal.
                         struct vec3 line1 = Vec3Subtract(transformed.v[1], transformed.v[0]);
