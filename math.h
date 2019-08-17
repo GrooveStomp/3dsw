@@ -1,7 +1,7 @@
 /******************************************************************************
   File: math.h
   Created: 2019-08-13
-  Updated: 2019-08-16
+  Updated: 2019-08-17
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -20,8 +20,9 @@ struct vec3 {
                         float x;
                         float y;
                         float z;
+                        float w;
                 };
-                float p[3];
+                float p[4];
         };
 };
 
@@ -31,14 +32,17 @@ struct triangle {
                         float x1;
                         float y1;
                         float z1;
+                        float w1;
                         float x2;
                         float y2;
                         float z2;
+                        float w2;
                         float x3;
                         float y3;
                         float z3;
+                        float w3;
                 };
-                float p[9];
+                float p[12];
                 struct vec3 v[3];
         };
         unsigned int color;
@@ -62,11 +66,17 @@ Vec3DotProduct(struct vec3 left, struct vec3 right);
 struct vec3
 Vec3CrossProduct(struct vec3 left, struct vec3 right);
 
-void
-Vec3Normalize(struct vec3 *vec3);
+struct vec3
+Vec3Normalize(struct vec3 vec3);
+
+struct vec3
+Vec3Add(struct vec3 left, struct vec3 right);
 
 struct vec3
 Vec3Subtract(struct vec3 minuend, struct vec3 subtrahend);
+
+struct vec3
+Vec3Divide(struct vec3 vec3, float f);
 
 void
 TriangleDebug(struct triangle triangle);
@@ -81,7 +91,28 @@ void
 MeshDeinit(struct mesh *mesh);
 
 struct vec3
-Mat4x4MultiplyVec3d(struct mat4x4 mat, struct vec3 vec);
+Mat4x4MultiplyVec3(struct mat4x4 mat, struct vec3 vec);
+
+struct mat4x4
+Mat4x4Identity();
+
+struct mat4x4
+Mat4x4RotateX(float rad);
+
+struct mat4x4
+Mat4x4RotateY(float rad);
+
+struct mat4x4
+Mat4x4RotateZ(float rad);
+
+struct mat4x4
+Mat4x4Translate(float x, float y, float z);
+
+struct mat4x4
+Mat4x4Project(float fovDegrees, float aspect, float near, float far);
+
+struct mat4x4
+Mat4x4Multiply(struct mat4x4 left, struct mat4x4 right);
 
 void
 Mat4x4Debug(struct mat4x4 mat);

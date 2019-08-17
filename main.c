@@ -1,7 +1,7 @@
 /******************************************************************************
   File: main.c
   Created: 2019-08-07
-  Updated: 2019-08-16
+  Updated: 2019-08-17
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -59,95 +59,54 @@ int main(int argc, char **argv) {
                 fprintf(stderr, "There was a problem initializing the mesh");
         }
 
-        float near = 0.1f;
-        float far = 1000.0f;
-        float fov = 90.0f;
-        float aspect = (float)SCREEN_HEIGHT / (float)SCREEN_WIDTH;
-        float fovRad = 1.0f / tanf(fov * 0.5f / 180.0f * 3.14159f);
-
         struct vec3 camera = { 0 };
-
-        struct mat4x4 matProj = { 0 };
-        matProj.m[0][0] = aspect * fovRad;
-        matProj.m[1][1] = fovRad;
-        matProj.m[2][2] = far / (far - near);
-        matProj.m[3][2] = (-far * near) / (far - near);
-        matProj.m[2][3] = 1.0f;
-        matProj.m[3][3] = 0.0f;
-
-        struct timespec progStart;
-        clock_gettime(CLOCK_REALTIME, &progStart);
-        double totalElapsedTime = 0.0;
-        double count = 0.0;
+        struct mat4x4 matProj = Mat4x4Project(90.0f, (float)SCREEN_HEIGHT / (float)SCREEN_WIDTH, 0.1f, 1000.0f);
 
         struct triangle *renderTris = malloc(sizeof(struct triangle) * ship->count);
         int renderTrisCount = 0;
 
+        double count = 0.0;
         int running = 1;
         SDL_Event event;
+
         while (running) {
+                double theta = 1.0f + count;
                 count += 0.01;
                 struct timespec start;
                 clock_gettime(CLOCK_REALTIME, &start);
 
-                totalElapsedTime += S_TO_MS(start.tv_sec - progStart.tv_sec);
-                totalElapsedTime += NS_TO_MS(start.tv_nsec - progStart.tv_sec);
-                double theta = 1.0f + count; //(totalElapsedTime / 10000.0f);
+                struct mat4x4 matRotZ = Mat4x4RotateZ(theta * 0.5f);
+                struct mat4x4 matRotX = Mat4x4RotateX(theta);
+                // struct mat4x4 matTrans = Mat4x4Translate(0.0f, 0.0f, 8.0f);
 
-                struct mat4x4 matRotZ = { 0 };
-                matRotZ.m[0][0] = cosf(theta);
-                matRotZ.m[0][1] = sinf(theta);
-                matRotZ.m[1][0] = -sinf(theta);
-                matRotZ.m[1][1] = cosf(theta);
-                matRotZ.m[2][2] = 1;
-                matRotZ.m[3][3] = 1;
-
-                struct mat4x4 matRotX = { 0 };
-                matRotX.m[0][0] = 1;
-                matRotX.m[1][1] = cosf(theta * 0.5f);
-                matRotX.m[1][2] = sinf(theta * 0.5f);
-                matRotX.m[2][1] = -sinf(theta * 0.5f);
-                matRotX.m[2][2] = cosf(theta * 0.5f);
-                matRotX.m[3][3] = 1;
+                struct mat4x4 matWorld = Mat4x4Identity();
+                matWorld = Mat4x4Multiply(matRotZ, matRotX);
+                // matWorld = Mat4x4Multiply(matWorld, matTrans);
 
                 GraphicsBegin(graphics);
                 GraphicsClearScreen(graphics, 0x000000FF);
 
                 renderTrisCount = 0;
                 for (int i = 0; i < ship->count; i++) {
-                        struct triangle rotatedz = ship->tris[i];
-                        rotatedz.v[0] = Mat4x4MultiplyVec3d(matRotZ, ship->tris[i].v[0]);
-                        rotatedz.v[1] = Mat4x4MultiplyVec3d(matRotZ, ship->tris[i].v[1]);
-                        rotatedz.v[2] = Mat4x4MultiplyVec3d(matRotZ, ship->tris[i].v[2]);
+                        struct triangle transformed = { 0 };
+                        transformed.v[0] = Mat4x4MultiplyVec3(matWorld, ship->tris[i].v[0]);
+                        transformed.v[1] = Mat4x4MultiplyVec3(matWorld, ship->tris[i].v[1]);
+                        transformed.v[2] = Mat4x4MultiplyVec3(matWorld, ship->tris[i].v[2]);
 
-                        struct triangle rotatedzx = rotatedz;
-                        rotatedzx.v[0] = Mat4x4MultiplyVec3d(matRotX, rotatedz.v[0]);
-                        rotatedzx.v[1] = Mat4x4MultiplyVec3d(matRotX, rotatedz.v[1]);
-                        rotatedzx.v[2] = Mat4x4MultiplyVec3d(matRotX, rotatedz.v[2]);
-
-                        struct triangle translated = rotatedzx;
-                        translated.v[0].z = rotatedzx.v[0].z + 8.0f;
-                        translated.v[1].z = rotatedzx.v[1].z + 8.0f;
-                        translated.v[2].z = rotatedzx.v[2].z + 8.0f;
+                        transformed.v[0].z = transformed.v[0].z + 8.0f;
+                        transformed.v[1].z = transformed.v[1].z + 8.0f;
+                        transformed.v[2].z = transformed.v[2].z + 8.0f;
 
                         // Calculate the normal.
-                        struct vec3 line1;
-                        line1.x = translated.v[1].x - translated.v[0].x;
-                        line1.y = translated.v[1].y - translated.v[0].y;
-                        line1.z = translated.v[1].z - translated.v[0].z;
-
-                        struct vec3 line2;
-                        line2.x = translated.v[2].x - translated.v[0].x;
-                        line2.y = translated.v[2].y - translated.v[0].y;
-                        line2.z = translated.v[2].z - translated.v[0].z;
-
+                        struct vec3 line1 = Vec3Subtract(transformed.v[1], transformed.v[0]);
+                        struct vec3 line2 = Vec3Subtract(transformed.v[2], transformed.v[0]);
                         struct vec3 normal = Vec3CrossProduct(line1, line2);
-                        Vec3Normalize(&normal);
+                        normal = Vec3Normalize(normal);
 
-                        if (Vec3DotProduct(normal, Vec3Subtract(translated.v[0], camera)) < 0) {
+                        if (Vec3DotProduct(normal, Vec3Subtract(transformed.v[0], camera)) < 0) {
                                 // Illumination
                                 struct vec3 lightDirection = { 0.0f, 0.0f, -1.0f };
-                                Vec3Normalize(&lightDirection);
+                                lightDirection = Vec3Normalize(lightDirection);
 
                                 // How similar is normal to light direction?
                                 float dp = Vec3DotProduct(normal, lightDirection);
@@ -156,13 +115,18 @@ int main(int argc, char **argv) {
                                 struct triangle projected;
                                 projected.color = color.rgba;
 
-                                projected.v[0] = Mat4x4MultiplyVec3d(matProj, translated.v[0]);
-                                projected.v[1] = Mat4x4MultiplyVec3d(matProj, translated.v[1]);
-                                projected.v[2] = Mat4x4MultiplyVec3d(matProj, translated.v[2]);
+                                projected.v[0] = Mat4x4MultiplyVec3(matProj, transformed.v[0]);
+                                projected.v[1] = Mat4x4MultiplyVec3(matProj, transformed.v[1]);
+                                projected.v[2] = Mat4x4MultiplyVec3(matProj, transformed.v[2]);
 
-                                projected.v[0].x += 1.0f; projected.v[0].y += 1.0f;
-                                projected.v[1].x += 1.0f; projected.v[1].y += 1.0f;
-                                projected.v[2].x += 1.0f; projected.v[2].y += 1.0f;
+                                projected.v[0] = Vec3Divide(projected.v[0], projected.v[0].w);
+                                projected.v[1] = Vec3Divide(projected.v[1], projected.v[1].w);
+                                projected.v[2] = Vec3Divide(projected.v[2], projected.v[2].w);
+
+                                struct vec3 offset = { 1, 1, 0, 0 };
+                                projected.v[0] = Vec3Add(projected.v[0], offset);
+                                projected.v[1] = Vec3Add(projected.v[1], offset);
+                                projected.v[2] = Vec3Add(projected.v[2], offset);
 
                                 projected.v[0].x *= 0.5f * (float)SCREEN_WIDTH;
                                 projected.v[0].y *= 0.5f * (float)SCREEN_HEIGHT;

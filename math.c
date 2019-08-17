@@ -1,7 +1,7 @@
 /******************************************************************************
   File: math.c
   Created: 2019-08-07
-  Updated: 2019-08-16
+  Updated: 2019-08-17
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -13,11 +13,11 @@
 #include "math.h"
 
 void Vec3Debug(struct vec3 v) {
-        printf("(struct vec3){ .x1 = %.1f, .y1 = %.1f, .z1 = %.1f }\n",
-               v.x, v.y, v.z);
+        printf("(struct vec3){ .x = %.1f, .y = %.1f, .z = %.1f, .w = %.1f }\n",
+               v.x, v.y, v.z, v.w);
 
-        printf("(struct vec3){ .p = { %.1f, %.1f, %.1f } }\n",
-               v.p[0], v.p[1], v.p[2]);
+        printf("(struct vec3){ .p = { %.1f, %.1f, %.1f, %.1f } }\n",
+               v.p[0], v.p[1], v.p[2], v.p[3]);
 }
 
 void TriangleDebug(struct triangle t) {
@@ -45,25 +45,48 @@ struct vec3 Vec3CrossProduct(struct vec3 left, struct vec3 right) {
         cross.x = left.y * right.z - left.z * right.y;
         cross.y = left.z * right.x - left.x * right.z;
         cross.z = left.x * right.y - left.y * right.x;
+        cross.w = 1.0f;
 
         return cross;
 }
 
-void Vec3Normalize(struct vec3 *vec3) {
-        float l = sqrtf(vec3->x * vec3->x + vec3->y * vec3->y + vec3->z * vec3->z);
-        vec3->x /= l;
-        vec3->y /= l;
-        vec3->z /= l;
+struct vec3 Vec3Normalize(struct vec3 vec3) {
+        float len = sqrtf(Vec3DotProduct(vec3, vec3));
+
+        struct vec3 res = { 0 };
+        res.x = vec3.x / len;
+        res.y = vec3.y / len;
+        res.z = vec3.z / len;
+        res.w = 1.0f;
+        return res;
 }
 
+struct vec3 Vec3Add(struct vec3 left, struct vec3 right) {
+        struct vec3 res = { 0 };
+        res.x = left.x + right.x;
+        res.y = left.y + right.y;
+        res.z = left.z + right.z;
+        res.w = 1.0f;
+        return res;
+}
+
+
 struct vec3 Vec3Subtract(struct vec3 minuend, struct vec3 subtrahend) {
-        struct vec3 vec3 = { 0 };
+        struct vec3 res = { 0 };
+        res.x = minuend.x - subtrahend.x;
+        res.y = minuend.y - subtrahend.y;
+        res.z = minuend.z - subtrahend.z;
+        res.w = 1.0f;
+        return res;
+}
 
-        vec3.x = minuend.x - subtrahend.x;
-        vec3.y = minuend.y - subtrahend.y;
-        vec3.z = minuend.z - subtrahend.z;
-
-        return vec3;
+struct vec3 Vec3Divide(struct vec3 vec3, float f) {
+        struct vec3 res = { 0 };
+        res.x = vec3.x / f;
+        res.y = vec3.y / f;
+        res.z = vec3.z / f;
+        res.w = 1.0f;
+        return res;
 }
 
 struct mesh *MeshInit(int numTris) {
@@ -169,20 +192,93 @@ void MeshDeinit(struct mesh *mesh) {
         free(mesh);
 }
 
-struct vec3 Mat4x4MultiplyVec3d(struct mat4x4 mat, struct vec3 vec) {
+struct vec3 Mat4x4MultiplyVec3(struct mat4x4 mat, struct vec3 vec) {
         struct vec3 res;
-        res.x = vec.x * mat.m[0][0] + vec.y * mat.m[1][0] + vec.z * mat.m[2][0] + mat.m[3][0];
-        res.y = vec.x * mat.m[0][1] + vec.y * mat.m[1][1] + vec.z * mat.m[2][1] + mat.m[3][1];
-        res.z = vec.x * mat.m[0][2] + vec.y * mat.m[1][2] + vec.z * mat.m[2][2] + mat.m[3][2];
+        res.x = vec.x * mat.m[0][0] + vec.y * mat.m[1][0] + vec.z * mat.m[2][0] + vec.w * mat.m[3][0];
+        res.y = vec.x * mat.m[0][1] + vec.y * mat.m[1][1] + vec.z * mat.m[2][1] + vec.w * mat.m[3][1];
+        res.z = vec.x * mat.m[0][2] + vec.y * mat.m[1][2] + vec.z * mat.m[2][2] + vec.w * mat.m[3][2];
+        res.w = vec.x * mat.m[0][3] + vec.y * mat.m[1][3] + vec.z * mat.m[2][3] + vec.w * mat.m[3][3];
+        return res;
+}
 
-        float w = vec.x * mat.m[0][3] + vec.y * mat.m[1][3] + vec.z * mat.m[2][3] + mat.m[3][3];
+struct mat4x4 Mat4x4Identity() {
+        struct mat4x4 res = { 0 };
+        res.m[0][0] = 1.0f;
+        res.m[1][1] = 1.0f;
+        res.m[2][2] = 1.0f;
+        res.m[3][3] = 1.0f;
+        return res;
+}
 
-        if (0.0f != w) {
-                res.x /= w;
-                res.y /= w;
-                res.z /= w;
+struct mat4x4 Mat4x4RotateX(float rad) {
+        struct mat4x4 res = { 0 };
+        res.m[0][0] = 1.0f;
+        res.m[1][1] = cosf(rad);
+        res.m[1][2] = sinf(rad);
+        res.m[2][1] = -sinf(rad);
+        res.m[2][2] = cosf(rad);
+        res.m[3][3] = 1.0f;
+        return res;
+}
+
+struct mat4x4 Mat4x4RotateY(float rad) {
+        struct mat4x4 res = { 0 };
+        res.m[0][0] = cosf(rad);
+        res.m[0][2] = sinf(rad);
+        res.m[2][0] = -sinf(rad);
+        res.m[1][1] = 1.0f;
+        res.m[2][2] = cosf(rad);
+        res.m[3][3] = 1.0f;
+        return res;
+}
+
+struct mat4x4 Mat4x4RotateZ(float rad) {
+        struct mat4x4 res = { 0 };
+        res.m[0][0] = cosf(rad);
+        res.m[0][1] = sinf(rad);
+        res.m[1][0] = -sinf(rad);
+        res.m[1][1] = cosf(rad);
+        res.m[2][2] = 1.0f;
+        res.m[3][3] = 1.0f;
+        return res;
+}
+
+struct mat4x4 Mat4x4Translate(float x, float y, float z) {
+        struct mat4x4 res = Mat4x4Identity();
+        res.m[0][0] = 1.0f;
+        res.m[1][1] = 1.0f;
+        res.m[2][2] = 1.0f;
+        res.m[3][3] = 1.0f;
+        res.m[3][0] = x;
+        res.m[3][1] = y;
+        res.m[3][2] = z;
+        return res;
+}
+
+struct mat4x4 Mat4x4Project(float fovDegrees, float aspect, float near, float far) {
+        float fovRad = 1.0f / tanf(fovDegrees * 0.5f / 180.0f * 3.14159f);
+
+        struct mat4x4 res = { 0 };
+        res.m[0][0] = aspect * fovRad;
+        res.m[1][1] = fovRad;
+        res.m[2][2] = far / (far - near);
+        res.m[3][2] = (-far * near) / (far - near);
+        res.m[2][3] = 1.0f;
+        res.m[3][3] = 0.0f;
+        return res;
+}
+
+struct mat4x4 Mat4x4Multiply(struct mat4x4 left, struct mat4x4 right) {
+        struct mat4x4 res = { 0 };
+        for (int row = 0; row < 4; row++) {
+                for (int col = 0; col < 4; col++) {
+                        res.m[row][col] =
+                                left.m[row][0] * right.m[0][col] +
+                                left.m[row][1] * right.m[1][col] +
+                                left.m[row][2] * right.m[2][col] +
+                                left.m[row][3] * right.m[3][col];
+                }
         }
-
         return res;
 }
 
