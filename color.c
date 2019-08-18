@@ -1,7 +1,7 @@
 /******************************************************************************
   File: color.c
   Created: 2019-08-15
-  Updated: 2019-08-15
+  Updated: 2019-08-17
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -10,6 +10,9 @@
 
 struct color ColorWhite = { 0xFFFFFFFF };
 struct color ColorBlack = { 0x000000FF };
+struct color ColorRed = { 0xFF0000FF };
+struct color ColorGreen = { 0x00FF00FF };
+struct color ColorBlue = { 0x0000FFFF };
 
 void ColorSetInt(struct color *color, char component, unsigned int value) {
         unsigned int pos = 0;

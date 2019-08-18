@@ -119,6 +119,7 @@ void GraphicsClearScreen(struct graphics *graphics, unsigned int color) {
 
 void PutPixelScaled(struct graphics *graphics, int x, int y, unsigned int color) {
         for (int sy = y; sy < y + graphics->scale; sy++) {
+                // int yFlipped = graphics->height - sy - 1;
                 for (int sx = x; sx < x + graphics->scale; sx++) {
                         unsigned int *pixel = (unsigned int *)&graphics->pixels[y * graphics->bytesPerRow + x * 4];
                         *pixel = color;
@@ -128,7 +129,10 @@ void PutPixelScaled(struct graphics *graphics, int x, int y, unsigned int color)
 
 void PutPixel(struct graphics *graphics, int x, int y, unsigned int color) {
         if (x >= 0 && x < graphics->width && y >= 0 && y < graphics->height) {
-                PutPixelScaled(graphics, x, y, color);
+                int y2 = graphics->height - y - 1;
+                unsigned int *pixel = (unsigned int *)&graphics->pixels[y2 * graphics->bytesPerRow + x * 4];
+                *pixel = color;
+                //PutPixelScaled(graphics, x, y, color);
         }
 }
 
@@ -214,15 +218,6 @@ void TriangleSolidDrawLine(struct graphics *graphics, int xmin, int xmax, int y,
                 PutPixel(graphics, i, y, color);
         }
 }
-
-// Source: https://stackoverflow.com/a/3982430
-/* #define SWAP(x,y) do \ */
-/*         { \ */
-/*                 unsigned char swap_temp[sizeof(x) == sizeof(y) ? (signed)sizeof(x) : -1]; \ */
-/*                 memcpy(swap_temp,&y,sizeof(x));                         \ */
-/*                 memcpy(&y,&x,       sizeof(x));                         \ */
-/*                 memcpy(&x,swap_temp,sizeof(x));                         \ */
-/*         } while(0) */
 
 #define SWAP(x,y) { int t = (x); (x) = (y); (y) = t; }
 

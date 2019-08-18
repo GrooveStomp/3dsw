@@ -76,7 +76,29 @@ struct vec3
 Vec3Subtract(struct vec3 minuend, struct vec3 subtrahend);
 
 struct vec3
+Vec3Multiply(struct vec3 vec3, float f);
+
+struct vec3
 Vec3Divide(struct vec3 vec3, float f);
+
+struct vec3
+Vec3IntersectPlane(struct vec3 plane, struct vec3 normal, struct vec3 lineStart, struct vec3 lineEnd);
+
+//! \brief Clip a triangle against a plane
+//!
+//! Given a triangle and a plane, if some of the points lie on one side of the
+//! plane and some on the other, then split the triangle into 1 or 2 smaller
+//! triangles that do not pass through the plane.
+//!
+//! \param plane point on the plane to clip against
+//! \param normal normal of the plane to clip against
+//! \param in the triangle to clip
+//! \param out1 one of the smaller triangles resulting from the clipping, if necessary
+//! \param out2 one of the smaller triangles resulting from the clipping, if necessary
+//! \return 0 if all points are outside the plane, 1 if the triangle is not
+//! clipped, otherwise the number of smaller triangles resulting from clipping.
+int
+TriangleClipAgainstPlane(struct vec3 plane, struct vec3 normal, struct triangle in, struct triangle *out1, struct triangle *out2);
 
 void
 TriangleDebug(struct triangle triangle);
@@ -113,6 +135,13 @@ Mat4x4Project(float fovDegrees, float aspect, float near, float far);
 
 struct mat4x4
 Mat4x4Multiply(struct mat4x4 left, struct mat4x4 right);
+
+//! \brief Fast matrix inverse. Doesn't work if matrix does scaling.
+struct mat4x4
+Mat4x4InvertFast(struct mat4x4 matrix);
+
+struct mat4x4
+Mat4x4PointAt(struct vec3 pos, struct vec3 target, struct vec3 up);
 
 void
 Mat4x4Debug(struct mat4x4 mat);

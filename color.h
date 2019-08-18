@@ -1,7 +1,7 @@
 /******************************************************************************
   File: color.h
   Created: 2019-08-15
-  Updated: 2019-08-15
+  Updated: 2019-08-17
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -33,5 +33,8 @@ ColorSetFloat(struct color *color, char component, float value);
 
 extern struct color ColorWhite;
 extern struct color ColorBlack;
+extern struct color ColorRed;
+extern struct color ColorGreen;
+extern struct color ColorBlue;
 
 #endif // COLOR_VERSION

@@ -11,6 +11,7 @@
 #include <math.h> // sqrtf
 
 #include "math.h"
+#include "color.h"
 
 void Vec3Debug(struct vec3 v) {
         printf("(struct vec3){ .x = %.1f, .y = %.1f, .z = %.1f, .w = %.1f }\n",
@@ -80,6 +81,15 @@ struct vec3 Vec3Subtract(struct vec3 minuend, struct vec3 subtrahend) {
         return res;
 }
 
+struct vec3 Vec3Multiply(struct vec3 vec3, float f) {
+        struct vec3 res = { 0 };
+        res.x = vec3.x * f;
+        res.y = vec3.y * f;
+        res.z = vec3.z * f;
+        res.w = 1.0f;
+        return res;
+}
+
 struct vec3 Vec3Divide(struct vec3 vec3, float f) {
         struct vec3 res = { 0 };
         res.x = vec3.x / f;
@@ -87,6 +97,115 @@ struct vec3 Vec3Divide(struct vec3 vec3, float f) {
         res.z = vec3.z / f;
         res.w = 1.0f;
         return res;
+}
+
+struct vec3 Vec3IntersectPlane(struct vec3 plane, struct vec3 normal, struct vec3 lineStart, struct vec3 lineEnd) {
+        normal = Vec3Normalize(normal);
+        float planeD = -Vec3DotProduct(normal, plane);
+        float ad = Vec3DotProduct(lineStart, normal);
+        float bd = Vec3DotProduct(lineEnd, normal);
+        float t = (-planeD - ad) / (bd - ad);
+        struct vec3 lineStartToEnd = Vec3Subtract(lineEnd, lineStart);
+        struct vec3 lineToIntersect = Vec3Multiply(lineStartToEnd, t);
+        return Vec3Add(lineStart, lineToIntersect);
+}
+
+//! \brief Return shortest distance from point to plan given a normalized normal.
+float ShortestDistToPlane(struct vec3 point, struct vec3 planePoint, struct vec3 planeNormal) {
+        float dot = Vec3DotProduct(planeNormal, planePoint);
+
+        // return Vec3DotProduct(planeNormal, point) - Vec3DotProduct(planeNormal, planePoint); ???
+        return (planeNormal.x * point.x + planeNormal.y * point.y + planeNormal.z * point.z - dot);
+}
+
+int TriangleClipAgainstPlane(struct vec3 plane, struct vec3 normal, struct triangle in, struct triangle *out1, struct triangle *out2) {
+        normal = Vec3Normalize(normal);
+
+        struct vec3* insidePoints[3];
+        int insidePointsCount = 0;
+        struct vec3* outsidePoints[3];
+        int outsidePointsCount = 0;
+
+        float d0 = ShortestDistToPlane(in.v[0], plane, normal);
+        float d1 = ShortestDistToPlane(in.v[1], plane, normal);
+        float d2 = ShortestDistToPlane(in.v[2], plane, normal);
+
+        if (d0 >= 0 ) {
+                insidePoints[insidePointsCount++] = &in.v[0];
+        } else {
+                outsidePoints[outsidePointsCount++] = &in.v[0];
+        }
+
+        if (d1 >= 0 ) {
+                insidePoints[insidePointsCount++] = &in.v[1];
+        } else {
+                outsidePoints[outsidePointsCount++] = &in.v[1];
+        }
+
+        if (d2 >= 0 ) {
+                insidePoints[insidePointsCount++] = &in.v[2];
+        } else {
+                outsidePoints[outsidePointsCount++] = &in.v[2];
+        }
+
+        // Now classify the triangle points.
+
+        if (insidePointsCount == 0) {
+                // All points are outside of the plan, so clip the whole
+                // triangle.
+                return 0; // No returned triangles are valid.
+        }
+
+        if (insidePointsCount == 3) {
+                // All points lie on the inside of the plan, so do nothing.
+                *out1 = in;
+
+                return 1; // Just one returned triangle is valid.
+        }
+
+        if (insidePointsCount == 1 && outsidePointsCount == 2) {
+                // The triangle should be clipped as two points lie outside the
+                // plane.  Create a new, smaller triangle.
+
+                *out1 = in;
+                // The inside point is valid, so keep it.
+                out1->v[0] = *insidePoints[0];
+
+                // The two new points are at the locations where the original
+                // sides of the triangle (lines) intersect with the plane.
+                out1->v[1] = Vec3IntersectPlane(plane, normal, *insidePoints[0], *outsidePoints[0]);
+                out1->v[2] = Vec3IntersectPlane(plane, normal, *insidePoints[0], *outsidePoints[1]);
+
+                return 1; // Just one returned triangle is valid.
+        }
+
+        if (insidePointsCount == 2 && outsidePointsCount == 1) {
+                // The triangle should be clipped. Two points lie inside the
+                // plane. When we clip we create a rectangle, but we subdivide
+                // this into two triangles.
+
+                *out1 = in;
+                *out2 = in;
+
+                // The first triangle consists of the two inside points and a
+                // new point determined by the location where one side of the
+                // triangle intersects with the plane.
+                out1->v[0] = *insidePoints[0];
+                out1->v[1] = *insidePoints[1];
+                out1->v[2] = Vec3IntersectPlane(plane, normal, *insidePoints[0], *outsidePoints[0]);
+
+                // The second triangle is composed of one of the inside points,
+                // a new point determined by the intersection of the other side
+                // of the triangle and the plane, and the newly created point
+                // above.
+                out2->v[0] = *insidePoints[1];
+                out2->v[1] = out1->v[2];
+                out2->v[2] = Vec3IntersectPlane(plane, normal, *insidePoints[1], *outsidePoints[0]);
+
+                return 2; // Return two newly formed triangles wich form a quad.
+        }
+
+        return 0;
 }
 
 struct mesh *MeshInit(int numTris) {
@@ -276,6 +395,47 @@ struct mat4x4 Mat4x4Multiply(struct mat4x4 left, struct mat4x4 right) {
                                 left.m[row][3] * right.m[3][col];
                 }
         }
+        return res;
+}
+
+struct mat4x4 Mat4x4InvertFast(struct mat4x4 matrix) {
+        struct mat4x4 res = { 0 };
+        res.m[0][0] = matrix.m[0][0];
+        res.m[1][0] = matrix.m[0][1];
+        res.m[2][0] = matrix.m[0][2];
+
+        res.m[0][1] = matrix.m[1][0];
+        res.m[1][1] = matrix.m[1][1];
+        res.m[2][1] = matrix.m[1][2];
+
+        res.m[0][2] = matrix.m[2][0];
+        res.m[1][2] = matrix.m[2][1];
+        res.m[2][2] = matrix.m[2][2];
+
+        res.m[3][0] = -(matrix.m[3][0] * res.m[0][0] + matrix.m[3][1] * res.m[1][0] + matrix.m[3][2] * res.m[2][0]);
+        res.m[3][1] = -(matrix.m[3][0] * res.m[0][1] + matrix.m[3][1] * res.m[1][1] + matrix.m[3][2] * res.m[2][1]);
+        res.m[3][2] = -(matrix.m[3][0] * res.m[0][2] + matrix.m[3][1] * res.m[1][2] + matrix.m[3][2] * res.m[2][2]);
+
+        res.m[3][3] = 1.0f;
+        return res;
+}
+
+struct mat4x4 Mat4x4PointAt(struct vec3 pos, struct vec3 target, struct vec3 up) {
+        struct vec3 forward = Vec3Subtract(target, pos);
+        forward = Vec3Normalize(forward);
+
+        struct vec3 a = Vec3Multiply(forward, Vec3DotProduct(up, forward));
+        struct vec3 newUp = Vec3Subtract(up, a);
+        newUp = Vec3Normalize(newUp);
+
+        struct vec3 right = Vec3CrossProduct(newUp, forward);
+        right = Vec3Normalize(right);
+
+        struct mat4x4 res;
+        res.m[0][0] = right.x;   res.m[0][1] = right.y;   res.m[0][2] = right.z;   res.m[0][3] = 0.0f;
+        res.m[1][0] = newUp.x;   res.m[1][1] = newUp.y;   res.m[1][2] = newUp.z;   res.m[1][3] = 0.0f;
+        res.m[2][0] = forward.x; res.m[2][1] = forward.y; res.m[2][2] = forward.z; res.m[2][3] = 0.0f;
+        res.m[3][0] = pos.x;     res.m[3][1] = pos.y;     res.m[3][2] = pos.z;     res.m[3][3] = 1.0f;
         return res;
 }
 

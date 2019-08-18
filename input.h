@@ -1,7 +1,7 @@
 /******************************************************************************
   File: input.h
   Created: 2019-07-21
-  Updated: 2019-07-31
+  Updated: 2019-08-17
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -31,12 +31,14 @@ InputInit();
 void
 InputDeinit(struct input *input);
 
-//! \brief Check if the quit key has been pressed
+int
+InputIsQuitPressed(struct input *input, SDL_Event *event);
+
+//! \brief Handle input
 //!
 //! \param[in,out] input Input state to be updated
 //! \param[in] event SDL event to process
-//! \return 1 if quit is pressed, otherwise zero
-int
-InputIsQuitPressed(struct input *input, SDL_Event *event);
+void
+InputProcess(struct input *input);
 
 #endif // INPUT_VERSION
