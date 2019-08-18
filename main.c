@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
         struct graphics *graphics = GraphicsInit("3D Software Demo", SCREEN_WIDTH, SCREEN_HEIGHT, 1);
         struct input *input = InputInit();
 
-        struct mesh *ship = MeshInitFromObj("teapot.obj");
+        struct mesh *ship = MeshInitFromObj("mountains.obj");
         if (NULL == ship) {
                 fprintf(stderr, "There was a problem initializing the mesh");
         }

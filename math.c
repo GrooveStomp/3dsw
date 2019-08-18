@@ -429,7 +429,6 @@ struct mat4x4 Mat4x4PointAt(struct vec3 pos, struct vec3 target, struct vec3 up)
         newUp = Vec3Normalize(newUp);
 
         struct vec3 right = Vec3CrossProduct(newUp, forward);
-        right = Vec3Normalize(right);
 
         struct mat4x4 res;
         res.m[0][0] = right.x;   res.m[0][1] = right.y;   res.m[0][2] = right.z;   res.m[0][3] = 0.0f;
