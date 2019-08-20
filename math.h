@@ -14,6 +14,17 @@
 //! include guard
 #define MATH_VERSION "0.1.0"
 
+struct vec2 {
+        union {
+                struct {
+                        float u;
+                        float v;
+                        float w;
+                };
+                float p[3];
+        };
+};
+
 struct vec3 {
         union {
                 struct {
@@ -42,8 +53,21 @@ struct triangle {
                         float z3;
                         float w3;
                 };
-                float p[12];
                 struct vec3 v[3];
+        };
+        union {
+                struct {
+                        float u1;
+                        float v1;
+                        float tw1;
+                        float u2;
+                        float v2;
+                        float tw2;
+                        float u3;
+                        float v3;
+                        float tw3;
+                };
+                struct vec2 t[3];
         };
         unsigned int color;
 };
@@ -59,6 +83,9 @@ struct mat4x4 {
 
 void
 Vec3Debug(struct vec3 vec3);
+
+struct vec3
+Vec3Init(float x, float y, float z);
 
 float
 Vec3DotProduct(struct vec3 left, struct vec3 right);
@@ -81,8 +108,24 @@ Vec3Multiply(struct vec3 vec3, float f);
 struct vec3
 Vec3Divide(struct vec3 vec3, float f);
 
+//! \brief Return the 3d point where a line intersects a plane.
+//!
+//! \param[in] plane 3d point on the plane to intersect against
+//! \param[in] normal normal of the plane to intersect against
+//! \param[in] lineStart
+//! \param[in] lineEnd
+//! \param[out] t where on the line the intersection occurs.
 struct vec3
-Vec3IntersectPlane(struct vec3 plane, struct vec3 normal, struct vec3 lineStart, struct vec3 lineEnd);
+Vec3IntersectPlane(struct vec3 plane, struct vec3 normal, struct vec3 lineStart, struct vec3 lineEnd, float *t);
+
+//! \brief Create a new triangle with the given params.
+struct triangle TriangleInit(
+        float x1, float y1, float z1,
+        float u1, float v1,
+        float x2, float y2, float z2,
+        float u2, float v2,
+        float x3, float y3, float z3,
+        float u3, float v3);
 
 //! \brief Clip a triangle against a plane
 //!

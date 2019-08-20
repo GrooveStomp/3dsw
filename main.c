@@ -17,6 +17,7 @@
 #include "math.h"
 #include "color.h"
 #include "triangle_list.h"
+#include "texture.h"
 
 #pragma GCC diagnostic ignored "-Wmissing-braces"
 
@@ -58,17 +59,83 @@ int TriangleCompareFn(const void *left, const void *right) {
         }
 }
 
+struct graphics *graphics;
+struct input *input;
+struct texture *texture;
+struct mesh *mesh;
+
+void Shutdown(int code) {
+        if (NULL != texture)
+                TextureDeinit(texture);
+
+        if (NULL != mesh)
+                MeshDeinit(mesh);
+
+        if (NULL != input)
+                InputDeinit(input);
+
+        if (NULL != graphics)
+                GraphicsDeinit(graphics);
+
+        exit(code);
+}
+
 int main(int argc, char **argv) {
         struct timespec progStart;
         clock_gettime(CLOCK_REALTIME, &progStart);
 
-        struct graphics *graphics = GraphicsInit("3D Software Demo", SCREEN_WIDTH, SCREEN_HEIGHT, 1);
-        struct input *input = InputInit();
-
-        struct mesh *ship = MeshInitFromObj("mountains.obj");
-        if (NULL == ship) {
-                fprintf(stderr, "There was a problem initializing the mesh");
+        graphics = GraphicsInit("3D Software Demo", SCREEN_WIDTH, SCREEN_HEIGHT, 1);
+        if (NULL == graphics) {
+                fprintf(stderr, "Couldn't initialize graphics");
+                Shutdown(1);
         }
+
+        input = InputInit();
+        if (NULL == input) {
+                fprintf(stderr, "Couldn't initialize input");
+                Shutdown(1);
+        }
+
+        texture = TextureInitFromFile("debug_texture.png");
+        if (NULL == texture) {
+                fprintf(stderr, "Couldn't initialize texture");
+                Shutdown(1);
+        }
+
+        mesh = MeshInit(12);
+        if (NULL == mesh) {
+                fprintf(stderr, "Couldn't initialize mesh");
+                Shutdown(1);
+        }
+
+        // South
+        mesh->tris[0] = TriangleInit(0,0,0, 0,1, 0,1,0, 0,0, 1,1,0, 1,0);
+        mesh->tris[1] = TriangleInit(0,0,0, 0,1, 1,1,0, 1,0, 1,0,0, 1,1);
+
+        // East
+        mesh->tris[2] = TriangleInit(1,0,0, 0,1, 1,1,0, 0,0, 1,1,1, 1,0);
+        mesh->tris[3] = TriangleInit(1,0,0, 0,1, 1,1,1, 1,0, 1,0,1, 1,1);
+
+        // North
+        mesh->tris[4] = TriangleInit(1,0,1, 0,1, 1,1,1, 0,0, 0,1,1, 1,0);
+        mesh->tris[5] = TriangleInit(1,0,1, 0,1, 0,1,1, 1,0, 0,0,1, 1,1);
+
+        // West
+        mesh->tris[6] = TriangleInit(0,0,1, 0,1, 0,1,1, 0,0, 0,1,0, 1,0);
+        mesh->tris[7] = TriangleInit(0,0,1, 0,1, 0,1,0, 1,0, 0,0,0, 1,1);
+
+        // Top
+        mesh->tris[8] = TriangleInit(0,1,0, 0,1, 0,1,1, 0,0, 1,1,1, 1,0);
+        mesh->tris[9] = TriangleInit(0,1,0, 0,1, 1,1,1, 1,0, 1,1,0, 1,1);
+
+        // Bottom
+        mesh->tris[10] = TriangleInit(1,0,1, 0,1, 0,0,1, 0,0, 0,0,0, 1,0);
+        mesh->tris[11] = TriangleInit(1,0,1, 0,1, 0,0,0, 1,0, 1,0,0, 1,1);
+
+        /* struct mesh *mesh = MeshInitFromObj("axis-flipped-x.obj"); */
+        /* if (NULL == mesh) { */
+        /*         fprintf(stderr, "There was a problem initializing the mesh"); */
+        /* } */
 
         camera = (struct vec3){ 0 };
         yaw = 0;
@@ -76,7 +143,7 @@ int main(int argc, char **argv) {
 
         struct mat4x4 matProj = Mat4x4Project(90.0f, (float)SCREEN_HEIGHT / (float)SCREEN_WIDTH, 0.1f, 1000.0f);
 
-        struct triangle *renderTris = malloc(sizeof(struct triangle) * ship->count * 2);
+        struct triangle *renderTris = malloc(sizeof(struct triangle) * mesh->count * 2);
         int renderTrisCount = 0;
 
         double count = 0.0;
@@ -87,12 +154,12 @@ int main(int argc, char **argv) {
                 struct timespec start;
                 clock_gettime(CLOCK_REALTIME, &start);
 
-                double theta = 0.0f; //1.0f + count;
+                double theta = 1.0f + count;
                 count += 0.01;
 
                 struct mat4x4 matRotZ = Mat4x4RotateZ(theta * 0.5f);
                 struct mat4x4 matRotX = Mat4x4RotateX(theta);
-                struct mat4x4 matTrans = Mat4x4Translate(0.0f, 0.0f, 8.0f);
+                struct mat4x4 matTrans = Mat4x4Translate(0.0f, 0.0f, 3.0f);
 
                 struct mat4x4 matWorld = Mat4x4Identity();
                 matWorld = Mat4x4Multiply(matRotZ, matRotX);
@@ -111,8 +178,9 @@ int main(int argc, char **argv) {
                 GraphicsClearScreen(graphics, ColorBlack.rgba);
 
                 renderTrisCount = 0;
-                for (int i = 0; i < ship->count; i++) {
-                        struct triangle transformed = ship->tris[i];
+                for (int i = 0; i < mesh->count; i++) {
+                        // World matrix transform.
+                        struct triangle transformed = mesh->tris[i];
                         transformed.v[0] = Mat4x4MultiplyVec3(matWorld, transformed.v[0]);
                         transformed.v[1] = Mat4x4MultiplyVec3(matWorld, transformed.v[1]);
                         transformed.v[2] = Mat4x4MultiplyVec3(matWorld, transformed.v[2]);
@@ -133,7 +201,7 @@ int main(int argc, char **argv) {
                                 struct color color = ColorInitFloat(dp, dp, dp, 1.0);
 
                                 // Convert from world space to view space.
-                                struct triangle viewed;
+                                struct triangle viewed = transformed;
                                 viewed.v[0] = Mat4x4MultiplyVec3(matView, transformed.v[0]);
                                 viewed.v[1] = Mat4x4MultiplyVec3(matView, transformed.v[1]);
                                 viewed.v[2] = Mat4x4MultiplyVec3(matView, transformed.v[2]);
@@ -153,6 +221,19 @@ int main(int argc, char **argv) {
                                         projected.v[0] = Mat4x4MultiplyVec3(matProj, clipped[n].v[0]);
                                         projected.v[1] = Mat4x4MultiplyVec3(matProj, clipped[n].v[1]);
                                         projected.v[2] = Mat4x4MultiplyVec3(matProj, clipped[n].v[2]);
+
+                                        // Project texture coords
+                                        projected.u1 = projected.u1 / projected.w1;
+                                        projected.u2 = projected.u2 / projected.w2;
+                                        projected.u3 = projected.u3 / projected.w3;
+
+                                        projected.v1 = projected.v1 / projected.w1;
+                                        projected.v2 = projected.v2 / projected.w2;
+                                        projected.v3 = projected.v3 / projected.w3;
+
+                                        projected.tw1 = 1.0f / projected.w1;
+                                        projected.tw2 = 1.0f / projected.w2;
+                                        projected.tw3 = 1.0f / projected.w3;
 
                                         projected.v[0] = Vec3Divide(projected.v[0], projected.v[0].w);
                                         projected.v[1] = Vec3Divide(projected.v[1], projected.v[1].w);
@@ -245,10 +326,12 @@ int main(int argc, char **argv) {
                         int listSize = TriangleListSize(&triangleList);
                         for (int b = 0; b < listSize; b++) {
                                 struct triangle t = TriangleListPopFront(&triangleList);
+
+                                GraphicsTriangleTextured(graphics, t, texture);
                                 // Draw solid faces.
-                                GraphicsTriangleSolid(graphics, t, t.color);
+                                // GraphicsTriangleSolid(graphics, t, t.color);
                                 // Draw wireframe faces.
-                                // GraphicsTriangleWireframe(graphics, t, ColorBlack.rgba);
+                                // GraphicsTriangleWireframe(graphics, t, ColorWhite.rgba);
                         }
                 }
 
@@ -270,8 +353,7 @@ int main(int argc, char **argv) {
         }
 
         free(renderTris);
-        MeshDeinit(ship);
-        GraphicsDeinit(graphics);
+        Shutdown(0);
 
         return 0;
 }

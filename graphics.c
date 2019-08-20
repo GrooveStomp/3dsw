@@ -15,6 +15,9 @@
 
 #include "math.h"
 #include "graphics.h"
+#include "texture.h"
+
+#define swap(x,y) { int t = (x); (x) = (y); (y) = t; }
 
 //! \brief Graphics state
 struct graphics {
@@ -207,6 +210,161 @@ void GraphicsDrawLine(struct graphics *graphics, int x1, int y1, int x2, int y2,
         }
 }
 
+void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct texture *texture) {
+        // Sort all vertices by y-value.
+        if (tri.y2 < tri.y1) {
+                swap(tri.y1, tri.y2);
+                swap(tri.x1, tri.x2);
+                swap(tri.u1, tri.u2);
+                swap(tri.v1, tri.v2);
+                swap(tri.tw1, tri.tw2);
+        }
+
+        if (tri.y3 < tri.y1) {
+                swap(tri.y1, tri.y3);
+                swap(tri.x1, tri.x3);
+                swap(tri.u1, tri.u3);
+                swap(tri.v1, tri.v3);
+                swap(tri.tw1, tri.tw3);
+        }
+
+        if (tri.y3 < tri.y2) {
+                swap(tri.y2, tri.y3);
+                swap(tri.x2, tri.x3);
+                swap(tri.u2, tri.u3);
+                swap(tri.v2, tri.v3);
+                swap(tri.tw2, tri.tw3);
+        }
+
+        // Calculate the coordinate deltas.
+        int dy1 = tri.y2 - tri.y1;
+        int dx1 = tri.x2 - tri.x1;
+        float dv1 = tri.v2 - tri.v1;
+        float du1 = tri.u2 - tri.u1;
+        float dw1 = tri.tw2 - tri.tw1;
+
+        int dy2 = tri.y3 - tri.y1;
+        int dx2 = tri.x3 - tri.x1;
+        float dv2 = tri.v3 - tri.v1;
+        float du2 = tri.u3 - tri.u1;
+        float dw2 = tri.tw3 - tri.tw1;
+
+        float daxStep = 0, dbxStep = 0,
+              du1Step = 0, dv1Step = 0,
+              du2Step = 0, dv2Step = 0,
+              dw1Step = 0, dw2Step = 0;
+
+        // Calculate the vertex and texture line slopes.
+        if (dy1) daxStep = dx1 / (float)abs(dy1);
+        if (dy2) dbxStep = dx2 / (float)abs(dy2);
+
+        if (dy1) du1Step = du1 / (float)abs(dy1);
+        if (dy1) dv1Step = dv1 / (float)abs(dy1);
+        if (dy1) dw1Step = dw1 / (float)abs(dy1);
+
+        if (dy2) du2Step = du2 / (float)abs(dy2);
+        if (dy2) dv2Step = dv2 / (float)abs(dy2);
+        if (dy2) dw2Step = dw2 / (float)abs(dy2);
+
+        // Rasterize the top half of the triangle.
+        if (dy1) {
+                for (int i = tri.y1; i <= tri.y2; i++) {
+                        int ax = tri.x1 + (float)(i - tri.y1) * daxStep;
+                        int bx = tri.x1 + (float)(i - tri.y1) * dbxStep;
+
+                        float su = tri.u1 + (float)(i - tri.y1) * du1Step;
+                        float sv = tri.v1 + (float)(i - tri.y1) * dv1Step;
+                        float sw = tri.tw1 + (float)(i - tri.y1) * dw1Step;
+
+                        float eu = tri.u1 + (float)(i - tri.y1) * du2Step;
+                        float ev = tri.v1 + (float)(i - tri.y1) * dv2Step;
+                        float ew = tri.tw1 + (float)(i - tri.y1) * dw2Step;
+
+                        // Swap coordinates so the lower x value comes first.
+                        if (ax > bx) {
+                                swap(ax, bx);
+                                swap(su, eu);
+                                swap(sv, ev);
+                                swap(sw, ew);
+                        }
+
+                        float u = su;
+                        float v = sv;
+                        float w = sw;
+                        float tStep = 1.0f / ((float)(bx - ax));
+                        float t = 0.0f;
+
+                        for (int j = ax; j < bx; j++) {
+                                u = (1.0f - t) * su + t * eu;
+                                v = (1.0f - t) * sv + t * ev;
+                                w = (1.0f - t) * sw + t * ew;
+                                PutPixel(g, j, i, TextureSample(texture, u / w, v/ w));
+
+                                t += tStep;
+                        }
+                }
+        }
+
+        // We're now at the halfway line of the triangle.
+        // Recalculate the new slope.
+
+        dy1 = tri.y3 - tri.y2;
+        dx1 = tri.x3 - tri.x2;
+        dv1 = tri.v3 - tri.v2;
+        du1 = tri.u3 - tri.u2;
+        dw1 = tri.tw3 - tri.tw2;
+
+        // Calculate the vertex and texture line slopes.
+        if (dy1) daxStep = dx1 / (float)abs(dy1);
+        if (dy2) dbxStep = dx2 / (float)abs(dy2);
+
+        du1Step = 0;
+        if (dy1) du1Step = du1 / (float)abs(dy1);
+        dv1Step = 0;
+        if (dy1) dv1Step = dv1 / (float)abs(dy1);
+        dw1Step = 0; // Comment out?
+        if (dy1) dw1Step = dw1 / (float)abs(dy1);
+
+        // Rasterize the lower half of the triangle.
+        if (dy1) {
+                for (int i = tri.y2; i <= tri.y3; i++) {
+                        int ax = tri.x2 + (float)(i - tri.y2) * daxStep;
+                        int bx = tri.x1 + (float)(i - tri.y1) * dbxStep;
+
+                        float su = tri.u2 + (float)(i - tri.y2) * du1Step;
+                        float sv = tri.v2 + (float)(i - tri.y2) * dv1Step;
+                        float sw = tri.tw2 + (float)(i - tri.y2) * dw1Step;
+
+                        float eu = tri.u1 + (float)(i - tri.y1) * du2Step;
+                        float ev = tri.v1 + (float)(i - tri.y1) * dv2Step;
+                        float ew = tri.tw1 + (float)(i - tri.y1) * dw2Step;
+
+                        // Swap coordinates so the lower x value comes first.
+                        if (ax > bx) {
+                                swap(ax, bx);
+                                swap(su, eu);
+                                swap(sv, ev);
+                                swap(sw, ew);
+                        }
+
+                        float u = su;
+                        float v = sv;
+                        float w = sw;
+                        float tStep = 1.0f / ((float)(bx - ax));
+                        float t = 0.0f;
+
+                        for (int j = ax; j < bx; j++) {
+                                u = (1.0f - t) * su + t * eu;
+                                v = (1.0f - t) * sv + t * ev;
+                                w = (1.0f - t) * sw + t * ew;
+                                PutPixel(g, j, i, TextureSample(texture, u / w, v / w));
+
+                                t += tStep;
+                        }
+                }
+        }
+}
+
 void GraphicsTriangleWireframe(struct graphics *graphics, struct triangle triangle, unsigned int color) {
         GraphicsDrawLine(graphics, triangle.x1, triangle.y1, triangle.x2, triangle.y2, color);
         GraphicsDrawLine(graphics, triangle.x2, triangle.y2, triangle.x3, triangle.y3, color);
@@ -218,8 +376,6 @@ void TriangleSolidDrawLine(struct graphics *graphics, int xmin, int xmax, int y,
                 PutPixel(graphics, i, y, color);
         }
 }
-
-#define SWAP(x,y) { int t = (x); (x) = (y); (y) = t; }
 
 void GraphicsTriangleSolid(struct graphics *graphics, struct triangle triangle, unsigned int color) {
         GraphicsDrawLine(graphics, triangle.x1, triangle.y1, triangle.x2, triangle.y2, color);
@@ -239,9 +395,9 @@ void GraphicsTriangleSolid(struct graphics *graphics, struct triangle triangle, 
 	int signx1,signx2,dx1,dy1,dx2,dy2;
 	unsigned int e1,e2;
         // Sort vertices
-	if (y1>y2) { SWAP(y1,y2); SWAP(x1,x2); }
-	if (y1>y3) { SWAP(y1,y3); SWAP(x1,x3); }
-	if (y2>y3) { SWAP(y2,y3); SWAP(x2,x3); }
+	if (y1>y2) { swap(y1,y2); swap(x1,x2); }
+	if (y1>y3) { swap(y1,y3); swap(x1,x3); }
+	if (y2>y3) { swap(y2,y3); swap(x2,x3); }
 
 	t1x=t2x=x1; y=y1;   // Starting points
 
@@ -252,11 +408,11 @@ void GraphicsTriangleSolid(struct graphics *graphics, struct triangle triangle, 
 	dy2 = (int)(y3 - y1);
 
 	if (dy1 > dx1) {   // swap values
-                SWAP(dx1,dy1);
+                swap(dx1,dy1);
 		changed1 = 1;
 	}
 	if (dy2 > dx2) {   // swap values
-                SWAP(dy2,dx2);
+                swap(dy2,dx2);
 		changed2 = 1;
 	}
 
@@ -326,7 +482,7 @@ next:
 	t1x=x2;
 
 	if (dy1 > dx1) {   // swap values
-                SWAP(dy1,dx1);
+                swap(dy1,dx1);
 		changed1 = 1;
 	} else {
                 changed1=0;

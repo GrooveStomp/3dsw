@@ -14,7 +14,8 @@
 
 #include "SDL2/SDL.h"
 
-#include "math.h"
+struct triangle;
+struct texture;
 
 //! \brief Creates and initializes a new graphics object isntance
 //! \param[in] debug Whether to enabled the debugging UI
@@ -62,6 +63,13 @@ GraphicsTriangleWireframe(struct graphics *graphics, struct triangle triangle, u
 //! \see Source: http://www.sunshine2k.de/coding/java/TriangleRasterization/TriangleRasterization.html
 void
 GraphicsTriangleSolid(struct graphics *graphics, struct triangle triangle, unsigned int color);
+
+//! \brief Draw a textured triangle with the given set of x and y coordinates
+//! Fills the specified polygon with the given texture.
+//! \param[in, out] graphics Graphics state to be changed
+//! \see Source: http://www.sunshine2k.de/coding/java/TriangleRasterization/TriangleRasterization.html
+void
+GraphicsTriangleTextured(struct graphics *graphics, struct triangle triangle, struct texture *texture);
 
 void
 GraphicsDrawLine(struct graphics *graphics, int x1, int y1, int x2, int y2, unsigned int color);
