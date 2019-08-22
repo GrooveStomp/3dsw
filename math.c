@@ -22,23 +22,37 @@ struct vec3 Vec3Init(float x, float y, float z) {
         return vec3;
 }
 
-void Vec3Debug(struct vec3 v) {
-        printf("(struct vec3){ .x = %.1f, .y = %.1f, .z = %.1f, .w = %.1f }\n",
+void Vec3Debug(struct vec3 v, char *name) {
+        if (NULL != name)
+                printf("struct vec3 %s = ", name);
+        else
+                printf("(struct vec3)");
+
+        printf("{ .x = %.1f, .y = %.1f, .z = %.1f, .w = %.1f }\n",
                v.x, v.y, v.z, v.w);
 
-        printf("(struct vec3){ .p = { %.1f, %.1f, %.1f, %.1f } }\n",
+        if (NULL != name)
+                printf("struct vec3 %s = ", name);
+        else
+                printf("(struct vec3)");
+        printf("{ .p = { %.1f, %.1f, %.1f, %.1f } }\n",
                v.p[0], v.p[1], v.p[2], v.p[3]);
 }
 
-void TriangleDebug(struct triangle t) {
-        printf("(struct triangle)"
+void TriangleDebug(struct triangle t, char *name) {
+        if (NULL != name)
+                printf("struct triangle %s = ", name);
+        else
+                printf("(struct triangle)");
+
+        printf(
 "{\n"
 "  .x1 = %.1f, .y1 = %.1f, .z1 = %.1f, .w1 = %.1f,\n"
 "  .x2 = %.1f, .y2 = %.1f, .z2 = %.1f, .w2 = %.1f,\n"
 "  .x3 = %.1f, .y3 = %.1f, .z3 = %.1f, .w3 = %.1f,\n"
-"  .u1 = %.1f, .v1 = %.1f,"
-"  .u2 = %.2f, .v2 = %.2f,"
-"  .u3 = %.3f, .v3 = %.3f"
+"  .u1 = %.1f, .v1 = %.1f,\n"
+"  .u2 = %.2f, .v2 = %.2f,\n"
+"  .u3 = %.3f, .v3 = %.3f\n"
 "}\n",
                t.x1, t.y1, t.z1, t.w1,
                t.x2, t.y2, t.z2, t.w2,
@@ -47,7 +61,12 @@ void TriangleDebug(struct triangle t) {
                t.u2, t.v2,
                t.u3, t.v3);
 
-        printf("(struct triangle)"
+        if (NULL != name)
+                printf("struct triangle %s = ", name);
+        else
+                printf("(struct triangle)");
+
+        printf(
 "{\n"
 "  .v0 = { %.1f, %.1f, %.1f },\n"
 "  .v1 = { %.1f, %.1f, %.1f },\n"
@@ -504,8 +523,13 @@ struct mat4x4 Mat4x4PointAt(struct vec3 pos, struct vec3 target, struct vec3 up)
         return res;
 }
 
-void Mat4x4Debug(struct mat4x4 mat) {
-        printf("(struct mat4x4){\n");
+void Mat4x4Debug(struct mat4x4 mat, char *name) {
+        if (NULL != name)
+                printf("struct mat4x4 %s = ", name);
+        else
+                printf("(struct mat4x4)");
+
+        printf("{\n");
         for (int y = 0; y < 4; y++ ) {
                 printf("\t");
                 for (int x = 0; x < 4; x++) {

@@ -16,6 +16,7 @@
 #include "math.h"
 #include "graphics.h"
 #include "texture.h"
+#include "color.h"
 
 #define swap(x,y) { int t = (x); (x) = (y); (y) = t; }
 
@@ -210,75 +211,112 @@ void GraphicsDrawLine(struct graphics *graphics, int x1, int y1, int x2, int y2,
         }
 }
 
+struct color ActiveColor() {
+        static struct color COLOR[8];
+        COLOR[0] = ColorWhite;
+        COLOR[1] = ColorRed;
+        COLOR[2] = ColorBlue;
+        COLOR[3] = ColorGreen;
+        COLOR[4] = ColorPurple;
+        COLOR[5] = ColorYellow;
+        COLOR[6] = ColorCyan;
+        COLOR[7] = ColorPink;
+        static int colorIndex = 0;
+
+        colorIndex++;
+        if (colorIndex > 7) {
+                colorIndex = 0;
+        }
+
+        return COLOR[colorIndex];
+}
+
 void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct texture *texture) {
+        int x1 = tri.x1; int y1 = tri.y1; float u1 = tri.u1; float v1 = tri.v1; float w1 = tri.tw1;
+        int x2 = tri.x2; int y2 = tri.y2; float u2 = tri.u2; float v2 = tri.v2; float w2 = tri.tw2;
+        int x3 = tri.x3; int y3 = tri.y3; float u3 = tri.u3; float v3 = tri.v3; float w3 = tri.tw3;
+
+        int minx = x1;
+        if (x2 < minx)
+                minx = x2;
+        if (x3 < minx)
+                minx = x3;
+
+        int maxx = x1;
+        if (x2 > maxx)
+                maxx = x2;
+        if (x3 > maxx)
+                maxx = x3;
+
         // Sort all vertices by y-value.
-        if (tri.y2 < tri.y1) {
-                swap(tri.y1, tri.y2);
-                swap(tri.x1, tri.x2);
-                swap(tri.u1, tri.u2);
-                swap(tri.v1, tri.v2);
-                swap(tri.tw1, tri.tw2);
+        if (y2 < y1) {
+                swap(x1, x2);
+                swap(y1, y2);
+                swap(u1, u2);
+                swap(v1, v2);
+                swap(w1, w2);
         }
 
-        if (tri.y3 < tri.y1) {
-                swap(tri.y1, tri.y3);
-                swap(tri.x1, tri.x3);
-                swap(tri.u1, tri.u3);
-                swap(tri.v1, tri.v3);
-                swap(tri.tw1, tri.tw3);
+        if (y3 < y1) {
+                swap(x1, x3);
+                swap(y1, y3);
+                swap(u1, u3);
+                swap(v1, v3);
+                swap(w1, w3);
         }
 
-        if (tri.y3 < tri.y2) {
-                swap(tri.y2, tri.y3);
-                swap(tri.x2, tri.x3);
-                swap(tri.u2, tri.u3);
-                swap(tri.v2, tri.v3);
-                swap(tri.tw2, tri.tw3);
+        if (y3 < y2) {
+                swap(x2, x3);
+                swap(y2, y3);
+                swap(u2, u3);
+                swap(v2, v3);
+                swap(w2, w3);
         }
 
         // Calculate the coordinate deltas.
-        int dy1 = tri.y2 - tri.y1;
-        int dx1 = tri.x2 - tri.x1;
-        float dv1 = tri.v2 - tri.v1;
-        float du1 = tri.u2 - tri.u1;
-        float dw1 = tri.tw2 - tri.tw1;
+        float dx1 = x2 - x1;
+        float dy1 = y2 - y1;
+        float du1 = u2 - u1;
+        float dv1 = v2 - v1;
+        float dw1 = w2 - w1;
 
-        int dy2 = tri.y3 - tri.y1;
-        int dx2 = tri.x3 - tri.x1;
-        float dv2 = tri.v3 - tri.v1;
-        float du2 = tri.u3 - tri.u1;
-        float dw2 = tri.tw3 - tri.tw1;
+        float dx2 = x3 - x1;
+        float dy2 = y3 - y1;
+        float du2 = u3 - u1;
+        float dv2 = v3 - v1;
+        float dw2 = w3 - w1;
 
-        float daxStep = 0, dbxStep = 0,
+        float dx1Step = 0, dx2Step = 0,
               du1Step = 0, dv1Step = 0,
               du2Step = 0, dv2Step = 0,
               dw1Step = 0, dw2Step = 0;
 
         // Calculate the vertex and texture line slopes.
-        if (dy1) daxStep = dx1 / (float)abs(dy1);
-        if (dy2) dbxStep = dx2 / (float)abs(dy2);
+        if (dy1) dx1Step = dx1 / fabs(dy1);
+        if (dy1) du1Step = du1 / fabs(dy1);
+        if (dy1) dv1Step = dv1 / fabs(dy1);
+        if (dy1) dw1Step = dw1 / fabs(dy1);
 
-        if (dy1) du1Step = du1 / (float)abs(dy1);
-        if (dy1) dv1Step = dv1 / (float)abs(dy1);
-        if (dy1) dw1Step = dw1 / (float)abs(dy1);
-
-        if (dy2) du2Step = du2 / (float)abs(dy2);
-        if (dy2) dv2Step = dv2 / (float)abs(dy2);
-        if (dy2) dw2Step = dw2 / (float)abs(dy2);
+        if (dy2) dx2Step = dx2 / fabs(dy2);
+        if (dy2) du2Step = du2 / fabs(dy2);
+        if (dy2) dv2Step = dv2 / fabs(dy2);
+        if (dy2) dw2Step = dw2 / fabs(dy2);
 
         // Rasterize the top half of the triangle.
         if (dy1) {
-                for (int i = tri.y1; i <= tri.y2; i++) {
-                        int ax = tri.x1 + (float)(i - tri.y1) * daxStep;
-                        int bx = tri.x1 + (float)(i - tri.y1) * dbxStep;
+                //struct color color = ActiveColor();
+                for (int i = y1; i <= y2; i++) {
+                        float delta = (float)(i - y1);
+                        int ax = x1 + delta * dx1Step;
+                        int bx = x1 + delta * dx2Step;
 
-                        float su = tri.u1 + (float)(i - tri.y1) * du1Step;
-                        float sv = tri.v1 + (float)(i - tri.y1) * dv1Step;
-                        float sw = tri.tw1 + (float)(i - tri.y1) * dw1Step;
+                        float su = u1 + delta * du1Step;
+                        float sv = v1 + delta * dv1Step;
+                        float sw = w1 + delta * dw1Step;
 
-                        float eu = tri.u1 + (float)(i - tri.y1) * du2Step;
-                        float ev = tri.v1 + (float)(i - tri.y1) * dv2Step;
-                        float ew = tri.tw1 + (float)(i - tri.y1) * dw2Step;
+                        float eu = u1 + delta * du2Step;
+                        float ev = v1 + delta * dv2Step;
+                        float ew = w1 + delta * dw2Step;
 
                         // Swap coordinates so the lower x value comes first.
                         if (ax > bx) {
@@ -288,6 +326,15 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                                 swap(sw, ew);
                         }
 
+                        if (ax < minx) {
+                                printf("minx: %d, ax: %d\n", minx, ax);
+                                ax = minx;
+                        }
+                        if (bx > maxx) {
+                                printf("maxx: %d, bx: %d\n", maxx, bx);
+                                bx = maxx;
+                        }
+
                         float u = su;
                         float v = sv;
                         float w = sw;
@@ -295,10 +342,12 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                         float t = 0.0f;
 
                         for (int j = ax; j < bx; j++) {
-                                u = (1.0f - t) * su + t * eu;
-                                v = (1.0f - t) * sv + t * ev;
-                                w = (1.0f - t) * sw + t * ew;
-                                PutPixel(g, j, i, TextureSample(texture, u / w, v/ w));
+                                float gradient = (float)(j - ax) / (float)(bx - ax);
+                                struct color color = ColorInitFloat(gradient, 0.0f, 0.0f, 1.0f);
+                                /* u = (1.0f - t) * su + t * eu; */
+                                /* v = (1.0f - t) * sv + t * ev; */
+                                /* w = (1.0f - t) * sw + t * ew; */
+                                PutPixel(g, j, i, color.rgba); //TextureSample(texture, u / w, v/ w));
 
                                 t += tStep;
                         }
@@ -308,36 +357,39 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
         // We're now at the halfway line of the triangle.
         // Recalculate the new slope.
 
-        dy1 = tri.y3 - tri.y2;
-        dx1 = tri.x3 - tri.x2;
-        dv1 = tri.v3 - tri.v2;
-        du1 = tri.u3 - tri.u2;
-        dw1 = tri.tw3 - tri.tw2;
-
-        // Calculate the vertex and texture line slopes.
-        if (dy1) daxStep = dx1 / (float)abs(dy1);
-        if (dy2) dbxStep = dx2 / (float)abs(dy2);
+        dx1 = x3 - x2;
+        dy1 = y3 - y2;
+        du1 = u3 - u2;
+        dv1 = v3 - v2;
+        dw1 = w3 - w2;
 
         du1Step = 0;
-        if (dy1) du1Step = du1 / (float)abs(dy1);
         dv1Step = 0;
-        if (dy1) dv1Step = dv1 / (float)abs(dy1);
-        dw1Step = 0; // Comment out?
-        if (dy1) dw1Step = dw1 / (float)abs(dy1);
+
+        // Calculate the vertex and texture line slopes.
+        if (dy1) dx1Step = dx1 / fabs(dy1);
+        if (dy2) dx2Step = dx2 / fabs(dy2);
+        if (dy1) du1Step = du1 / fabs(dy1);
+        if (dy1) dv1Step = dv1 / fabs(dy1);
+        if (dy1) dw1Step = dw1 / fabs(dy1);
 
         // Rasterize the lower half of the triangle.
         if (dy1) {
-                for (int i = tri.y2; i <= tri.y3; i++) {
-                        int ax = tri.x2 + (float)(i - tri.y2) * daxStep;
-                        int bx = tri.x1 + (float)(i - tri.y1) * dbxStep;
+                //struct color color = ActiveColor();
+                for (int i = y2; i <= y3; i++) {
+                        float y1Delta = (float)(i - y1);
+                        float y2Delta = (float)(i - y2);
 
-                        float su = tri.u2 + (float)(i - tri.y2) * du1Step;
-                        float sv = tri.v2 + (float)(i - tri.y2) * dv1Step;
-                        float sw = tri.tw2 + (float)(i - tri.y2) * dw1Step;
+                        int ax = x2 + y2Delta * dx1Step;
+                        int bx = x1 + y1Delta * dx2Step;
 
-                        float eu = tri.u1 + (float)(i - tri.y1) * du2Step;
-                        float ev = tri.v1 + (float)(i - tri.y1) * dv2Step;
-                        float ew = tri.tw1 + (float)(i - tri.y1) * dw2Step;
+                        float su = u2 + y2Delta * du1Step;
+                        float sv = v2 + y2Delta * dv1Step;
+                        float sw = w2 + y2Delta * dw1Step;
+
+                        float eu = u1 + y1Delta * du2Step;
+                        float ev = v1 + y1Delta * dv2Step;
+                        float ew = w1 + y1Delta * dw2Step;
 
                         // Swap coordinates so the lower x value comes first.
                         if (ax > bx) {
@@ -347,6 +399,15 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                                 swap(sw, ew);
                         }
 
+                        if (ax < minx) {
+                                printf("minx: %d, ax: %d\n", minx, ax);
+                                ax = minx;
+                        }
+                        if (bx > maxx) {
+                                printf("maxx: %d, bx: %d\n", maxx, bx);
+                                bx = maxx;
+                        }
+
                         float u = su;
                         float v = sv;
                         float w = sw;
@@ -354,6 +415,8 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                         float t = 0.0f;
 
                         for (int j = ax; j < bx; j++) {
+                                float gradient = (float)(j - ax) / (float)(bx - ax);
+                                struct color color = ColorInitFloat(0.0f, 0.0f, gradient, 1.0f);
                                 u = (1.0f - t) * su + t * eu;
                                 v = (1.0f - t) * sv + t * ev;
                                 w = (1.0f - t) * sw + t * ew;

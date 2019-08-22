@@ -154,15 +154,17 @@ int main(int argc, char **argv) {
                 struct timespec start;
                 clock_gettime(CLOCK_REALTIME, &start);
 
-                double theta = 1.0f + count;
+                double theta = 1.0f; //1.0f + count;
                 count += 0.01;
 
-                struct mat4x4 matRotZ = Mat4x4RotateZ(theta * 0.5f);
-                struct mat4x4 matRotX = Mat4x4RotateX(theta);
-                struct mat4x4 matTrans = Mat4x4Translate(0.0f, 0.0f, 3.0f);
+                struct mat4x4 matRotZ = Mat4x4RotateZ(0); //theta * 0.5f);
+                struct mat4x4 matRotX = Mat4x4RotateX(0); //theta);
+                struct mat4x4 matRotY = Mat4x4RotateY(theta);
+                struct mat4x4 matTrans = Mat4x4Translate(0.0f, -0.3f, 1.0f);
 
                 struct mat4x4 matWorld = Mat4x4Identity();
                 matWorld = Mat4x4Multiply(matRotZ, matRotX);
+                matWorld = Mat4x4Multiply(matWorld, matRotY);
                 matWorld = Mat4x4Multiply(matWorld, matTrans);
 
                 up = (struct vec3){ 0, 1, 0, 1 };

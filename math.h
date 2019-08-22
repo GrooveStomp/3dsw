@@ -82,7 +82,7 @@ struct mat4x4 {
 };
 
 void
-Vec3Debug(struct vec3 vec3);
+Vec3Debug(struct vec3 vec3, char *name);
 
 struct vec3
 Vec3Init(float x, float y, float z);
@@ -144,7 +144,7 @@ int
 TriangleClipAgainstPlane(struct vec3 plane, struct vec3 normal, struct triangle in, struct triangle *out1, struct triangle *out2);
 
 void
-TriangleDebug(struct triangle triangle);
+TriangleDebug(struct triangle triangle, char *name);
 
 struct mesh *
 MeshInit(int numTris);
@@ -187,6 +187,6 @@ struct mat4x4
 Mat4x4PointAt(struct vec3 pos, struct vec3 target, struct vec3 up);
 
 void
-Mat4x4Debug(struct mat4x4 mat);
+Mat4x4Debug(struct mat4x4 mat, char *name);
 
 #endif // MATH_VERSION
