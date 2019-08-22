@@ -216,6 +216,26 @@ void GraphicsDrawLine(struct graphics *graphics, int x1, int y1, int x2, int y2,
         }
 }
 
+struct color ActiveColor() {
+        static struct color COLOR[8];
+        COLOR[0] = ColorWhite;
+        COLOR[1] = ColorRed;
+        COLOR[2] = ColorBlue;
+        COLOR[3] = ColorGreen;
+        COLOR[4] = ColorPurple;
+        COLOR[5] = ColorYellow;
+        COLOR[6] = ColorCyan;
+        COLOR[7] = ColorPink;
+        static int colorIndex = 0;
+
+        colorIndex++;
+        if (colorIndex > 7) {
+                colorIndex = 0;
+        }
+
+        return COLOR[colorIndex];
+}
+
 void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct texture *texture) {
         int x1 = tri.x1; int y1 = tri.y1; float u1 = tri.u1; float v1 = tri.v1; float w1 = tri.tw1;
         int x2 = tri.x2; int y2 = tri.y2; float u2 = tri.u2; float v2 = tri.v2; float w2 = tri.tw2;
@@ -306,7 +326,6 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                                 float v = (1.0f - t) * sv + t * ev;
                                 float w = (1.0f - t) * sw + t * ew;
                                 PutPixel(g, j, i, TextureSample(texture, u / w, v / w));
-
                                 t += tStep;
                         }
                 }
@@ -365,7 +384,6 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                                 float v = (1.0f - t) * sv + t * ev;
                                 float w = (1.0f - t) * sw + t * ew;
                                 PutPixel(g, j, i, TextureSample(texture, u / w, v / w));
-
                                 t += tStep;
                         }
                 }
