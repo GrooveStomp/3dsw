@@ -237,16 +237,28 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
         int x3 = tri.x3; int y3 = tri.y3; float u3 = tri.u3; float v3 = tri.v3; float w3 = tri.tw3;
 
         int minx = x1;
-        if (x2 < minx)
-                minx = x2;
-        if (x3 < minx)
-                minx = x3;
+        if (x2 < minx) minx = x2;
+        if (x3 < minx) minx = x3;
 
         int maxx = x1;
-        if (x2 > maxx)
-                maxx = x2;
-        if (x3 > maxx)
-                maxx = x3;
+        if (x2 > maxx) maxx = x2;
+        if (x3 > maxx) maxx = x3;
+
+        float minu = u1;
+        if (u2 < minu) minu = u2;
+        if (u3 < minu) minu = u3;
+
+        float maxu = u1;
+        if (u2 > maxu) maxu = u2;
+        if (u3 > maxu) maxu = u3;
+
+        float minv = v1;
+        if (v2 < minv) minv = v2;
+        if (v3 < minv) minv = v3;
+
+        float maxv = v1;
+        if (v2 > maxv) maxv = v2;
+        if (v3 > maxv) maxv = v3;
 
         // Sort all vertices by y-value.
         if (y2 < y1) {
@@ -287,8 +299,8 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
         float dw2 = w3 - w1;
 
         float dx1Step = 0, dx2Step = 0,
-              du1Step = 0, dv1Step = 0,
-              du2Step = 0, dv2Step = 0,
+              du1Step = 0, du2Step = 0,
+              dv1Step = 0, dv2Step = 0,
               dw1Step = 0, dw2Step = 0;
 
         // Calculate the vertex and texture line slopes.
@@ -334,20 +346,33 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                                 printf("maxx: %d, bx: %d\n", maxx, bx);
                                 bx = maxx;
                         }
+                        if (su < minu) {
+                                printf("minu: %f, su: %f\n", minu, su);
+                                su = minu;
+                        }
+                        if (eu > maxu) {
+                                printf("maxu: %f, eu: %f\n", maxu, eu);
+                                eu = maxu;
+                        }
+                        if (sv < minv) {
+                                printf("minv: %f, sv: %f\n", minv, sv);
+                                sv = minv;
+                        }
+                        if (ev > maxv) {
+                                printf("maxv: %f, ev: %f\n", maxv, ev);
+                                ev = maxv;
+                        }
 
-                        float u = su;
-                        float v = sv;
-                        float w = sw;
                         float tStep = 1.0f / ((float)(bx - ax));
                         float t = 0.0f;
 
                         for (int j = ax; j < bx; j++) {
                                 float gradient = (float)(j - ax) / (float)(bx - ax);
                                 struct color color = ColorInitFloat(gradient, 0.0f, 0.0f, 1.0f);
-                                /* u = (1.0f - t) * su + t * eu; */
-                                /* v = (1.0f - t) * sv + t * ev; */
-                                /* w = (1.0f - t) * sw + t * ew; */
-                                PutPixel(g, j, i, color.rgba); //TextureSample(texture, u / w, v/ w));
+                                float u = (1.0f - t) * su + t * eu;
+                                float v = (1.0f - t) * sv + t * ev;
+                                float w = (1.0f - t) * sw + t * ew;
+                                PutPixel(g, j, i, TextureSample(texture, u / w, v/ w));
 
                                 t += tStep;
                         }
@@ -365,6 +390,7 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
 
         du1Step = 0;
         dv1Step = 0;
+        dw1Step = 0;
 
         // Calculate the vertex and texture line slopes.
         if (dy1) dx1Step = dx1 / fabs(dy1);
@@ -407,19 +433,40 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                                 printf("maxx: %d, bx: %d\n", maxx, bx);
                                 bx = maxx;
                         }
+                        if (ax < minx) {
+                                printf("minx: %d, ax: %d\n", minx, ax);
+                                ax = minx;
+                        }
+                        if (bx > maxx) {
+                                printf("maxx: %d, bx: %d\n", maxx, bx);
+                                bx = maxx;
+                        }
+                        if (su < minu) {
+                                printf("minu: %f, su: %f\n", minu, su);
+                                su = minu;
+                        }
+                        if (eu > maxu) {
+                                printf("maxu: %f, eu: %f\n", maxu, eu);
+                                eu = maxu;
+                        }
+                        if (sv < minv) {
+                                printf("minv: %f, sv: %f\n", minv, sv);
+                                sv = minv;
+                        }
+                        if (ev > maxv) {
+                                printf("maxv: %f, ev: %f\n", maxv, ev);
+                                ev = maxv;
+                        }
 
-                        float u = su;
-                        float v = sv;
-                        float w = sw;
                         float tStep = 1.0f / ((float)(bx - ax));
                         float t = 0.0f;
 
                         for (int j = ax; j < bx; j++) {
                                 float gradient = (float)(j - ax) / (float)(bx - ax);
                                 struct color color = ColorInitFloat(0.0f, 0.0f, gradient, 1.0f);
-                                u = (1.0f - t) * su + t * eu;
-                                v = (1.0f - t) * sv + t * ev;
-                                w = (1.0f - t) * sw + t * ew;
+                                float u = (1.0f - t) * su + t * eu;
+                                float v = (1.0f - t) * sv + t * ev;
+                                float w = (1.0f - t) * sw + t * ew;
                                 PutPixel(g, j, i, TextureSample(texture, u / w, v / w));
 
                                 t += tStep;
