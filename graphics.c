@@ -317,6 +317,22 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                                 swap_generic(&sv, &ev, sizeof(float));
                                 swap_generic(&sw, &ew, sizeof(float));
                         }
+                        if (su < minu) {
+                                printf("minu: %f, su: %f\n", minu, su);
+                                su = minu;
+                        }
+                        if (eu > maxu) {
+                                printf("maxu: %f, eu: %f\n", maxu, eu);
+                                eu = maxu;
+                        }
+                        if (sv < minv) {
+                                printf("minv: %f, sv: %f\n", minv, sv);
+                                sv = minv;
+                        }
+                        if (ev > maxv) {
+                                printf("maxv: %f, ev: %f\n", maxv, ev);
+                                ev = maxv;
+                        }
 
                         float tStep = 1.0f / ((float)(bx - ax));
                         float t = 0.0f;
@@ -374,6 +390,30 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                                 swap_generic(&su, &eu, sizeof(float));
                                 swap_generic(&sv, &ev, sizeof(float));
                                 swap_generic(&sw, &ew, sizeof(float));
+                        }
+                        if (ax < minx) {
+                                printf("minx: %d, ax: %d\n", minx, ax);
+                                ax = minx;
+                        }
+                        if (bx > maxx) {
+                                printf("maxx: %d, bx: %d\n", maxx, bx);
+                                bx = maxx;
+                        }
+                        if (su < minu) {
+                                printf("minu: %f, su: %f\n", minu, su);
+                                su = minu;
+                        }
+                        if (eu > maxu) {
+                                printf("maxu: %f, eu: %f\n", maxu, eu);
+                                eu = maxu;
+                        }
+                        if (sv < minv) {
+                                printf("minv: %f, sv: %f\n", minv, sv);
+                                sv = minv;
+                        }
+                        if (ev > maxv) {
+                                printf("maxv: %f, ev: %f\n", maxv, ev);
+                                ev = maxv;
                         }
 
                         float tStep = 1.0f / ((float)(bx - ax));
