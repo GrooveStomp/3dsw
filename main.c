@@ -157,10 +157,10 @@ int main(int argc, char **argv) {
                 double theta = 1.0f; //1.0f + count;
                 count += 0.01;
 
-                struct mat4x4 matRotZ = Mat4x4RotateZ(0); //theta * 0.5f);
-                struct mat4x4 matRotX = Mat4x4RotateX(0); //theta);
+                struct mat4x4 matRotZ = Mat4x4Identity(); //Mat4x4RotateZ(0); //theta * 0.5f);
+                struct mat4x4 matRotX = Mat4x4Identity(); //Mat4x4RotateX(0); //theta);
                 struct mat4x4 matRotY = Mat4x4RotateY(theta);
-                struct mat4x4 matTrans = Mat4x4Translate(0.0f, -0.3f, 1.0f);
+                struct mat4x4 matTrans = Mat4x4Translate(-0.5f, -0.5f, 1.0f);
 
                 struct mat4x4 matWorld = Mat4x4Identity();
                 matWorld = Mat4x4Multiply(matRotZ, matRotX);
@@ -199,15 +199,14 @@ int main(int argc, char **argv) {
                                 lightDirection = Vec3Normalize(lightDirection);
 
                                 // How similar is normal to light direction?
-                                float dp = fmax(0.1f, Vec3DotProduct(normal, lightDirection));
-                                struct color color = ColorInitFloat(dp, dp, dp, 1.0);
+                                // float dp = fmax(0.1f, Vec3DotProduct(normal, lightDirection));
+                                // struct color color = ColorInitFloat(dp, dp, dp, 1.0);
 
                                 // Convert from world space to view space.
                                 struct triangle viewed = transformed;
                                 viewed.v[0] = Mat4x4MultiplyVec3(matView, transformed.v[0]);
                                 viewed.v[1] = Mat4x4MultiplyVec3(matView, transformed.v[1]);
                                 viewed.v[2] = Mat4x4MultiplyVec3(matView, transformed.v[2]);
-                                viewed.color = color.rgba;
 
                                 struct triangle clipped[2];
                                 int numClippedTriangles = TriangleClipAgainstPlane(
@@ -328,7 +327,6 @@ int main(int argc, char **argv) {
                         int listSize = TriangleListSize(&triangleList);
                         for (int b = 0; b < listSize; b++) {
                                 struct triangle t = TriangleListPopFront(&triangleList);
-
                                 GraphicsTriangleTextured(graphics, t, texture);
                                 // Draw solid faces.
                                 // GraphicsTriangleSolid(graphics, t, t.color);

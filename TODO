@@ -1,9 +1,7 @@
 - Texturing is not working.
-  - Works properly sometimes.
-  - Backfaces of cube seem to not be showing texturing
-  - Lots of blue. The edgs of the texture are blue; are (u,v) being clamped?
-  - At triangle edges the texture bleeds outside the edge of the cube.
+  > Texture coordinates calculated during clipping seem incorrect.
 - x coordinate seems to be facing the wrong way for model?
-    > inputs all work as expected, so vector math seems okay
-    > "fixed" this by flipping X coords on the model in Blender.
+  > inputs all work as expected, so vector math seems okay
+  > "fixed" this by flipping X coords on the model in Blender.
+  > Looks like Javidx9 flips X AND Y coords
 - Make PutPixelScaled work again.

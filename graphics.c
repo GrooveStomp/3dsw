@@ -18,7 +18,12 @@
 #include "texture.h"
 #include "color.h"
 
-#define swap(x,y) { int t = (x); (x) = (y); (y) = t; }
+void swap_generic(void *v1, void *v2, size_t size) {
+        char temp[size];
+        memmove(temp, v1, size);
+        memmove(v1, v2, size);
+        memmove(v2, temp, size);
+}
 
 //! \brief Graphics state
 struct graphics {
@@ -211,78 +216,34 @@ void GraphicsDrawLine(struct graphics *graphics, int x1, int y1, int x2, int y2,
         }
 }
 
-struct color ActiveColor() {
-        static struct color COLOR[8];
-        COLOR[0] = ColorWhite;
-        COLOR[1] = ColorRed;
-        COLOR[2] = ColorBlue;
-        COLOR[3] = ColorGreen;
-        COLOR[4] = ColorPurple;
-        COLOR[5] = ColorYellow;
-        COLOR[6] = ColorCyan;
-        COLOR[7] = ColorPink;
-        static int colorIndex = 0;
-
-        colorIndex++;
-        if (colorIndex > 7) {
-                colorIndex = 0;
-        }
-
-        return COLOR[colorIndex];
-}
-
 void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct texture *texture) {
         int x1 = tri.x1; int y1 = tri.y1; float u1 = tri.u1; float v1 = tri.v1; float w1 = tri.tw1;
         int x2 = tri.x2; int y2 = tri.y2; float u2 = tri.u2; float v2 = tri.v2; float w2 = tri.tw2;
         int x3 = tri.x3; int y3 = tri.y3; float u3 = tri.u3; float v3 = tri.v3; float w3 = tri.tw3;
 
-        int minx = x1;
-        if (x2 < minx) minx = x2;
-        if (x3 < minx) minx = x3;
-
-        int maxx = x1;
-        if (x2 > maxx) maxx = x2;
-        if (x3 > maxx) maxx = x3;
-
-        float minu = u1;
-        if (u2 < minu) minu = u2;
-        if (u3 < minu) minu = u3;
-
-        float maxu = u1;
-        if (u2 > maxu) maxu = u2;
-        if (u3 > maxu) maxu = u3;
-
-        float minv = v1;
-        if (v2 < minv) minv = v2;
-        if (v3 < minv) minv = v3;
-
-        float maxv = v1;
-        if (v2 > maxv) maxv = v2;
-        if (v3 > maxv) maxv = v3;
-
         // Sort all vertices by y-value.
         if (y2 < y1) {
-                swap(x1, x2);
-                swap(y1, y2);
-                swap(u1, u2);
-                swap(v1, v2);
-                swap(w1, w2);
+                swap_generic(&x1, &x2, sizeof(int));
+                swap_generic(&y1, &y2, sizeof(int));
+                swap_generic(&u1, &u2, sizeof(float));
+                swap_generic(&v1, &v2, sizeof(float));
+                swap_generic(&w1, &w2, sizeof(float));
         }
 
         if (y3 < y1) {
-                swap(x1, x3);
-                swap(y1, y3);
-                swap(u1, u3);
-                swap(v1, v3);
-                swap(w1, w3);
+                swap_generic(&x1, &x3, sizeof(int));
+                swap_generic(&y1, &y3, sizeof(int));
+                swap_generic(&u1, &u3, sizeof(float));
+                swap_generic(&v1, &v3, sizeof(float));
+                swap_generic(&w1, &w3, sizeof(float));
         }
 
         if (y3 < y2) {
-                swap(x2, x3);
-                swap(y2, y3);
-                swap(u2, u3);
-                swap(v2, v3);
-                swap(w2, w3);
+                swap_generic(&x2, &x3, sizeof(int));
+                swap_generic(&y2, &y3, sizeof(int));
+                swap_generic(&u2, &u3, sizeof(float));
+                swap_generic(&v2, &v3, sizeof(float));
+                swap_generic(&w2, &w3, sizeof(float));
         }
 
         // Calculate the coordinate deltas.
@@ -316,7 +277,6 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
 
         // Rasterize the top half of the triangle.
         if (dy1) {
-                //struct color color = ActiveColor();
                 for (int i = y1; i <= y2; i++) {
                         float delta = (float)(i - y1);
                         int ax = x1 + delta * dx1Step;
@@ -332,47 +292,20 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
 
                         // Swap coordinates so the lower x value comes first.
                         if (ax > bx) {
-                                swap(ax, bx);
-                                swap(su, eu);
-                                swap(sv, ev);
-                                swap(sw, ew);
-                        }
-
-                        if (ax < minx) {
-                                printf("minx: %d, ax: %d\n", minx, ax);
-                                ax = minx;
-                        }
-                        if (bx > maxx) {
-                                printf("maxx: %d, bx: %d\n", maxx, bx);
-                                bx = maxx;
-                        }
-                        if (su < minu) {
-                                printf("minu: %f, su: %f\n", minu, su);
-                                su = minu;
-                        }
-                        if (eu > maxu) {
-                                printf("maxu: %f, eu: %f\n", maxu, eu);
-                                eu = maxu;
-                        }
-                        if (sv < minv) {
-                                printf("minv: %f, sv: %f\n", minv, sv);
-                                sv = minv;
-                        }
-                        if (ev > maxv) {
-                                printf("maxv: %f, ev: %f\n", maxv, ev);
-                                ev = maxv;
+                                swap_generic(&ax, &bx, sizeof(int));
+                                swap_generic(&su, &eu, sizeof(float));
+                                swap_generic(&sv, &ev, sizeof(float));
+                                swap_generic(&sw, &ew, sizeof(float));
                         }
 
                         float tStep = 1.0f / ((float)(bx - ax));
                         float t = 0.0f;
 
                         for (int j = ax; j < bx; j++) {
-                                float gradient = (float)(j - ax) / (float)(bx - ax);
-                                struct color color = ColorInitFloat(gradient, 0.0f, 0.0f, 1.0f);
                                 float u = (1.0f - t) * su + t * eu;
                                 float v = (1.0f - t) * sv + t * ev;
                                 float w = (1.0f - t) * sw + t * ew;
-                                PutPixel(g, j, i, TextureSample(texture, u / w, v/ w));
+                                PutPixel(g, j, i, TextureSample(texture, u / w, v / w));
 
                                 t += tStep;
                         }
@@ -401,7 +334,6 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
 
         // Rasterize the lower half of the triangle.
         if (dy1) {
-                //struct color color = ActiveColor();
                 for (int i = y2; i <= y3; i++) {
                         float y1Delta = (float)(i - y1);
                         float y2Delta = (float)(i - y2);
@@ -419,51 +351,16 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
 
                         // Swap coordinates so the lower x value comes first.
                         if (ax > bx) {
-                                swap(ax, bx);
-                                swap(su, eu);
-                                swap(sv, ev);
-                                swap(sw, ew);
-                        }
-
-                        if (ax < minx) {
-                                printf("minx: %d, ax: %d\n", minx, ax);
-                                ax = minx;
-                        }
-                        if (bx > maxx) {
-                                printf("maxx: %d, bx: %d\n", maxx, bx);
-                                bx = maxx;
-                        }
-                        if (ax < minx) {
-                                printf("minx: %d, ax: %d\n", minx, ax);
-                                ax = minx;
-                        }
-                        if (bx > maxx) {
-                                printf("maxx: %d, bx: %d\n", maxx, bx);
-                                bx = maxx;
-                        }
-                        if (su < minu) {
-                                printf("minu: %f, su: %f\n", minu, su);
-                                su = minu;
-                        }
-                        if (eu > maxu) {
-                                printf("maxu: %f, eu: %f\n", maxu, eu);
-                                eu = maxu;
-                        }
-                        if (sv < minv) {
-                                printf("minv: %f, sv: %f\n", minv, sv);
-                                sv = minv;
-                        }
-                        if (ev > maxv) {
-                                printf("maxv: %f, ev: %f\n", maxv, ev);
-                                ev = maxv;
+                                swap_generic(&ax, &bx, sizeof(int));
+                                swap_generic(&su, &eu, sizeof(float));
+                                swap_generic(&sv, &ev, sizeof(float));
+                                swap_generic(&sw, &ew, sizeof(float));
                         }
 
                         float tStep = 1.0f / ((float)(bx - ax));
                         float t = 0.0f;
 
                         for (int j = ax; j < bx; j++) {
-                                float gradient = (float)(j - ax) / (float)(bx - ax);
-                                struct color color = ColorInitFloat(0.0f, 0.0f, gradient, 1.0f);
                                 float u = (1.0f - t) * su + t * eu;
                                 float v = (1.0f - t) * sv + t * ev;
                                 float w = (1.0f - t) * sw + t * ew;
@@ -505,9 +402,9 @@ void GraphicsTriangleSolid(struct graphics *graphics, struct triangle triangle, 
 	int signx1,signx2,dx1,dy1,dx2,dy2;
 	unsigned int e1,e2;
         // Sort vertices
-	if (y1>y2) { swap(y1,y2); swap(x1,x2); }
-	if (y1>y3) { swap(y1,y3); swap(x1,x3); }
-	if (y2>y3) { swap(y2,y3); swap(x2,x3); }
+	if (y1>y2) { swap_generic(&y1,&y2,sizeof(int)); swap_generic(&x1,&x2,sizeof(int)); }
+	if (y1>y3) { swap_generic(&y1,&y3,sizeof(int)); swap_generic(&x1,&x3,sizeof(int)); }
+	if (y2>y3) { swap_generic(&y2,&y3,sizeof(int)); swap_generic(&x2,&x3,sizeof(int)); }
 
 	t1x=t2x=x1; y=y1;   // Starting points
 
@@ -518,11 +415,11 @@ void GraphicsTriangleSolid(struct graphics *graphics, struct triangle triangle, 
 	dy2 = (int)(y3 - y1);
 
 	if (dy1 > dx1) {   // swap values
-                swap(dx1,dy1);
+                swap_generic(&dx1,&dy1,sizeof(int));
 		changed1 = 1;
 	}
 	if (dy2 > dx2) {   // swap values
-                swap(dy2,dx2);
+                swap_generic(&dy2,&dx2,sizeof(int));
 		changed2 = 1;
 	}
 
@@ -592,7 +489,7 @@ next:
 	t1x=x2;
 
 	if (dy1 > dx1) {   // swap values
-                swap(dy1,dx1);
+                swap_generic(&dy1, &dx1, sizeof(dy1));
 		changed1 = 1;
 	} else {
                 changed1=0;
