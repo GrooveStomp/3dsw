@@ -36,5 +36,9 @@ extern struct color ColorBlack;
 extern struct color ColorRed;
 extern struct color ColorGreen;
 extern struct color ColorBlue;
+extern struct color ColorPurple;
+extern struct color ColorYellow;
+extern struct color ColorCyan;
+extern struct color ColorPink;
 
 #endif // COLOR_VERSION

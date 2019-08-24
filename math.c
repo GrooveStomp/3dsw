@@ -22,23 +22,37 @@ struct vec3 Vec3Init(float x, float y, float z) {
         return vec3;
 }
 
-void Vec3Debug(struct vec3 v) {
-        printf("(struct vec3){ .x = %.1f, .y = %.1f, .z = %.1f, .w = %.1f }\n",
+void Vec3Debug(struct vec3 v, char *name) {
+        if (NULL != name)
+                printf("struct vec3 %s = ", name);
+        else
+                printf("(struct vec3)");
+
+        printf("{ .x = %.1f, .y = %.1f, .z = %.1f, .w = %.1f }\n",
                v.x, v.y, v.z, v.w);
 
-        printf("(struct vec3){ .p = { %.1f, %.1f, %.1f, %.1f } }\n",
+        if (NULL != name)
+                printf("struct vec3 %s = ", name);
+        else
+                printf("(struct vec3)");
+        printf("{ .p = { %.1f, %.1f, %.1f, %.1f } }\n",
                v.p[0], v.p[1], v.p[2], v.p[3]);
 }
 
-void TriangleDebug(struct triangle t) {
-        printf("(struct triangle)"
+void TriangleDebug(struct triangle t, char *name) {
+        if (NULL != name)
+                printf("struct triangle %s = ", name);
+        else
+                printf("(struct triangle)");
+
+        printf(
 "{\n"
 "  .x1 = %.1f, .y1 = %.1f, .z1 = %.1f, .w1 = %.1f,\n"
 "  .x2 = %.1f, .y2 = %.1f, .z2 = %.1f, .w2 = %.1f,\n"
 "  .x3 = %.1f, .y3 = %.1f, .z3 = %.1f, .w3 = %.1f,\n"
-"  .u1 = %.1f, .v1 = %.1f,"
-"  .u2 = %.2f, .v2 = %.2f,"
-"  .u3 = %.3f, .v3 = %.3f"
+"  .u1 = %.1f, .v1 = %.1f,\n"
+"  .u2 = %.2f, .v2 = %.2f,\n"
+"  .u3 = %.3f, .v3 = %.3f\n"
 "}\n",
                t.x1, t.y1, t.z1, t.w1,
                t.x2, t.y2, t.z2, t.w2,
@@ -47,7 +61,12 @@ void TriangleDebug(struct triangle t) {
                t.u2, t.v2,
                t.u3, t.v3);
 
-        printf("(struct triangle)"
+        if (NULL != name)
+                printf("struct triangle %s = ", name);
+        else
+                printf("(struct triangle)");
+
+        printf(
 "{\n"
 "  .v0 = { %.1f, %.1f, %.1f },\n"
 "  .v1 = { %.1f, %.1f, %.1f },\n"
@@ -127,9 +146,9 @@ struct vec3 Vec3Divide(struct vec3 vec3, float f) {
         return res;
 }
 
-struct vec3 Vec3IntersectPlane(struct vec3 plane, struct vec3 normal, struct vec3 lineStart, struct vec3 lineEnd, float *t) {
+struct vec3 Vec3IntersectPlane(struct vec3 point, struct vec3 normal, struct vec3 lineStart, struct vec3 lineEnd, float *t) {
         normal = Vec3Normalize(normal);
-        float planeD = -Vec3DotProduct(normal, plane);
+        float planeD = -Vec3DotProduct(normal, point);
         float ad = Vec3DotProduct(lineStart, normal);
         float bd = Vec3DotProduct(lineEnd, normal);
         *t = (-planeD - ad) / (bd - ad);
@@ -152,9 +171,9 @@ struct triangle TriangleInit(
         float u3, float v3) {
 
         struct triangle t;
-        t.x1 = x1; t.y1 = y1; t.z1 = z1; t.w1 = 1.0f; t.u1 = u1; t.v1 = v1;
-        t.x2 = x2; t.y2 = y2; t.z2 = z2; t.w2 = 1.0f; t.u2 = u2; t.v2 = v2;
-        t.x3 = x3; t.y3 = y3; t.z3 = z3; t.w3 = 1.0f; t.u3 = u3; t.v3 = v3;
+        t.x1 = x1; t.y1 = y1; t.z1 = z1; t.w1 = 1.0f; t.u1 = u1; t.v1 = v1; t.tw1 = 1.0f;
+        t.x2 = x2; t.y2 = y2; t.z2 = z2; t.w2 = 1.0f; t.u2 = u2; t.v2 = v2; t.tw2 = 1.0f;
+        t.x3 = x3; t.y3 = y3; t.z3 = z3; t.w3 = 1.0f; t.u3 = u3; t.v3 = v3; t.tw3 = 1.0f;
         return t;
 }
 
@@ -197,7 +216,7 @@ int TriangleClipAgainstPlane(struct vec3 plane, struct vec3 normal, struct trian
         // Now classify the triangle points.
 
         if (insidePointsCount == 0) {
-                // All points are outside of the plan, so clip the whole
+                // All points are outside of the plane, so clip the whole
                 // triangle.
                 return 0; // No returned triangles are valid.
         }
@@ -214,7 +233,8 @@ int TriangleClipAgainstPlane(struct vec3 plane, struct vec3 normal, struct trian
                 // The triangle should be clipped as two points lie outside the
                 // plane.  Create a new, smaller triangle.
 
-                *out1 = in;
+                *out1 = (struct triangle){ 0 };
+                out1->color = in.color;
                 // The inside point is valid, so keep it.
                 out1->v[0] = *insidePoints[0];
                 // out1->color = ColorRed.rgba; // Debug color.
@@ -225,10 +245,12 @@ int TriangleClipAgainstPlane(struct vec3 plane, struct vec3 normal, struct trian
                 out1->v[1] = Vec3IntersectPlane(plane, normal, *insidePoints[0], *outsidePoints[0], &t);
                 out1->u2 = t * (outsideTex[0]->u - insideTex[0]->u) + insideTex[0]->u;
                 out1->v2 = t * (outsideTex[0]->v - insideTex[0]->v) + insideTex[0]->v;
+                out1->w2 = t * (outsideTex[0]->w - insideTex[0]->w) + insideTex[0]->w;
 
                 out1->v[2] = Vec3IntersectPlane(plane, normal, *insidePoints[0], *outsidePoints[1], &t);
                 out1->u3 = t * (outsideTex[1]->u - insideTex[0]->u) + insideTex[0]->u;
                 out1->v3 = t * (outsideTex[1]->v - insideTex[0]->v) + insideTex[0]->v;
+                out1->w3 = t * (outsideTex[1]->w - insideTex[0]->w) + insideTex[0]->w;
 
                 return 1; // Just one returned triangle is valid.
         }
@@ -239,9 +261,11 @@ int TriangleClipAgainstPlane(struct vec3 plane, struct vec3 normal, struct trian
                 // plane. When we clip we create a rectangle, but we subdivide
                 // this into two triangles.
 
-                *out1 = in;
+                *out1 = (struct triangle){ 0 };
+                out1->color = in.color;
                 // out1->color = ColorGreen.rgba; // Debug color.
-                *out2 = in;
+                *out2 = (struct triangle){ 0 };
+                out2->color = in.color;
                 // out2->color = ColorBlue.rgba; // Debug color.
 
                 // The first triangle consists of the two inside points and a
@@ -255,6 +279,7 @@ int TriangleClipAgainstPlane(struct vec3 plane, struct vec3 normal, struct trian
                 out1->v[2] = Vec3IntersectPlane(plane, normal, *insidePoints[0], *outsidePoints[0], &t);
                 out1->u3 = t * (outsideTex[0]->u - insideTex[0]->u) + insideTex[0]->u;
                 out1->v3 = t * (outsideTex[0]->v - insideTex[0]->v) + insideTex[0]->v;
+                out1->w3 = t * (outsideTex[0]->w - insideTex[0]->w) + insideTex[0]->w;
 
                 // The second triangle is composed of one of the inside points,
                 // a new point determined by the intersection of the other side
@@ -267,6 +292,7 @@ int TriangleClipAgainstPlane(struct vec3 plane, struct vec3 normal, struct trian
                 out2->v[2] = Vec3IntersectPlane(plane, normal, *insidePoints[1], *outsidePoints[0], &t);
                 out2->u3 = t * (outsideTex[0]->u - insideTex[1]->u) + insideTex[1]->u;
                 out2->v3 = t * (outsideTex[0]->v - insideTex[1]->v) + insideTex[1]->v;
+                out2->w3 = t * (outsideTex[0]->w - insideTex[1]->w) + insideTex[1]->w;
 
                 return 2; // Return two newly formed triangles wich form a quad.
         }
@@ -504,8 +530,13 @@ struct mat4x4 Mat4x4PointAt(struct vec3 pos, struct vec3 target, struct vec3 up)
         return res;
 }
 
-void Mat4x4Debug(struct mat4x4 mat) {
-        printf("(struct mat4x4){\n");
+void Mat4x4Debug(struct mat4x4 mat, char *name) {
+        if (NULL != name)
+                printf("struct mat4x4 %s = ", name);
+        else
+                printf("(struct mat4x4)");
+
+        printf("{\n");
         for (int y = 0; y < 4; y++ ) {
                 printf("\t");
                 for (int x = 0; x < 4; x++) {

@@ -13,6 +13,10 @@ struct color ColorBlack = { 0x000000FF };
 struct color ColorRed = { 0xFF0000FF };
 struct color ColorGreen = { 0x00FF00FF };
 struct color ColorBlue = { 0x0000FFFF };
+struct color ColorPurple = { 0x7F00FFFF };
+struct color ColorYellow = { 0xFFFF00FF };
+struct color ColorCyan = { 0x00FFFFFF };
+struct color ColorPink = { 0xFF00FFFF };
 
 void ColorSetInt(struct color *color, char component, unsigned int value) {
         unsigned int pos = 0;
