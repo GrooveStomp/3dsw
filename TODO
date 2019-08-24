@@ -1,5 +1,4 @@
-- Texturing is not working.
-  > Texture coordinates calculated during clipping seem incorrect.
+- Parse texture data from obj files
 - x coordinate seems to be facing the wrong way for model?
   > inputs all work as expected, so vector math seems okay
   > "fixed" this by flipping X coords on the model in Blender.

@@ -1,7 +1,7 @@
 /******************************************************************************
   File: graphics.c
   Created: 2019-06-25
-  Updated: 2019-08-16
+  Updated: 2019-08-24
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -306,7 +306,6 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                                 float v = (1.0f - t) * sv + t * ev;
                                 float w = (1.0f - t) * sw + t * ew;
                                 PutPixel(g, j, i, TextureSample(texture, u / w, v / w));
-
                                 t += tStep;
                         }
                 }
@@ -365,7 +364,6 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                                 float v = (1.0f - t) * sv + t * ev;
                                 float w = (1.0f - t) * sw + t * ew;
                                 PutPixel(g, j, i, TextureSample(texture, u / w, v / w));
-
                                 t += tStep;
                         }
                 }

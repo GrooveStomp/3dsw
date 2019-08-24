@@ -1,7 +1,7 @@
 /******************************************************************************
   File: texture.c
   Created: 2019-08-18
-  Updated: 2019-08-18
+  Updated: 2019-08-24
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -41,14 +41,6 @@ void TextureDeinit(struct texture *t) {
 }
 
 unsigned int TextureSample(struct texture *t, float u, float v) {
-        // Drop non-fractional parts.
-        //printf("u: %f, v: %f\n", u, v);
-        /* if (u > 1.0f || u < 0.0f) */
-        /*         u = u - (long)u; */
-        /* if (v > 1.0f || v < 0.0f) */
-        /*         v = v - (long)v; */
-        //printf("u: %f, v: %f\n", u, v);
-
         int y = (int)(v * (float)t->height - 1);
         int x = (int)(u * (float)t->width);
 

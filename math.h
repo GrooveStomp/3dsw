@@ -1,7 +1,7 @@
 /******************************************************************************
   File: math.h
   Created: 2019-08-13
-  Updated: 2019-08-17
+  Updated: 2019-08-22
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/

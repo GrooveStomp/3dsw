@@ -1,7 +1,7 @@
 /******************************************************************************
   File: main.c
   Created: 2019-08-07
-  Updated: 2019-08-17
+  Updated: 2019-08-24
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -154,13 +154,13 @@ int main(int argc, char **argv) {
                 struct timespec start;
                 clock_gettime(CLOCK_REALTIME, &start);
 
-                double theta = 1.0f; //1.0f + count;
+                double theta = count;
                 count += 0.01;
 
-                struct mat4x4 matRotZ = Mat4x4Identity(); //Mat4x4RotateZ(0); //theta * 0.5f);
-                struct mat4x4 matRotX = Mat4x4Identity(); //Mat4x4RotateX(0); //theta);
-                struct mat4x4 matRotY = Mat4x4RotateY(theta);
-                struct mat4x4 matTrans = Mat4x4Translate(-0.5f, -0.5f, 1.0f);
+                struct mat4x4 matRotZ = Mat4x4RotateZ(theta);
+                struct mat4x4 matRotX = Mat4x4RotateX(theta * 0.5f);
+                struct mat4x4 matRotY = Mat4x4Identity();
+                struct mat4x4 matTrans = Mat4x4Translate(-0.5f, -0.5f, 3.0f);
 
                 struct mat4x4 matWorld = Mat4x4Identity();
                 matWorld = Mat4x4Multiply(matRotZ, matRotX);
@@ -331,7 +331,7 @@ int main(int argc, char **argv) {
                                 // Draw solid faces.
                                 // GraphicsTriangleSolid(graphics, t, t.color);
                                 // Draw wireframe faces.
-                                // GraphicsTriangleWireframe(graphics, t, ColorWhite.rgba);
+                                // GraphicsTriangleWireframe(graphics, t, ColorCyan.rgba);
                         }
                 }
 
