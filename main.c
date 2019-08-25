@@ -1,7 +1,7 @@
 /******************************************************************************
   File: main.c
   Created: 2019-08-07
-  Updated: 2019-08-24
+  Updated: 2019-08-25
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -102,40 +102,10 @@ int main(int argc, char **argv) {
                 Shutdown(1);
         }
 
-        mesh = MeshInit(12);
+        struct mesh *mesh = MeshInitFromObj("cube-textured.obj");
         if (NULL == mesh) {
-                fprintf(stderr, "Couldn't initialize mesh");
-                Shutdown(1);
+                fprintf(stderr, "There was a problem initializing the mesh");
         }
-
-        // South
-        mesh->tris[0] = TriangleInit(0,0,0, 0,1, 0,1,0, 0,0, 1,1,0, 1,0);
-        mesh->tris[1] = TriangleInit(0,0,0, 0,1, 1,1,0, 1,0, 1,0,0, 1,1);
-
-        // East
-        mesh->tris[2] = TriangleInit(1,0,0, 0,1, 1,1,0, 0,0, 1,1,1, 1,0);
-        mesh->tris[3] = TriangleInit(1,0,0, 0,1, 1,1,1, 1,0, 1,0,1, 1,1);
-
-        // North
-        mesh->tris[4] = TriangleInit(1,0,1, 0,1, 1,1,1, 0,0, 0,1,1, 1,0);
-        mesh->tris[5] = TriangleInit(1,0,1, 0,1, 0,1,1, 1,0, 0,0,1, 1,1);
-
-        // West
-        mesh->tris[6] = TriangleInit(0,0,1, 0,1, 0,1,1, 0,0, 0,1,0, 1,0);
-        mesh->tris[7] = TriangleInit(0,0,1, 0,1, 0,1,0, 1,0, 0,0,0, 1,1);
-
-        // Top
-        mesh->tris[8] = TriangleInit(0,1,0, 0,1, 0,1,1, 0,0, 1,1,1, 1,0);
-        mesh->tris[9] = TriangleInit(0,1,0, 0,1, 1,1,1, 1,0, 1,1,0, 1,1);
-
-        // Bottom
-        mesh->tris[10] = TriangleInit(1,0,1, 0,1, 0,0,1, 0,0, 0,0,0, 1,0);
-        mesh->tris[11] = TriangleInit(1,0,1, 0,1, 0,0,0, 1,0, 1,0,0, 1,1);
-
-        /* struct mesh *mesh = MeshInitFromObj("axis-flipped-x.obj"); */
-        /* if (NULL == mesh) { */
-        /*         fprintf(stderr, "There was a problem initializing the mesh"); */
-        /* } */
 
         camera = (struct vec3){ 0 };
         yaw = 0;

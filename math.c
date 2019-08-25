@@ -322,11 +322,16 @@ struct mesh *MeshInitFromObj(char *objFile) {
         // First scan through the file to see how much data we need to read.
         int numFaces = 0;
         int numVertices = 0;
+        int numTexCoords = 0;
         char line[256];
         while (NULL != fgets(line, sizeof(line), file)) {
                 switch (line[0]) {
                         case 'v':
-                                numVertices++;
+                                if ('t' == line[1]) {
+                                        numTexCoords++;
+                                } else {
+                                        numVertices++;
+                                }
                                 break;
                         case 'f':
                                 numFaces++;
@@ -351,29 +356,58 @@ struct mesh *MeshInitFromObj(char *objFile) {
         struct vec3 *vertex = (struct vec3 *)malloc(sizeof(struct vec3) * numVertices);
         memset(vertex, 0, sizeof(struct vec3) * numVertices);
 
+        struct vec2 *tex = (struct vec2 *)malloc(sizeof(struct vec2) * numTexCoords);
+        memset(tex, 0, sizeof(struct vec2) * numTexCoords);
+
         int vertIdx = 0;
         int faceIdx = 0;
+        int texIdx = 0;
         // Finally, read through the file, filling out our data containers.
         while (NULL != fgets(line, sizeof(line), file)) {
                 float x, y, z;
-                int i1, i2, i3;
+                int vi1, vi2, vi3, ti1, ti2, ti3;
 
                 switch (line[0]) {
                         case 'v': {
-                                sscanf(line, "v %f %f %f", &x, &y, &z);
-                                vertex[vertIdx].x = x;
-                                vertex[vertIdx].y = y;
-                                vertex[vertIdx].z = z;
-                                vertex[vertIdx].w = 1.0f;
-                                vertIdx++;
+                                if ('t' == line[1]) {
+                                        sscanf(line, "vt %f %f", &x, &y);
+                                        tex[texIdx].u = x;
+                                        tex[texIdx].v = y;
+                                        tex[texIdx].w = 1.0f;
+                                        texIdx++;
+                                } else {
+                                        sscanf(line, "v %f %f %f", &x, &y, &z);
+                                        vertex[vertIdx].x = x;
+                                        vertex[vertIdx].y = y;
+                                        vertex[vertIdx].z = z;
+                                        vertex[vertIdx].w = 1.0f;
+                                        vertIdx++;
+                                }
                                 break;
                         }
                         case 'f': {
-                                sscanf(line, "f %d %d %d", &i1, &i2, &i3);
-                                mesh->tris[faceIdx].v[0] = vertex[i1 - 1];
-                                mesh->tris[faceIdx].v[1] = vertex[i2 - 1];
-                                mesh->tris[faceIdx].v[2] = vertex[i3 - 1];
-                                faceIdx++;
+                                int numAssigned = sscanf(line, "f %d/%d %d/%d %d/%d", &vi1, &ti1, &vi2, &ti2, &vi3, &ti3);
+                                if (6 == numAssigned) {
+                                        mesh->tris[faceIdx].v[0] = vertex[vi1 - 1];
+                                        mesh->tris[faceIdx].v[1] = vertex[vi2 - 1];
+                                        mesh->tris[faceIdx].v[2] = vertex[vi3 - 1];
+                                        mesh->tris[faceIdx].t[0] = tex[ti1 - 1];
+                                        mesh->tris[faceIdx].t[1] = tex[ti2 - 1];
+                                        mesh->tris[faceIdx].t[2] = tex[ti3 - 1];
+                                        faceIdx++;
+                                        break;
+                                }
+
+                                numAssigned = sscanf(line, "f %d %d %d", &vi1, &vi2, &vi3);
+                                if (3 == numAssigned) {
+                                        mesh->tris[faceIdx].v[0] = vertex[vi1 - 1];
+                                        mesh->tris[faceIdx].v[1] = vertex[vi2 - 1];
+                                        mesh->tris[faceIdx].v[2] = vertex[vi3 - 1];
+                                        faceIdx++;
+                                        break;
+                                }
+
+                                fprintf(stderr, "Couldn't read face line: %s\n", line);
                                 break;
                         }
                 }
