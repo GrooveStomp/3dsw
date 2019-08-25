@@ -1,0 +1,94 @@
+\hypertarget{input_8c}{}\section{input.\+c File Reference}
+\label{input_8c}\index{input.\+c@{input.\+c}}
+{\ttfamily \#include \char`\"{}S\+D\+L2/\+S\+D\+L.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}math.\+h\char`\"{}}\newline
+Include dependency graph for input.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{input_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structinput}{input}
+\begin{DoxyCompactList}\small\item\em Keypress state. Unexported. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structinput}{input} $\ast$ \hyperlink{input_8c_a1d6bc79955841788279b2eb5cf12d390}{Input\+Init} ()
+\begin{DoxyCompactList}\small\item\em Creates and initializes a new input object. \end{DoxyCompactList}\item 
+void \hyperlink{input_8c_a68054d62d814fb092e0927f163d0e8ad}{Input\+Deinit} (struct \hyperlink{structinput}{input} $\ast$i)
+\begin{DoxyCompactList}\small\item\em De-\/initializes and frees memory for the given input object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{input_8c_a5f5f8ed38e1c000d6441daf26922e043}\label{input_8c_a5f5f8ed38e1c000d6441daf26922e043}} 
+int {\bfseries Input\+Is\+Quit\+Pressed} (struct \hyperlink{structinput}{input} $\ast$i, S\+D\+L\+\_\+\+Event $\ast$event)
+\item 
+void \hyperlink{input_8c_a9d53e96b684d7f742ce3864ca5b0e656}{Input\+Process} (struct \hyperlink{structinput}{input} $\ast$i)
+\begin{DoxyCompactList}\small\item\em Handle input. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{input_8c_a3424564b22c110ebf7cbfc61eae2709d}\label{input_8c_a3424564b22c110ebf7cbfc61eae2709d}} 
+struct \hyperlink{structvec3}{vec3} {\bfseries camera}
+\item 
+\mbox{\Hypertarget{input_8c_af00c9a33a2edf335eb87b8d56735ffe8}\label{input_8c_af00c9a33a2edf335eb87b8d56735ffe8}} 
+struct \hyperlink{structvec3}{vec3} {\bfseries look\+Dir}
+\item 
+\mbox{\Hypertarget{input_8c_a3606c0811ea504b10ef1e666f2de161c}\label{input_8c_a3606c0811ea504b10ef1e666f2de161c}} 
+struct \hyperlink{structvec3}{vec3} {\bfseries up}
+\item 
+\mbox{\Hypertarget{input_8c_a7efc219781df4a1e281cb5d348b7fbf9}\label{input_8c_a7efc219781df4a1e281cb5d348b7fbf9}} 
+float {\bfseries yaw}
+\item 
+\mbox{\Hypertarget{input_8c_a57f63506d2191a58a41afec3c3060221}\label{input_8c_a57f63506d2191a58a41afec3c3060221}} 
+double {\bfseries elapsed\+Time}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{input_8c_a68054d62d814fb092e0927f163d0e8ad}\label{input_8c_a68054d62d814fb092e0927f163d0e8ad}} 
+\index{input.\+c@{input.\+c}!Input\+Deinit@{Input\+Deinit}}
+\index{Input\+Deinit@{Input\+Deinit}!input.\+c@{input.\+c}}
+\subsubsection{\texorpdfstring{Input\+Deinit()}{InputDeinit()}}
+{\footnotesize\ttfamily void Input\+Deinit (\begin{DoxyParamCaption}\item[{struct \hyperlink{structinput}{input} $\ast$}]{input }\end{DoxyParamCaption})}
+
+
+
+De-\/initializes and frees memory for the given input object. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em input} & The initialized input object to be cleaned and reclaimed \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{input_8c_a1d6bc79955841788279b2eb5cf12d390}\label{input_8c_a1d6bc79955841788279b2eb5cf12d390}} 
+\index{input.\+c@{input.\+c}!Input\+Init@{Input\+Init}}
+\index{Input\+Init@{Input\+Init}!input.\+c@{input.\+c}}
+\subsubsection{\texorpdfstring{Input\+Init()}{InputInit()}}
+{\footnotesize\ttfamily struct \hyperlink{structinput}{input}$\ast$ Input\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Creates and initializes a new input object. 
+
+\begin{DoxyReturn}{Returns}
+The initialized input object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{input_8c_a9d53e96b684d7f742ce3864ca5b0e656}\label{input_8c_a9d53e96b684d7f742ce3864ca5b0e656}} 
+\index{input.\+c@{input.\+c}!Input\+Process@{Input\+Process}}
+\index{Input\+Process@{Input\+Process}!input.\+c@{input.\+c}}
+\subsubsection{\texorpdfstring{Input\+Process()}{InputProcess()}}
+{\footnotesize\ttfamily void Input\+Process (\begin{DoxyParamCaption}\item[{struct \hyperlink{structinput}{input} $\ast$}]{input }\end{DoxyParamCaption})}
+
+
+
+Handle input. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em input} & Input state to be updated \\
+\hline
+\mbox{\tt in}  & {\em event} & S\+DL event to process \\
+\hline
+\end{DoxyParams}

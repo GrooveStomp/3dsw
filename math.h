@@ -1,9 +1,17 @@
 /******************************************************************************
+  GrooveStomp's 3D Software Renderer
+  Copyright (c) 2019 Aaron Oman (GrooveStomp)
+
   File: math.h
   Created: 2019-08-13
-  Updated: 2019-08-22
+  Updated: 2019-08-25
   Author: Aaron Oman
-  Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
+  Notice: GNU GPLv3 License
+
+  Based off of: One Lone Coder Console Game Engine Copyright (C) 2018 Javidx9
+  This program comes with ABSOLUTELY NO WARRANTY.
+  This is free software, and you are welcome to redistribute it under certain
+  conditions; See LICENSE for details.
  ******************************************************************************/
 
 //! \file math.h
@@ -14,6 +22,10 @@
 //! include guard
 #define MATH_VERSION "0.1.0"
 
+//! \brief Homogenous 2D coordinates
+//!
+//! A 3-element structure used to represent 2D coordinate space with 2 cartesian
+//! coordinates and a homogenous 3rd coordinate for projection.
 struct vec2 {
         union {
                 struct {
@@ -25,6 +37,10 @@ struct vec2 {
         };
 };
 
+//! \brief Homogenous 3D coordinates
+//!
+//! A 4-element structure used to represent 3D coordinate space with 3 cartesian
+//! coordinates and a homogeouns 4th coordinate for projection.
 struct vec3 {
         union {
                 struct {
@@ -37,6 +53,13 @@ struct vec3 {
         };
 };
 
+//! \brief Triangular mesh face
+//!
+//! A mesh face consisting solely of homogenous 3D coordinates and homogenous 2D
+//! texture coordinates, and a color attribute.
+//!
+//! Currently the color attribute is not used, but it is useful for debugging or
+//! falling back to in lieu of texture values or coordinate values.
 struct triangle {
         union {
                 struct {
@@ -72,6 +95,7 @@ struct triangle {
         unsigned int color;
 };
 
+//! A collection of triangles representing some kind of 3D model.
 struct mesh {
         struct triangle *tris;
         int count;

@@ -1,0 +1,5 @@
+<map id="mesh" name="mesh">
+<area shape="rect" id="node2" href="$structtriangle.html" title="Triangular mesh face. " alt="" coords="36,95,100,121"/>
+<area shape="rect" id="node3" href="$structvec2.html" title="Homogenous 2D coordinates. " alt="" coords="5,5,56,32"/>
+<area shape="rect" id="node4" href="$structvec3.html" title="Homogenous 3D coordinates. " alt="" coords="80,5,131,32"/>
+</map>

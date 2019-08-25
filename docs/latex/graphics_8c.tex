@@ -1,0 +1,313 @@
+\hypertarget{graphics_8c}{}\section{graphics.\+c File Reference}
+\label{graphics_8c}\index{graphics.\+c@{graphics.\+c}}
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}S\+D\+L2/\+S\+D\+L.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}math.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}graphics.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}texture.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}color.\+h\char`\"{}}\newline
+Include dependency graph for graphics.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{graphics_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structgraphics}{graphics}
+\begin{DoxyCompactList}\small\item\em Graphics state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{graphics_8c_af5d2cafafbdf2ae4999226d24482303d}{swap\+\_\+generic} (void $\ast$v1, void $\ast$v2, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em A mostly generic implementation of swap. \end{DoxyCompactList}\item 
+struct \hyperlink{structgraphics}{graphics} $\ast$ \hyperlink{graphics_8c_a543e265f9ff924a1def601674c56b3a2}{Graphics\+Init} (char $\ast$title, int width, int height, int scale)
+\begin{DoxyCompactList}\small\item\em Creates and initializes a new graphics object isntance. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8c_af08b9bb21695971ccac333eb31bc76ec}{Graphics\+Deinit} (struct \hyperlink{structgraphics}{graphics} $\ast$g)
+\begin{DoxyCompactList}\small\item\em De-\/initializes and frees memory for the given graphics object. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8c_acc8d5ed3b6d471a3df71f6c080f57194}{Graphics\+Begin} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics})
+\begin{DoxyCompactList}\small\item\em Initializes the graphics subsystem for drawing routines. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8c_a93d049610e6a7de779502b748fe0a84a}{Graphics\+End} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics})
+\begin{DoxyCompactList}\small\item\em Prepares the graphics subsystem for presentation, then presents. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8c_ac7cff8334dd93066be5801a7a12b00df}{Graphics\+Clear\+Screen} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics}, unsigned int \hyperlink{structcolor}{color})
+\begin{DoxyCompactList}\small\item\em Sets all pixels in the screen to the given color. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8c_a80d44b851e06c1056dbd7aa765f95867}{Put\+Pixel\+Scaled} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics}, int x, int y, unsigned int \hyperlink{structcolor}{color})
+\begin{DoxyCompactList}\small\item\em Scale the pixel being drawn. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8c_a577c98b0e997ec6a7a394f72e60968f7}{Put\+Pixel} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics}, int x, int y, unsigned int \hyperlink{structcolor}{color})
+\begin{DoxyCompactList}\small\item\em Put a pixel into the graphics buffer. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8c_af9bdbd7f56505bc352579153c04f1051}{Graphics\+Draw\+Line} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics}, int x1, int y1, int x2, int y2, unsigned int \hyperlink{structcolor}{color})
+\begin{DoxyCompactList}\small\item\em Draws a line from (x1,y1) to (x2,y2) \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8c_a50ea5ae7900c76984aa7beabaa79532b}{Graphics\+Triangle\+Textured} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics}, struct \hyperlink{structtriangle}{triangle} tri, struct \hyperlink{structtexture}{texture} $\ast$\hyperlink{structtexture}{texture})
+\begin{DoxyCompactList}\small\item\em Draw a textured triangle with the given set of x and y coordinates. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8c_ab4eed4462ddf5c15ca6ee40500850f5f}{Graphics\+Triangle\+Wireframe} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics}, struct \hyperlink{structtriangle}{triangle} \hyperlink{structtriangle}{triangle}, unsigned int \hyperlink{structcolor}{color})
+\begin{DoxyCompactList}\small\item\em Draw a triangle with the given set of x and y coordinates. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{graphics_8c_a1c0c231b466914b51781b0908836e682}\label{graphics_8c_a1c0c231b466914b51781b0908836e682}} 
+void \hyperlink{graphics_8c_a1c0c231b466914b51781b0908836e682}{Triangle\+Solid\+Draw\+Line} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics}, int xmin, int xmax, int y, unsigned int \hyperlink{structcolor}{color})
+\begin{DoxyCompactList}\small\item\em Used internally by \hyperlink{graphics_8c_a0ced2380f07dd02a2251f70480c8a0a9}{Graphics\+Triangle\+Solid()} \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8c_a0ced2380f07dd02a2251f70480c8a0a9}{Graphics\+Triangle\+Solid} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics}, struct \hyperlink{structtriangle}{triangle} \hyperlink{structtriangle}{triangle}, unsigned int \hyperlink{structcolor}{color})
+\begin{DoxyCompactList}\small\item\em Draw a triangle with the given set of x and y coordinates. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{graphics_8c_acc8d5ed3b6d471a3df71f6c080f57194}\label{graphics_8c_acc8d5ed3b6d471a3df71f6c080f57194}} 
+\index{graphics.\+c@{graphics.\+c}!Graphics\+Begin@{Graphics\+Begin}}
+\index{Graphics\+Begin@{Graphics\+Begin}!graphics.\+c@{graphics.\+c}}
+\subsubsection{\texorpdfstring{Graphics\+Begin()}{GraphicsBegin()}}
+{\footnotesize\ttfamily void Graphics\+Begin (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics }\end{DoxyParamCaption})}
+
+
+
+Initializes the graphics subsystem for drawing routines. 
+
+Internally locks streaming texture for direct manipulation.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be manipulated \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{graphics_8c_ac7cff8334dd93066be5801a7a12b00df}\label{graphics_8c_ac7cff8334dd93066be5801a7a12b00df}} 
+\index{graphics.\+c@{graphics.\+c}!Graphics\+Clear\+Screen@{Graphics\+Clear\+Screen}}
+\index{Graphics\+Clear\+Screen@{Graphics\+Clear\+Screen}!graphics.\+c@{graphics.\+c}}
+\subsubsection{\texorpdfstring{Graphics\+Clear\+Screen()}{GraphicsClearScreen()}}
+{\footnotesize\ttfamily void Graphics\+Clear\+Screen (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics,  }\item[{unsigned int}]{color }\end{DoxyParamCaption})}
+
+
+
+Sets all pixels in the screen to the given color. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be manipulated \\
+\hline
+\mbox{\tt in}  & {\em color} & 32-\/bit color with 8-\/bits per component\+: (R,G,B,A) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{graphics_8c_af08b9bb21695971ccac333eb31bc76ec}\label{graphics_8c_af08b9bb21695971ccac333eb31bc76ec}} 
+\index{graphics.\+c@{graphics.\+c}!Graphics\+Deinit@{Graphics\+Deinit}}
+\index{Graphics\+Deinit@{Graphics\+Deinit}!graphics.\+c@{graphics.\+c}}
+\subsubsection{\texorpdfstring{Graphics\+Deinit()}{GraphicsDeinit()}}
+{\footnotesize\ttfamily void Graphics\+Deinit (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics }\end{DoxyParamCaption})}
+
+
+
+De-\/initializes and frees memory for the given graphics object. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & The initialized opcode object to be cleaned and reclaimed \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{graphics_8c_af9bdbd7f56505bc352579153c04f1051}\label{graphics_8c_af9bdbd7f56505bc352579153c04f1051}} 
+\index{graphics.\+c@{graphics.\+c}!Graphics\+Draw\+Line@{Graphics\+Draw\+Line}}
+\index{Graphics\+Draw\+Line@{Graphics\+Draw\+Line}!graphics.\+c@{graphics.\+c}}
+\subsubsection{\texorpdfstring{Graphics\+Draw\+Line()}{GraphicsDrawLine()}}
+{\footnotesize\ttfamily void Graphics\+Draw\+Line (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics,  }\item[{int}]{x1,  }\item[{int}]{y1,  }\item[{int}]{x2,  }\item[{int}]{y2,  }\item[{unsigned int}]{color }\end{DoxyParamCaption})}
+
+
+
+Draws a line from (x1,y1) to (x2,y2) 
+
+Used by \hyperlink{graphics_8c_ab4eed4462ddf5c15ca6ee40500850f5f}{Graphics\+Triangle\+Wireframe()} and \hyperlink{graphics_8c_a0ced2380f07dd02a2251f70480c8a0a9}{Graphics\+Triangle\+Solid()}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be manipulated \\
+\hline
+\mbox{\tt in}  & {\em x1} & horizontal position of the line start. \\
+\hline
+\mbox{\tt in}  & {\em y1} & vertical position of the line start. \\
+\hline
+\mbox{\tt in}  & {\em x2} & horizontal position of the line end. \\
+\hline
+\mbox{\tt in}  & {\em y2} & vertical position of the line end. \\
+\hline
+\mbox{\tt in}  & {\em color} & color to render the line with. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{graphics_8c_a93d049610e6a7de779502b748fe0a84a}\label{graphics_8c_a93d049610e6a7de779502b748fe0a84a}} 
+\index{graphics.\+c@{graphics.\+c}!Graphics\+End@{Graphics\+End}}
+\index{Graphics\+End@{Graphics\+End}!graphics.\+c@{graphics.\+c}}
+\subsubsection{\texorpdfstring{Graphics\+End()}{GraphicsEnd()}}
+{\footnotesize\ttfamily void Graphics\+End (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics }\end{DoxyParamCaption})}
+
+
+
+Prepares the graphics subsystem for presentation, then presents. 
+
+Internally unlocks streaming texture then calls presentation routines.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be manipulated. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{graphics_8c_a543e265f9ff924a1def601674c56b3a2}\label{graphics_8c_a543e265f9ff924a1def601674c56b3a2}} 
+\index{graphics.\+c@{graphics.\+c}!Graphics\+Init@{Graphics\+Init}}
+\index{Graphics\+Init@{Graphics\+Init}!graphics.\+c@{graphics.\+c}}
+\subsubsection{\texorpdfstring{Graphics\+Init()}{GraphicsInit()}}
+{\footnotesize\ttfamily struct \hyperlink{structgraphics}{graphics}$\ast$ Graphics\+Init (\begin{DoxyParamCaption}\item[{char $\ast$}]{title,  }\item[{int}]{width,  }\item[{int}]{height,  }\item[{int}]{scale }\end{DoxyParamCaption})}
+
+
+
+Creates and initializes a new graphics object isntance. 
+
+Scale can be specified as a non-\/negative number. This value is used to multiply both the width and the height and the pixel size of any drawing operations.
+
+For example, specifying a scale of 2 would multiply the width by 2, the height by 2, and every pixel would be 2x2; so the total scale factor ends up being scale$^\wedge$2
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em title} & The title displayed in the window titlebar \\
+\hline
+\mbox{\tt in}  & {\em width} & Width of the display area of the window, in pixels \\
+\hline
+\mbox{\tt in}  & {\em height} & Height of the display are of the window, in pixels \\
+\hline
+\mbox{\tt in}  & {\em scale} & Size and rendering scale, natural number multiple \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The initialized graphics object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{graphics_8c_a0ced2380f07dd02a2251f70480c8a0a9}\label{graphics_8c_a0ced2380f07dd02a2251f70480c8a0a9}} 
+\index{graphics.\+c@{graphics.\+c}!Graphics\+Triangle\+Solid@{Graphics\+Triangle\+Solid}}
+\index{Graphics\+Triangle\+Solid@{Graphics\+Triangle\+Solid}!graphics.\+c@{graphics.\+c}}
+\subsubsection{\texorpdfstring{Graphics\+Triangle\+Solid()}{GraphicsTriangleSolid()}}
+{\footnotesize\ttfamily void Graphics\+Triangle\+Solid (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics,  }\item[{struct \hyperlink{structtriangle}{triangle}}]{triangle,  }\item[{unsigned int}]{color }\end{DoxyParamCaption})}
+
+
+
+Draw a triangle with the given set of x and y coordinates. 
+
+Fills the specified polygon with the given color.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be changed \\
+\hline
+\mbox{\tt in}  & {\em triangle} & The triangle to draw \\
+\hline
+\mbox{\tt in}  & {\em color} & What color the solid triangle should be rendered with\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+Source\+: \href{http://www.sunshine2k.de/coding/java/TriangleRasterization/TriangleRasterization.html}{\tt http\+://www.\+sunshine2k.\+de/coding/java/\+Triangle\+Rasterization/\+Triangle\+Rasterization.\+html} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{graphics_8c_a50ea5ae7900c76984aa7beabaa79532b}\label{graphics_8c_a50ea5ae7900c76984aa7beabaa79532b}} 
+\index{graphics.\+c@{graphics.\+c}!Graphics\+Triangle\+Textured@{Graphics\+Triangle\+Textured}}
+\index{Graphics\+Triangle\+Textured@{Graphics\+Triangle\+Textured}!graphics.\+c@{graphics.\+c}}
+\subsubsection{\texorpdfstring{Graphics\+Triangle\+Textured()}{GraphicsTriangleTextured()}}
+{\footnotesize\ttfamily void Graphics\+Triangle\+Textured (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics,  }\item[{struct \hyperlink{structtriangle}{triangle}}]{tri,  }\item[{struct \hyperlink{structtexture}{texture} $\ast$}]{texture }\end{DoxyParamCaption})}
+
+
+
+Draw a textured triangle with the given set of x and y coordinates. 
+
+Fills the specified polygon with the given texture.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be changed \\
+\hline
+\mbox{\tt in}  & {\em tri} & The triangle to draw \\
+\hline
+\mbox{\tt in}  & {\em texture} & What texture to sample while drawing the solid triangle\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+Source\+: \href{https://github.com/OneLoneCoder/videos/blob/master/OneLoneCoder_olcEngine3D_Part4.cpp}{\tt https\+://github.\+com/\+One\+Lone\+Coder/videos/blob/master/\+One\+Lone\+Coder\+\_\+olc\+Engine3\+D\+\_\+\+Part4.\+cpp} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{graphics_8c_ab4eed4462ddf5c15ca6ee40500850f5f}\label{graphics_8c_ab4eed4462ddf5c15ca6ee40500850f5f}} 
+\index{graphics.\+c@{graphics.\+c}!Graphics\+Triangle\+Wireframe@{Graphics\+Triangle\+Wireframe}}
+\index{Graphics\+Triangle\+Wireframe@{Graphics\+Triangle\+Wireframe}!graphics.\+c@{graphics.\+c}}
+\subsubsection{\texorpdfstring{Graphics\+Triangle\+Wireframe()}{GraphicsTriangleWireframe()}}
+{\footnotesize\ttfamily void Graphics\+Triangle\+Wireframe (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics,  }\item[{struct \hyperlink{structtriangle}{triangle}}]{triangle,  }\item[{unsigned int}]{color }\end{DoxyParamCaption})}
+
+
+
+Draw a triangle with the given set of x and y coordinates. 
+
+Only draws the lines, doesn\textquotesingle{}t fill the polygon.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be changed \\
+\hline
+\mbox{\tt in}  & {\em triangle} & The triangle to draw \\
+\hline
+\mbox{\tt in}  & {\em color} & What color the wireframe should be rendered with \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{graphics_8c_a577c98b0e997ec6a7a394f72e60968f7}\label{graphics_8c_a577c98b0e997ec6a7a394f72e60968f7}} 
+\index{graphics.\+c@{graphics.\+c}!Put\+Pixel@{Put\+Pixel}}
+\index{Put\+Pixel@{Put\+Pixel}!graphics.\+c@{graphics.\+c}}
+\subsubsection{\texorpdfstring{Put\+Pixel()}{PutPixel()}}
+{\footnotesize\ttfamily void Put\+Pixel (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics,  }\item[{int}]{x,  }\item[{int}]{y,  }\item[{unsigned int}]{color }\end{DoxyParamCaption})}
+
+
+
+Put a pixel into the graphics buffer. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be manipulated \\
+\hline
+\mbox{\tt in}  & {\em x} & horizontal position in display buffer (assuming no scaling) \\
+\hline
+\mbox{\tt in}  & {\em y} & vertical position in display buffer (assuming no scaling) \\
+\hline
+\mbox{\tt in}  & {\em color} & Color to put into display buffer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{graphics_8c_a80d44b851e06c1056dbd7aa765f95867}\label{graphics_8c_a80d44b851e06c1056dbd7aa765f95867}} 
+\index{graphics.\+c@{graphics.\+c}!Put\+Pixel\+Scaled@{Put\+Pixel\+Scaled}}
+\index{Put\+Pixel\+Scaled@{Put\+Pixel\+Scaled}!graphics.\+c@{graphics.\+c}}
+\subsubsection{\texorpdfstring{Put\+Pixel\+Scaled()}{PutPixelScaled()}}
+{\footnotesize\ttfamily void Put\+Pixel\+Scaled (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics,  }\item[{int}]{x,  }\item[{int}]{y,  }\item[{unsigned int}]{color }\end{DoxyParamCaption})}
+
+
+
+Scale the pixel being drawn. 
+
+This renders the given pixel, scaled as per graphics-\/$>$scale.
+
+When the graphics state is initialized, a width and height are specified.
+
+Internally the graphics state multiplies both of these values by the scale and stores a buffer of the resulting size. This function allows us to treat the resulting scaled buffer as if it were the original size requested.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be manipulated \\
+\hline
+\mbox{\tt in}  & {\em x} & horizontal position in display buffer (assuming no scaling) \\
+\hline
+\mbox{\tt in}  & {\em y} & vertical position in display buffer (assuming no scaling) \\
+\hline
+\mbox{\tt in}  & {\em color} & Color to put into display buffer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{graphics_8c_af5d2cafafbdf2ae4999226d24482303d}\label{graphics_8c_af5d2cafafbdf2ae4999226d24482303d}} 
+\index{graphics.\+c@{graphics.\+c}!swap\+\_\+generic@{swap\+\_\+generic}}
+\index{swap\+\_\+generic@{swap\+\_\+generic}!graphics.\+c@{graphics.\+c}}
+\subsubsection{\texorpdfstring{swap\+\_\+generic()}{swap\_generic()}}
+{\footnotesize\ttfamily void swap\+\_\+generic (\begin{DoxyParamCaption}\item[{void $\ast$}]{v1,  }\item[{void $\ast$}]{v2,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+A mostly generic implementation of swap. 
+
+Both v1 and v2 must point to data that is the same size, as specified in the size parameter.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em v1} & first value \\
+\hline
+\mbox{\tt in,out}  & {\em v2} & second value \\
+\hline
+\mbox{\tt in}  & {\em size} & v1 and v2 must each be this size \\
+\hline
+\end{DoxyParams}

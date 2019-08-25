@@ -1,10 +1,20 @@
 /******************************************************************************
+  GrooveStomp's 3D Software Renderer
+  Copyright (c) 2019 Aaron Oman (GrooveStomp)
+
   File: color.c
   Created: 2019-08-15
-  Updated: 2019-08-17
+  Updated: 2019-08-25
   Author: Aaron Oman
-  Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
+  Notice: GNU GPLv3 License
+
+  Based off of: One Lone Coder Console Game Engine Copyright (C) 2018 Javidx9
+  This program comes with ABSOLUTELY NO WARRANTY.
+  This is free software, and you are welcome to redistribute it under certain
+  conditions; See LICENSE for details.
  ******************************************************************************/
+
+//! \file color.c
 
 #include "color.h"
 

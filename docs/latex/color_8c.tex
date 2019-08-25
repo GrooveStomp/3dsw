@@ -1,0 +1,166 @@
+\hypertarget{color_8c}{}\section{color.\+c File Reference}
+\label{color_8c}\index{color.\+c@{color.\+c}}
+{\ttfamily \#include \char`\"{}color.\+h\char`\"{}}\newline
+Include dependency graph for color.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=126pt]{color_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{color_8c_a1983b73905a47e4752ddaec3f4393f56}{Color\+Set\+Int} (struct \hyperlink{structcolor}{color} $\ast$\hyperlink{structcolor}{color}, char component, unsigned int value)
+\begin{DoxyCompactList}\small\item\em Set the color component. \end{DoxyCompactList}\item 
+void \hyperlink{color_8c_ade5db644fc75d29895e5ab029cc5ad73}{Color\+Set\+Float} (struct \hyperlink{structcolor}{color} $\ast$\hyperlink{structcolor}{color}, char component, float value)
+\begin{DoxyCompactList}\small\item\em Set the color component. \end{DoxyCompactList}\item 
+struct \hyperlink{structcolor}{color} \hyperlink{color_8c_a1d7333cef0f004aeb31626da38400230}{Color\+Init\+Float} (float r, float g, float b, float a)
+\begin{DoxyCompactList}\small\item\em Initialize a new color with individual R, G, B, A components as floats. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{color_8c_adc8b67194c326a6c261a52121cf6c312}{Color\+Get\+Int} (struct \hyperlink{structcolor}{color} \hyperlink{structcolor}{color}, char component)
+\begin{DoxyCompactList}\small\item\em Get the color component. \end{DoxyCompactList}\item 
+float \hyperlink{color_8c_a5528f9c2a3d87e4612e1ce6cf8442bcf}{Color\+Get\+Float} (struct \hyperlink{structcolor}{color} \hyperlink{structcolor}{color}, char component)
+\begin{DoxyCompactList}\small\item\em Get the color component. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{color_8c_a46bbbca710bfede8eea3d1f3123d0b27}\label{color_8c_a46bbbca710bfede8eea3d1f3123d0b27}} 
+struct \hyperlink{structcolor}{color} {\bfseries Color\+White} = \{ 0x\+F\+F\+F\+F\+F\+F\+F\+F \}
+\item 
+\mbox{\Hypertarget{color_8c_affde57444c7fbfb6e7522e6ce8eeaa4c}\label{color_8c_affde57444c7fbfb6e7522e6ce8eeaa4c}} 
+struct \hyperlink{structcolor}{color} {\bfseries Color\+Black} = \{ 0x000000\+F\+F \}
+\item 
+\mbox{\Hypertarget{color_8c_ada36b5546b6d2ce9ac30a2ad9f1378fe}\label{color_8c_ada36b5546b6d2ce9ac30a2ad9f1378fe}} 
+struct \hyperlink{structcolor}{color} {\bfseries Color\+Red} = \{ 0x\+F\+F0000\+F\+F \}
+\item 
+\mbox{\Hypertarget{color_8c_a5a7b6855f667940f9171700200bf8898}\label{color_8c_a5a7b6855f667940f9171700200bf8898}} 
+struct \hyperlink{structcolor}{color} {\bfseries Color\+Green} = \{ 0x00\+F\+F00\+F\+F \}
+\item 
+\mbox{\Hypertarget{color_8c_a6e67b5067389be109d1914035a91d130}\label{color_8c_a6e67b5067389be109d1914035a91d130}} 
+struct \hyperlink{structcolor}{color} {\bfseries Color\+Blue} = \{ 0x0000\+F\+F\+F\+F \}
+\item 
+\mbox{\Hypertarget{color_8c_ab6df53354e9db2fc69aadebd0b83469a}\label{color_8c_ab6df53354e9db2fc69aadebd0b83469a}} 
+struct \hyperlink{structcolor}{color} {\bfseries Color\+Purple} = \{ 0x7\+F00\+F\+F\+F\+F \}
+\item 
+\mbox{\Hypertarget{color_8c_a7b09b6d4d453d24000a2f3ca65bc2e32}\label{color_8c_a7b09b6d4d453d24000a2f3ca65bc2e32}} 
+struct \hyperlink{structcolor}{color} {\bfseries Color\+Yellow} = \{ 0x\+F\+F\+F\+F00\+F\+F \}
+\item 
+\mbox{\Hypertarget{color_8c_a5f3c7f8b2abbe2523b52195ff5f674d8}\label{color_8c_a5f3c7f8b2abbe2523b52195ff5f674d8}} 
+struct \hyperlink{structcolor}{color} {\bfseries Color\+Cyan} = \{ 0x00\+F\+F\+F\+F\+F\+F \}
+\item 
+\mbox{\Hypertarget{color_8c_a5428590e2be17762f29ff260205cd8b5}\label{color_8c_a5428590e2be17762f29ff260205cd8b5}} 
+struct \hyperlink{structcolor}{color} {\bfseries Color\+Pink} = \{ 0x\+F\+F00\+F\+F\+F\+F \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{color_8c_a5528f9c2a3d87e4612e1ce6cf8442bcf}\label{color_8c_a5528f9c2a3d87e4612e1ce6cf8442bcf}} 
+\index{color.\+c@{color.\+c}!Color\+Get\+Float@{Color\+Get\+Float}}
+\index{Color\+Get\+Float@{Color\+Get\+Float}!color.\+c@{color.\+c}}
+\subsubsection{\texorpdfstring{Color\+Get\+Float()}{ColorGetFloat()}}
+{\footnotesize\ttfamily float Color\+Get\+Float (\begin{DoxyParamCaption}\item[{struct \hyperlink{structcolor}{color}}]{color,  }\item[{char}]{component }\end{DoxyParamCaption})}
+
+
+
+Get the color component. 
+
+The component is returned as a float in the range \mbox{[}0.\+0,1.\+0\mbox{]}
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & color object to read \\
+\hline
+{\em component} & \textquotesingle{}r\textquotesingle{}, \textquotesingle{}g\textquotesingle{}, \textquotesingle{}b\textquotesingle{} or \textquotesingle{}a\textquotesingle{} exclusively. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value of the color component 
+\end{DoxyReturn}
+\mbox{\Hypertarget{color_8c_adc8b67194c326a6c261a52121cf6c312}\label{color_8c_adc8b67194c326a6c261a52121cf6c312}} 
+\index{color.\+c@{color.\+c}!Color\+Get\+Int@{Color\+Get\+Int}}
+\index{Color\+Get\+Int@{Color\+Get\+Int}!color.\+c@{color.\+c}}
+\subsubsection{\texorpdfstring{Color\+Get\+Int()}{ColorGetInt()}}
+{\footnotesize\ttfamily unsigned int Color\+Get\+Int (\begin{DoxyParamCaption}\item[{struct \hyperlink{structcolor}{color}}]{color,  }\item[{char}]{component }\end{DoxyParamCaption})}
+
+
+
+Get the color component. 
+
+The component is returned as the raw integer value, in the range \mbox{[}0,255\mbox{]}
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & color object to read \\
+\hline
+{\em component} & \textquotesingle{}r\textquotesingle{}, \textquotesingle{}g\textquotesingle{}, \textquotesingle{}b\textquotesingle{} or \textquotesingle{}a\textquotesingle{} exclusively. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value of the color component 
+\end{DoxyReturn}
+\mbox{\Hypertarget{color_8c_a1d7333cef0f004aeb31626da38400230}\label{color_8c_a1d7333cef0f004aeb31626da38400230}} 
+\index{color.\+c@{color.\+c}!Color\+Init\+Float@{Color\+Init\+Float}}
+\index{Color\+Init\+Float@{Color\+Init\+Float}!color.\+c@{color.\+c}}
+\subsubsection{\texorpdfstring{Color\+Init\+Float()}{ColorInitFloat()}}
+{\footnotesize\ttfamily struct \hyperlink{structcolor}{color} Color\+Init\+Float (\begin{DoxyParamCaption}\item[{float}]{r,  }\item[{float}]{g,  }\item[{float}]{b,  }\item[{float}]{a }\end{DoxyParamCaption})}
+
+
+
+Initialize a new color with individual R, G, B, A components as floats. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Red component from 0 to 1 \\
+\hline
+{\em g} & Green componenet from 0 to 1 \\
+\hline
+{\em b} & Blue component from 0 to 1 \\
+\hline
+{\em a} & Alpha component, from 0 to 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+resulting color object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{color_8c_ade5db644fc75d29895e5ab029cc5ad73}\label{color_8c_ade5db644fc75d29895e5ab029cc5ad73}} 
+\index{color.\+c@{color.\+c}!Color\+Set\+Float@{Color\+Set\+Float}}
+\index{Color\+Set\+Float@{Color\+Set\+Float}!color.\+c@{color.\+c}}
+\subsubsection{\texorpdfstring{Color\+Set\+Float()}{ColorSetFloat()}}
+{\footnotesize\ttfamily void Color\+Set\+Float (\begin{DoxyParamCaption}\item[{struct \hyperlink{structcolor}{color} $\ast$}]{color,  }\item[{char}]{component,  }\item[{float}]{value }\end{DoxyParamCaption})}
+
+
+
+Set the color component. 
+
+The value should be a float in the range \mbox{[}0.\+0,1.\+0\mbox{]}
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & pointer to the color object to write \\
+\hline
+{\em component} & \textquotesingle{}r\textquotesingle{}, \textquotesingle{}g\textquotesingle{}, \textquotesingle{}b\textquotesingle{} or \textquotesingle{}a\textquotesingle{} exclusively. \\
+\hline
+{\em value} & value of the color component to set \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{color_8c_a1983b73905a47e4752ddaec3f4393f56}\label{color_8c_a1983b73905a47e4752ddaec3f4393f56}} 
+\index{color.\+c@{color.\+c}!Color\+Set\+Int@{Color\+Set\+Int}}
+\index{Color\+Set\+Int@{Color\+Set\+Int}!color.\+c@{color.\+c}}
+\subsubsection{\texorpdfstring{Color\+Set\+Int()}{ColorSetInt()}}
+{\footnotesize\ttfamily void Color\+Set\+Int (\begin{DoxyParamCaption}\item[{struct \hyperlink{structcolor}{color} $\ast$}]{color,  }\item[{char}]{component,  }\item[{unsigned int}]{value }\end{DoxyParamCaption})}
+
+
+
+Set the color component. 
+
+The value should be an integer in the range \mbox{[}0,255\mbox{]}
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & pointer to the color object to write \\
+\hline
+{\em component} & \textquotesingle{}r\textquotesingle{}, \textquotesingle{}g\textquotesingle{}, \textquotesingle{}b\textquotesingle{} or \textquotesingle{}a\textquotesingle{} exclusively. \\
+\hline
+{\em value} & value of the color component to set \\
+\hline
+\end{DoxyParams}

@@ -1,9 +1,17 @@
 /******************************************************************************
+  GrooveStomp's 3D Software Renderer
+  Copyright (c) 2019 Aaron Oman (GrooveStomp)
+
   File: graphics.c
   Created: 2019-06-25
-  Updated: 2019-08-24
+  Updated: 2019-08-25
   Author: Aaron Oman
-  Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
+  Notice: GNU GPLv3 License
+
+  Based off of: One Lone Coder Console Game Engine Copyright (C) 2018 Javidx9
+  This program comes with ABSOLUTELY NO WARRANTY.
+  This is free software, and you are welcome to redistribute it under certain
+  conditions; See LICENSE for details.
  ******************************************************************************/
 
 //! \file graphics.c
@@ -18,6 +26,15 @@
 #include "texture.h"
 #include "color.h"
 
+//! \brief A mostly generic implementation of swap
+//!
+//! Both v1 and v2 must point to data that is the same size, as specified in the
+//! size parameter.
+//!
+//! \param[in,out] v1 first value
+//! \param[in,out] v2 second value
+//! \param[in] size v1 and v2 must each be this size
+//!
 void swap_generic(void *v1, void *v2, size_t size) {
         char temp[size];
         memmove(temp, v1, size);
@@ -99,21 +116,11 @@ void GraphicsDeinit(struct graphics *g) {
 }
 
 void GraphicsBegin(struct graphics *graphics) {
-        // int isLocked
         SDL_LockTexture(graphics->texture, NULL, (void **)&graphics->pixels, &graphics->bytesPerRow);
-        // if (0 != isLocked) {
-        //        fprintf(stderr, "Couldn't lock texture: %s\n", SDL_GetError());
-        //        return;
-        // }
 }
 
 void GraphicsEnd(struct graphics *graphics) {
-        // int isUnlocked
         SDL_UnlockTexture(graphics->texture);
-        // if (0 != isUnlocked) {
-        //        fprintf(stderr, "Couldn't unlock texture: %s\n", SDL_GetError());
-        //        return;
-        // }
         SDL_RenderClear(graphics->renderer);
         SDL_RenderCopy(graphics->renderer, graphics->texture, 0, 0);
         SDL_RenderPresent(graphics->renderer);
@@ -126,6 +133,21 @@ void GraphicsClearScreen(struct graphics *graphics, unsigned int color) {
         }
 }
 
+//! \brief Scale the pixel being drawn
+//!
+//! This renders the given pixel, scaled as per graphics->scale.
+//!
+//! When the graphics state is initialized, a width and height are specified.
+//!
+//! Internally the graphics state multiplies both of these values by the scale
+//! and stores a buffer of the resulting size.  This function allows us to
+//! treat the resulting scaled buffer as if it were the original size
+//! requested.
+//!
+//! \param[in,out] graphics Graphics state to be manipulated
+//! \param[in] x horizontal position in display buffer (assuming no scaling)
+//! \param[in] y vertical position in display buffer (assuming no scaling)
+//! \param[in] color Color to put into display buffer
 void PutPixelScaled(struct graphics *graphics, int x, int y, unsigned int color) {
         for (int sy = y; sy < y + graphics->scale; sy++) {
                 // int yFlipped = graphics->height - sy - 1;
@@ -136,6 +158,12 @@ void PutPixelScaled(struct graphics *graphics, int x, int y, unsigned int color)
         }
 }
 
+//! \brief Put a pixel into the graphics buffer
+//!
+//! \param[in,out] graphics Graphics state to be manipulated
+//! \param[in] x horizontal position in display buffer (assuming no scaling)
+//! \param[in] y vertical position in display buffer (assuming no scaling)
+//! \param[in] color Color to put into display buffer
 void PutPixel(struct graphics *graphics, int x, int y, unsigned int color) {
         if (x >= 0 && x < graphics->width && y >= 0 && y < graphics->height) {
                 int y2 = graphics->height - y - 1;
@@ -145,6 +173,16 @@ void PutPixel(struct graphics *graphics, int x, int y, unsigned int color) {
         }
 }
 
+//! \brief Draws a line from (x1,y1) to (x2,y2)
+//!
+//! Used by GraphicsTriangleWireframe() and GraphicsTriangleSolid()
+//!
+//! \param[in,out] graphics Graphics state to be manipulated
+//! \param[in] x1 horizontal position of the line start.
+//! \param[in] y1 vertical position of the line start.
+//! \param[in] x2 horizontal position of the line end.
+//! \param[in] y2 vertical position of the line end.
+//! \param[in] color color to render the line with.
 void GraphicsDrawLine(struct graphics *graphics, int x1, int y1, int x2, int y2, unsigned int color) {
         int dx = x2 - x1;
         int dy = y2 - y1;
@@ -216,7 +254,7 @@ void GraphicsDrawLine(struct graphics *graphics, int x1, int y1, int x2, int y2,
         }
 }
 
-void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct texture *texture) {
+void GraphicsTriangleTextured(struct graphics *graphics, struct triangle tri, struct texture *texture) {
         int x1 = tri.x1; int y1 = tri.y1; float u1 = tri.u1; float v1 = tri.v1; float w1 = tri.tw1;
         int x2 = tri.x2; int y2 = tri.y2; float u2 = tri.u2; float v2 = tri.v2; float w2 = tri.tw2;
         int x3 = tri.x3; int y3 = tri.y3; float u3 = tri.u3; float v3 = tri.v3; float w3 = tri.tw3;
@@ -305,7 +343,7 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                                 float u = (1.0f - t) * su + t * eu;
                                 float v = (1.0f - t) * sv + t * ev;
                                 float w = (1.0f - t) * sw + t * ew;
-                                PutPixel(g, j, i, TextureSample(texture, u / w, v / w));
+                                PutPixel(graphics, j, i, TextureSample(texture, u / w, v / w));
                                 t += tStep;
                         }
                 }
@@ -363,7 +401,7 @@ void GraphicsTriangleTextured(struct graphics *g, struct triangle tri, struct te
                                 float u = (1.0f - t) * su + t * eu;
                                 float v = (1.0f - t) * sv + t * ev;
                                 float w = (1.0f - t) * sw + t * ew;
-                                PutPixel(g, j, i, TextureSample(texture, u / w, v / w));
+                                PutPixel(graphics, j, i, TextureSample(texture, u / w, v / w));
                                 t += tStep;
                         }
                 }
@@ -376,6 +414,7 @@ void GraphicsTriangleWireframe(struct graphics *graphics, struct triangle triang
         GraphicsDrawLine(graphics, triangle.x3, triangle.y3, triangle.x1, triangle.y1, color);
 }
 
+//! Used internally by GraphicsTriangleSolid()
 void TriangleSolidDrawLine(struct graphics *graphics, int xmin, int xmax, int y, unsigned int color) {
         for (int i = xmin; i <= xmax; i++) {
                 PutPixel(graphics, i, y, color);

@@ -1,0 +1,79 @@
+\hypertarget{input_8h}{}\section{input.\+h File Reference}
+\label{input_8h}\index{input.\+h@{input.\+h}}
+{\ttfamily \#include \char`\"{}S\+D\+L.\+h\char`\"{}}\newline
+Include dependency graph for input.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=126pt]{input_8h__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{input_8h_abca4f285fc582fc00029c078fdee9e82}\label{input_8h_abca4f285fc582fc00029c078fdee9e82}} 
+\#define {\bfseries I\+N\+P\+U\+T\+\_\+\+V\+E\+R\+S\+I\+ON}~\char`\"{}0.\+1.\+0\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structinput}{input} $\ast$ \hyperlink{input_8h_a1d6bc79955841788279b2eb5cf12d390}{Input\+Init} ()
+\begin{DoxyCompactList}\small\item\em Creates and initializes a new input object. \end{DoxyCompactList}\item 
+void \hyperlink{input_8h_a6767724b756cbf018c89f333927b2a60}{Input\+Deinit} (struct \hyperlink{structinput}{input} $\ast$\hyperlink{structinput}{input})
+\begin{DoxyCompactList}\small\item\em De-\/initializes and frees memory for the given input object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{input_8h_a648e479124b096d398b8ff155a4c8ec2}\label{input_8h_a648e479124b096d398b8ff155a4c8ec2}} 
+int {\bfseries Input\+Is\+Quit\+Pressed} (struct \hyperlink{structinput}{input} $\ast$\hyperlink{structinput}{input}, S\+D\+L\+\_\+\+Event $\ast$event)
+\item 
+void \hyperlink{input_8h_ac1731aedf34349137cd066e474a8b0d2}{Input\+Process} (struct \hyperlink{structinput}{input} $\ast$\hyperlink{structinput}{input})
+\begin{DoxyCompactList}\small\item\em Handle input. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This package provides a small input abstraction layer to separate input processing from system emulation. Input operates in the same thread as graphics, at the same frequency (30hz) and calls back into the system emulation thread. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{input_8h_a6767724b756cbf018c89f333927b2a60}\label{input_8h_a6767724b756cbf018c89f333927b2a60}} 
+\index{input.\+h@{input.\+h}!Input\+Deinit@{Input\+Deinit}}
+\index{Input\+Deinit@{Input\+Deinit}!input.\+h@{input.\+h}}
+\subsubsection{\texorpdfstring{Input\+Deinit()}{InputDeinit()}}
+{\footnotesize\ttfamily void Input\+Deinit (\begin{DoxyParamCaption}\item[{struct \hyperlink{structinput}{input} $\ast$}]{input }\end{DoxyParamCaption})}
+
+
+
+De-\/initializes and frees memory for the given input object. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em input} & The initialized input object to be cleaned and reclaimed \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{input_8h_a1d6bc79955841788279b2eb5cf12d390}\label{input_8h_a1d6bc79955841788279b2eb5cf12d390}} 
+\index{input.\+h@{input.\+h}!Input\+Init@{Input\+Init}}
+\index{Input\+Init@{Input\+Init}!input.\+h@{input.\+h}}
+\subsubsection{\texorpdfstring{Input\+Init()}{InputInit()}}
+{\footnotesize\ttfamily struct \hyperlink{structinput}{input}$\ast$ Input\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Creates and initializes a new input object. 
+
+\begin{DoxyReturn}{Returns}
+The initialized input object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{input_8h_ac1731aedf34349137cd066e474a8b0d2}\label{input_8h_ac1731aedf34349137cd066e474a8b0d2}} 
+\index{input.\+h@{input.\+h}!Input\+Process@{Input\+Process}}
+\index{Input\+Process@{Input\+Process}!input.\+h@{input.\+h}}
+\subsubsection{\texorpdfstring{Input\+Process()}{InputProcess()}}
+{\footnotesize\ttfamily void Input\+Process (\begin{DoxyParamCaption}\item[{struct \hyperlink{structinput}{input} $\ast$}]{input }\end{DoxyParamCaption})}
+
+
+
+Handle input. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em input} & Input state to be updated \\
+\hline
+\mbox{\tt in}  & {\em event} & S\+DL event to process \\
+\hline
+\end{DoxyParams}

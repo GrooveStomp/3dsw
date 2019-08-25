@@ -1,0 +1,81 @@
+\hypertarget{structtriangle}{}\section{triangle Struct Reference}
+\label{structtriangle}\index{triangle@{triangle}}
+
+
+Triangular mesh face.  
+
+
+
+
+{\ttfamily \#include $<$math.\+h$>$}
+
+
+
+Collaboration diagram for triangle\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=174pt]{structtriangle__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structtriangle_a5bc62f2a81704e89e77d3b9b54c34be2}\label{structtriangle_a5bc62f2a81704e89e77d3b9b54c34be2}} 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\mbox{\Hypertarget{uniontriangle_1_1_0D8_a54d0d098812b0da9651917ea3402d139}\label{uniontriangle_1_1_0D8_a54d0d098812b0da9651917ea3402d139}} 
+\>struct \{\\
+\>\>float {\bfseries x1}\\
+\>\>float {\bfseries y1}\\
+\>\>float {\bfseries z1}\\
+\>\>float {\bfseries w1}\\
+\>\>float {\bfseries x2}\\
+\>\>float {\bfseries y2}\\
+\>\>float {\bfseries z2}\\
+\>\>float {\bfseries w2}\\
+\>\>float {\bfseries x3}\\
+\>\>float {\bfseries y3}\\
+\>\>float {\bfseries z3}\\
+\>\>float {\bfseries w3}\\
+\>\} \\
+\>struct \hyperlink{structvec3}{vec3} {\bfseries v} \mbox{[}3\mbox{]}\\
+\}; \\
+
+\end{tabbing}\item 
+\mbox{\Hypertarget{structtriangle_a21313e1a3507db1c3028ddb1bc186b28}\label{structtriangle_a21313e1a3507db1c3028ddb1bc186b28}} 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\mbox{\Hypertarget{uniontriangle_1_1_0D10_a12bac64045f3bf8e23abf4c84ba5110c}\label{uniontriangle_1_1_0D10_a12bac64045f3bf8e23abf4c84ba5110c}} 
+\>struct \{\\
+\>\>float {\bfseries u1}\\
+\>\>float {\bfseries v1}\\
+\>\>float {\bfseries tw1}\\
+\>\>float {\bfseries u2}\\
+\>\>float {\bfseries v2}\\
+\>\>float {\bfseries tw2}\\
+\>\>float {\bfseries u3}\\
+\>\>float {\bfseries v3}\\
+\>\>float {\bfseries tw3}\\
+\>\} \\
+\>struct \hyperlink{structvec2}{vec2} {\bfseries t} \mbox{[}3\mbox{]}\\
+\}; \\
+
+\end{tabbing}\item 
+\mbox{\Hypertarget{structtriangle_a8e59a9188d073130c946f55f3d6f9955}\label{structtriangle_a8e59a9188d073130c946f55f3d6f9955}} 
+unsigned int {\bfseries color}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Triangular mesh face. 
+
+A mesh face consisting solely of homogenous 3D coordinates and homogenous 2D texture coordinates, and a color attribute.
+
+Currently the color attribute is not used, but it is useful for debugging or falling back to in lieu of texture values or coordinate values. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{math_8h}{math.\+h}\end{DoxyCompactItemize}

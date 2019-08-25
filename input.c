@@ -1,12 +1,22 @@
 /******************************************************************************
+  GrooveStomp's 3D Software Renderer
+  Copyright (c) 2019 Aaron Oman (GrooveStomp)
+
   File: input.c
   Created: 2019-06-21
-  Updated: 2019-08-17
+  Updated: 2019-08-25
   Author: Aaron Oman
-  Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
+  Notice: GNU GPLv3 License
+
+  Based off of: One Lone Coder Console Game Engine Copyright (C) 2018 Javidx9
+  This program comes with ABSOLUTELY NO WARRANTY.
+  This is free software, and you are welcome to redistribute it under certain
+  conditions; See LICENSE for details.
  ******************************************************************************/
-#include "SDL2/SDL.h"
+
 //! \file input.c
+
+#include "SDL2/SDL.h"
 
 #include "math.h"
 

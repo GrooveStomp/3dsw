@@ -1,33 +1,83 @@
 /******************************************************************************
+  GrooveStomp's 3D Software Renderer
+  Copyright (c) 2019 Aaron Oman (GrooveStomp)
+
   File: color.h
   Created: 2019-08-15
-  Updated: 2019-08-17
+  Updated: 2019-08-25
   Author: Aaron Oman
+  Notice: GNU GPLv3 License
+
+  Based off of: One Lone Coder Console Game Engine Copyright (C) 2018 Javidx9
+  This program comes with ABSOLUTELY NO WARRANTY.
+  This is free software, and you are welcome to redistribute it under certain
+  conditions; See LICENSE for details.
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
 
 //! \file color.h
+//! This interface attempts to provide an intuitive wrapper around "raw"
+//! unsigned integer colors.
+//!
+//! An unsigned integer color is packed 32-bit value consisting of 4 pixel
+//! elements: RGBA.  These elements are stored as written: RGBA, or, visually
+//! mapped as hex symbols: RRGGBBAA.
 
 #ifndef COLOR_VERSION
-//! include guard
-#define COLOR_VERSION "0.1.0"
+#define COLOR_VERSION "0.1.0" //!< include guard
 
+//! RGBA color quad
 struct color {
         unsigned int rgba;
 };
 
+//! \brief Initialize a new color with individual R, G, B, A components as floats.
+//!
+//! \param r Red component from 0 to 1
+//! \param g Green componenet from 0 to 1
+//! \param b Blue component from 0 to 1
+//! \param a Alpha component, from 0 to 1
+//! \return resulting color object
 struct color
 ColorInitFloat(float r, float g, float b, float a);
 
+//! \brief Get the color component
+//!
+//! The component is returned as the raw integer value, in the range [0,255]
+//!
+//! \param color color object to read
+//! \param component 'r', 'g', 'b' or 'a' exclusively.
+//! \return value of the color component
 unsigned int
 ColorGetInt(struct color color, char component);
 
+//! \brief Get the color component
+//!
+//! The component is returned as a float in the range [0.0,1.0]
+//!
+//! \param color color object to read
+//! \param component 'r', 'g', 'b' or 'a' exclusively.
+//! \return value of the color component
 float
 ColorGetFloat(struct color color, char component);
 
+//! \brief Set the color component
+//!
+//! The value should be an integer in the range [0,255]
+//!
+//! \param color pointer to the color object to write
+//! \param component 'r', 'g', 'b' or 'a' exclusively.
+//! \param value value of the color component to set
 void
 ColorSetInt(struct color *color, char component, unsigned int value);
 
+//! \brief Set the color component
+//!
+//! The value should be a float in the range [0.0,1.0]
+//!
+//! \param color pointer to the color object to write
+//! \param component 'r', 'g', 'b' or 'a' exclusively.
+//! \param value value of the color component to set
 void
 ColorSetFloat(struct color *color, char component, float value);
 

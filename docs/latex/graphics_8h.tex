@@ -1,0 +1,211 @@
+\hypertarget{graphics_8h}{}\section{graphics.\+h File Reference}
+\label{graphics_8h}\index{graphics.\+h@{graphics.\+h}}
+{\ttfamily \#include \char`\"{}S\+D\+L2/\+S\+D\+L.\+h\char`\"{}}\newline
+Include dependency graph for graphics.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=152pt]{graphics_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=142pt]{graphics_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{graphics_8h_a28a1ed26c61aa87880397b3e247b03b7}\label{graphics_8h_a28a1ed26c61aa87880397b3e247b03b7}} 
+\#define \hyperlink{graphics_8h_a28a1ed26c61aa87880397b3e247b03b7}{G\+R\+A\+P\+H\+I\+C\+S\+\_\+\+V\+E\+R\+S\+I\+ON}~\char`\"{}0.\+1.\+0\char`\"{}
+\begin{DoxyCompactList}\small\item\em include guard \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structgraphics}{graphics} $\ast$ \hyperlink{graphics_8h_a543e265f9ff924a1def601674c56b3a2}{Graphics\+Init} (char $\ast$title, int width, int height, int scale)
+\begin{DoxyCompactList}\small\item\em Creates and initializes a new graphics object isntance. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8h_a60bfad8b4f1ee06733460378fa8e56e0}{Graphics\+Deinit} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics})
+\begin{DoxyCompactList}\small\item\em De-\/initializes and frees memory for the given graphics object. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8h_acc8d5ed3b6d471a3df71f6c080f57194}{Graphics\+Begin} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics})
+\begin{DoxyCompactList}\small\item\em Initializes the graphics subsystem for drawing routines. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8h_a93d049610e6a7de779502b748fe0a84a}{Graphics\+End} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics})
+\begin{DoxyCompactList}\small\item\em Prepares the graphics subsystem for presentation, then presents. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8h_ac7cff8334dd93066be5801a7a12b00df}{Graphics\+Clear\+Screen} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics}, unsigned int \hyperlink{structcolor}{color})
+\begin{DoxyCompactList}\small\item\em Sets all pixels in the screen to the given color. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8h_ab4eed4462ddf5c15ca6ee40500850f5f}{Graphics\+Triangle\+Wireframe} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics}, struct \hyperlink{structtriangle}{triangle} \hyperlink{structtriangle}{triangle}, unsigned int \hyperlink{structcolor}{color})
+\begin{DoxyCompactList}\small\item\em Draw a triangle with the given set of x and y coordinates. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8h_a0ced2380f07dd02a2251f70480c8a0a9}{Graphics\+Triangle\+Solid} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics}, struct \hyperlink{structtriangle}{triangle} \hyperlink{structtriangle}{triangle}, unsigned int \hyperlink{structcolor}{color})
+\begin{DoxyCompactList}\small\item\em Draw a triangle with the given set of x and y coordinates. \end{DoxyCompactList}\item 
+void \hyperlink{graphics_8h_a50ea5ae7900c76984aa7beabaa79532b}{Graphics\+Triangle\+Textured} (struct \hyperlink{structgraphics}{graphics} $\ast$\hyperlink{structgraphics}{graphics}, struct \hyperlink{structtriangle}{triangle} tri, struct \hyperlink{structtexture}{texture} $\ast$\hyperlink{structtexture}{texture})
+\begin{DoxyCompactList}\small\item\em Draw a textured triangle with the given set of x and y coordinates. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Drawing interface to the operating system. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{graphics_8h_acc8d5ed3b6d471a3df71f6c080f57194}\label{graphics_8h_acc8d5ed3b6d471a3df71f6c080f57194}} 
+\index{graphics.\+h@{graphics.\+h}!Graphics\+Begin@{Graphics\+Begin}}
+\index{Graphics\+Begin@{Graphics\+Begin}!graphics.\+h@{graphics.\+h}}
+\subsubsection{\texorpdfstring{Graphics\+Begin()}{GraphicsBegin()}}
+{\footnotesize\ttfamily void Graphics\+Begin (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics }\end{DoxyParamCaption})}
+
+
+
+Initializes the graphics subsystem for drawing routines. 
+
+Internally locks streaming texture for direct manipulation.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be manipulated \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{graphics_8h_ac7cff8334dd93066be5801a7a12b00df}\label{graphics_8h_ac7cff8334dd93066be5801a7a12b00df}} 
+\index{graphics.\+h@{graphics.\+h}!Graphics\+Clear\+Screen@{Graphics\+Clear\+Screen}}
+\index{Graphics\+Clear\+Screen@{Graphics\+Clear\+Screen}!graphics.\+h@{graphics.\+h}}
+\subsubsection{\texorpdfstring{Graphics\+Clear\+Screen()}{GraphicsClearScreen()}}
+{\footnotesize\ttfamily void Graphics\+Clear\+Screen (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics,  }\item[{unsigned int}]{color }\end{DoxyParamCaption})}
+
+
+
+Sets all pixels in the screen to the given color. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be manipulated \\
+\hline
+\mbox{\tt in}  & {\em color} & 32-\/bit color with 8-\/bits per component\+: (R,G,B,A) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{graphics_8h_a60bfad8b4f1ee06733460378fa8e56e0}\label{graphics_8h_a60bfad8b4f1ee06733460378fa8e56e0}} 
+\index{graphics.\+h@{graphics.\+h}!Graphics\+Deinit@{Graphics\+Deinit}}
+\index{Graphics\+Deinit@{Graphics\+Deinit}!graphics.\+h@{graphics.\+h}}
+\subsubsection{\texorpdfstring{Graphics\+Deinit()}{GraphicsDeinit()}}
+{\footnotesize\ttfamily void Graphics\+Deinit (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics }\end{DoxyParamCaption})}
+
+
+
+De-\/initializes and frees memory for the given graphics object. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & The initialized opcode object to be cleaned and reclaimed \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{graphics_8h_a93d049610e6a7de779502b748fe0a84a}\label{graphics_8h_a93d049610e6a7de779502b748fe0a84a}} 
+\index{graphics.\+h@{graphics.\+h}!Graphics\+End@{Graphics\+End}}
+\index{Graphics\+End@{Graphics\+End}!graphics.\+h@{graphics.\+h}}
+\subsubsection{\texorpdfstring{Graphics\+End()}{GraphicsEnd()}}
+{\footnotesize\ttfamily void Graphics\+End (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics }\end{DoxyParamCaption})}
+
+
+
+Prepares the graphics subsystem for presentation, then presents. 
+
+Internally unlocks streaming texture then calls presentation routines.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be manipulated. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{graphics_8h_a543e265f9ff924a1def601674c56b3a2}\label{graphics_8h_a543e265f9ff924a1def601674c56b3a2}} 
+\index{graphics.\+h@{graphics.\+h}!Graphics\+Init@{Graphics\+Init}}
+\index{Graphics\+Init@{Graphics\+Init}!graphics.\+h@{graphics.\+h}}
+\subsubsection{\texorpdfstring{Graphics\+Init()}{GraphicsInit()}}
+{\footnotesize\ttfamily struct \hyperlink{structgraphics}{graphics}$\ast$ Graphics\+Init (\begin{DoxyParamCaption}\item[{char $\ast$}]{title,  }\item[{int}]{width,  }\item[{int}]{height,  }\item[{int}]{scale }\end{DoxyParamCaption})}
+
+
+
+Creates and initializes a new graphics object isntance. 
+
+Scale can be specified as a non-\/negative number. This value is used to multiply both the width and the height and the pixel size of any drawing operations.
+
+For example, specifying a scale of 2 would multiply the width by 2, the height by 2, and every pixel would be 2x2; so the total scale factor ends up being scale$^\wedge$2
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em title} & The title displayed in the window titlebar \\
+\hline
+\mbox{\tt in}  & {\em width} & Width of the display area of the window, in pixels \\
+\hline
+\mbox{\tt in}  & {\em height} & Height of the display are of the window, in pixels \\
+\hline
+\mbox{\tt in}  & {\em scale} & Size and rendering scale, natural number multiple \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The initialized graphics object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{graphics_8h_a0ced2380f07dd02a2251f70480c8a0a9}\label{graphics_8h_a0ced2380f07dd02a2251f70480c8a0a9}} 
+\index{graphics.\+h@{graphics.\+h}!Graphics\+Triangle\+Solid@{Graphics\+Triangle\+Solid}}
+\index{Graphics\+Triangle\+Solid@{Graphics\+Triangle\+Solid}!graphics.\+h@{graphics.\+h}}
+\subsubsection{\texorpdfstring{Graphics\+Triangle\+Solid()}{GraphicsTriangleSolid()}}
+{\footnotesize\ttfamily void Graphics\+Triangle\+Solid (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics,  }\item[{struct \hyperlink{structtriangle}{triangle}}]{triangle,  }\item[{unsigned int}]{color }\end{DoxyParamCaption})}
+
+
+
+Draw a triangle with the given set of x and y coordinates. 
+
+Fills the specified polygon with the given color.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be changed \\
+\hline
+\mbox{\tt in}  & {\em triangle} & The triangle to draw \\
+\hline
+\mbox{\tt in}  & {\em color} & What color the solid triangle should be rendered with\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+Source\+: \href{http://www.sunshine2k.de/coding/java/TriangleRasterization/TriangleRasterization.html}{\tt http\+://www.\+sunshine2k.\+de/coding/java/\+Triangle\+Rasterization/\+Triangle\+Rasterization.\+html} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{graphics_8h_a50ea5ae7900c76984aa7beabaa79532b}\label{graphics_8h_a50ea5ae7900c76984aa7beabaa79532b}} 
+\index{graphics.\+h@{graphics.\+h}!Graphics\+Triangle\+Textured@{Graphics\+Triangle\+Textured}}
+\index{Graphics\+Triangle\+Textured@{Graphics\+Triangle\+Textured}!graphics.\+h@{graphics.\+h}}
+\subsubsection{\texorpdfstring{Graphics\+Triangle\+Textured()}{GraphicsTriangleTextured()}}
+{\footnotesize\ttfamily void Graphics\+Triangle\+Textured (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics,  }\item[{struct \hyperlink{structtriangle}{triangle}}]{tri,  }\item[{struct \hyperlink{structtexture}{texture} $\ast$}]{texture }\end{DoxyParamCaption})}
+
+
+
+Draw a textured triangle with the given set of x and y coordinates. 
+
+Fills the specified polygon with the given texture.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be changed \\
+\hline
+\mbox{\tt in}  & {\em tri} & The triangle to draw \\
+\hline
+\mbox{\tt in}  & {\em texture} & What texture to sample while drawing the solid triangle\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+Source\+: \href{https://github.com/OneLoneCoder/videos/blob/master/OneLoneCoder_olcEngine3D_Part4.cpp}{\tt https\+://github.\+com/\+One\+Lone\+Coder/videos/blob/master/\+One\+Lone\+Coder\+\_\+olc\+Engine3\+D\+\_\+\+Part4.\+cpp} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{graphics_8h_ab4eed4462ddf5c15ca6ee40500850f5f}\label{graphics_8h_ab4eed4462ddf5c15ca6ee40500850f5f}} 
+\index{graphics.\+h@{graphics.\+h}!Graphics\+Triangle\+Wireframe@{Graphics\+Triangle\+Wireframe}}
+\index{Graphics\+Triangle\+Wireframe@{Graphics\+Triangle\+Wireframe}!graphics.\+h@{graphics.\+h}}
+\subsubsection{\texorpdfstring{Graphics\+Triangle\+Wireframe()}{GraphicsTriangleWireframe()}}
+{\footnotesize\ttfamily void Graphics\+Triangle\+Wireframe (\begin{DoxyParamCaption}\item[{struct \hyperlink{structgraphics}{graphics} $\ast$}]{graphics,  }\item[{struct \hyperlink{structtriangle}{triangle}}]{triangle,  }\item[{unsigned int}]{color }\end{DoxyParamCaption})}
+
+
+
+Draw a triangle with the given set of x and y coordinates. 
+
+Only draws the lines, doesn\textquotesingle{}t fill the polygon.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em graphics} & Graphics state to be changed \\
+\hline
+\mbox{\tt in}  & {\em triangle} & The triangle to draw \\
+\hline
+\mbox{\tt in}  & {\em color} & What color the wireframe should be rendered with \\
+\hline
+\end{DoxyParams}
