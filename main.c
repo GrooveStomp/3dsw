@@ -1,9 +1,17 @@
 /******************************************************************************
-  File: main.c
+  GrooveStomp's 3D Software Renderer
+  Copyright (c) 2019 Aaron Oman (GrooveStomp)
+
+  File: triangle_list.h
   Created: 2019-08-07
-  Updated: 2019-08-26
+  Updated: 2019-08-27
   Author: Aaron Oman
-  Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
+  Notice: GNU GPLv3 License
+
+  Based off of: One Lone Coder Console Game Engine Copyright (C) 2018 Javidx9
+  This program comes with ABSOLUTELY NO WARRANTY.
+  This is free software, and you are welcome to redistribute it under certain
+  conditions; See LICENSE for details.
  ******************************************************************************/
 #include <stdio.h>
 #include <malloc.h>
@@ -84,7 +92,7 @@ int main(int argc, char **argv) {
         struct timespec progStart;
         clock_gettime(CLOCK_REALTIME, &progStart);
 
-        graphics = GraphicsInit("3D Software Demo", SCREEN_WIDTH, SCREEN_HEIGHT, 2);
+        graphics = GraphicsInit("GrooveStomp's 3D Software Renderer", SCREEN_WIDTH, SCREEN_HEIGHT, 1);
         if (NULL == graphics) {
                 fprintf(stderr, "Couldn't initialize graphics");
                 Shutdown(1);
@@ -169,8 +177,8 @@ int main(int argc, char **argv) {
                                 lightDirection = Vec3Normalize(lightDirection);
 
                                 // How similar is normal to light direction?
-                                // float dp = fmax(0.1f, Vec3DotProduct(normal, lightDirection));
-                                // struct color color = ColorInitFloat(dp, dp, dp, 1.0);
+                                float dp = fmax(0.1f, Vec3DotProduct(normal, lightDirection));
+                                transformed.color = ColorInitFloat(dp, dp, dp, 1.0).rgba;
 
                                 // Convert from world space to view space.
                                 struct triangle viewed = transformed;
@@ -308,7 +316,7 @@ int main(int argc, char **argv) {
                 GraphicsEnd(graphics);
 
                 while (SDL_PollEvent(&event)) {
-                        running = !InputIsQuitPressed(input, &event);
+                        running = !InputIsQuitPressed(&event);
                 }
                 InputProcess(input);
 

@@ -78,7 +78,8 @@ Include dependency graph for input.h:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:abca4f285fc582fc00029c078fdee9e82"><td class="memItemLeft" align="right" valign="top"><a id="abca4f285fc582fc00029c078fdee9e82"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>INPUT_VERSION</b>&#160;&#160;&#160;&quot;0.1.0&quot;</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="input_8h.html#abca4f285fc582fc00029c078fdee9e82">INPUT_VERSION</a>&#160;&#160;&#160;&quot;0.1.0&quot;</td></tr>
+<tr class="memdesc:abca4f285fc582fc00029c078fdee9e82"><td class="mdescLeft">&#160;</td><td class="mdescRight">include guard <br /></td></tr>
 <tr class="separator:abca4f285fc582fc00029c078fdee9e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -89,15 +90,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a6767724b756cbf018c89f333927b2a60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="input_8h.html#a6767724b756cbf018c89f333927b2a60">InputDeinit</a> (struct <a class="el" href="structinput.html">input</a> *<a class="el" href="structinput.html">input</a>)</td></tr>
 <tr class="memdesc:a6767724b756cbf018c89f333927b2a60"><td class="mdescLeft">&#160;</td><td class="mdescRight">De-initializes and frees memory for the given input object.  <a href="#a6767724b756cbf018c89f333927b2a60">More...</a><br /></td></tr>
 <tr class="separator:a6767724b756cbf018c89f333927b2a60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a648e479124b096d398b8ff155a4c8ec2"><td class="memItemLeft" align="right" valign="top"><a id="a648e479124b096d398b8ff155a4c8ec2"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>InputIsQuitPressed</b> (struct <a class="el" href="structinput.html">input</a> *<a class="el" href="structinput.html">input</a>, SDL_Event *event)</td></tr>
-<tr class="separator:a648e479124b096d398b8ff155a4c8ec2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adff53803428a584ff39c5094f2514ae9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="input_8h.html#adff53803428a584ff39c5094f2514ae9">InputIsQuitPressed</a> (SDL_Event *event)</td></tr>
+<tr class="memdesc:adff53803428a584ff39c5094f2514ae9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has tried to quit the program.  <a href="#adff53803428a584ff39c5094f2514ae9">More...</a><br /></td></tr>
+<tr class="separator:adff53803428a584ff39c5094f2514ae9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1731aedf34349137cd066e474a8b0d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="input_8h.html#ac1731aedf34349137cd066e474a8b0d2">InputProcess</a> (struct <a class="el" href="structinput.html">input</a> *<a class="el" href="structinput.html">input</a>)</td></tr>
 <tr class="memdesc:ac1731aedf34349137cd066e474a8b0d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle input.  <a href="#ac1731aedf34349137cd066e474a8b0d2">More...</a><br /></td></tr>
 <tr class="separator:ac1731aedf34349137cd066e474a8b0d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This package provides a small input abstraction layer to separate input processing from system emulation. Input operates in the same thread as graphics, at the same frequency (30hz) and calls back into the system emulation thread. </p>
+<div class="textblock"><p>A small interface to manage handling input separately from main(). </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a6767724b756cbf018c89f333927b2a60"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6767724b756cbf018c89f333927b2a60">&#9670;&nbsp;</a></span>InputDeinit()</h2>
@@ -145,6 +146,33 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>InputIsQuitPressed</b>
 
 </div>
 </div>
+<a id="adff53803428a584ff39c5094f2514ae9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adff53803428a584ff39c5094f2514ae9">&#9670;&nbsp;</a></span>InputIsQuitPressed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int InputIsQuitPressed </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Event *&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if the user has tried to quit the program. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>the event object to query </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if quit has been pressed, otherwise zero </dd></dl>
+
+</div>
+</div>
 <a id="ac1731aedf34349137cd066e474a8b0d2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac1731aedf34349137cd066e474a8b0d2">&#9670;&nbsp;</a></span>InputProcess()</h2>
 
@@ -162,10 +190,11 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>InputIsQuitPressed</b>
 </div><div class="memdoc">
 
 <p>Handle input. </p>
+<p>This function reaches into global state and changes it based on user input, doing things like changing the view direction.</p>
+<p>This interface is a prime candidate to be reworked into something far less intrusive, like a callback mechanism.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">input</td><td>Input state to be updated </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>SDL event to process </td></tr>
   </table>
   </dd>
 </dl>

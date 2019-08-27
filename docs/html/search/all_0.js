@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['camera',['camera',['../input_8c.html#a3424564b22c110ebf7cbfc61eae2709d',1,'main.c']]],
   ['color',['color',['../structcolor.html',1,'']]],
   ['color_2ec',['color.c',['../color_8c.html',1,'']]],
   ['color_2eh',['color.h',['../color_8h.html',1,'']]],

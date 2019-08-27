@@ -61,6 +61,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">texture.h File Reference</div>  </div>
@@ -81,21 +82,128 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtexture.html">texture</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">data is always RGB with 8-bits per component and no padding in rows.  <a href="structtexture.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure representing a texture image.  <a href="structtexture.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a5d927edec3a3502915332eaab4d7c92a"><td class="memItemLeft" align="right" valign="top"><a id="a5d927edec3a3502915332eaab4d7c92a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a5d927edec3a3502915332eaab4d7c92a">TEXTURE_VERSION</a>&#160;&#160;&#160;&quot;0.1.0&quot;</td></tr>
+<tr class="memdesc:a5d927edec3a3502915332eaab4d7c92a"><td class="mdescLeft">&#160;</td><td class="mdescRight">include guard <br /></td></tr>
+<tr class="separator:a5d927edec3a3502915332eaab4d7c92a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:abb654b7f7e436f514304c9a0cba313b3"><td class="memItemLeft" align="right" valign="top"><a id="abb654b7f7e436f514304c9a0cba313b3"></a>
-struct <a class="el" href="structtexture.html">texture</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>TextureInitFromFile</b> (char *file)</td></tr>
+<tr class="memitem:abb654b7f7e436f514304c9a0cba313b3"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structtexture.html">texture</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#abb654b7f7e436f514304c9a0cba313b3">TextureInitFromFile</a> (char *file)</td></tr>
+<tr class="memdesc:abb654b7f7e436f514304c9a0cba313b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize a new texture object.  <a href="#abb654b7f7e436f514304c9a0cba313b3">More...</a><br /></td></tr>
 <tr class="separator:abb654b7f7e436f514304c9a0cba313b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d2ab87d8c30cbf53605598654511de1"><td class="memItemLeft" align="right" valign="top"><a id="a9d2ab87d8c30cbf53605598654511de1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>TextureDeinit</b> (struct <a class="el" href="structtexture.html">texture</a> *<a class="el" href="structtexture.html">texture</a>)</td></tr>
+<tr class="memitem:a9d2ab87d8c30cbf53605598654511de1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a9d2ab87d8c30cbf53605598654511de1">TextureDeinit</a> (struct <a class="el" href="structtexture.html">texture</a> *<a class="el" href="structtexture.html">texture</a>)</td></tr>
+<tr class="memdesc:a9d2ab87d8c30cbf53605598654511de1"><td class="mdescLeft">&#160;</td><td class="mdescRight">De-initialize a texture object.  <a href="#a9d2ab87d8c30cbf53605598654511de1">More...</a><br /></td></tr>
 <tr class="separator:a9d2ab87d8c30cbf53605598654511de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a391fe321452fcd146c3287bc5bcee950"><td class="memItemLeft" align="right" valign="top"><a id="a391fe321452fcd146c3287bc5bcee950"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>TextureSample</b> (struct <a class="el" href="structtexture.html">texture</a> *<a class="el" href="structtexture.html">texture</a>, float u, float v)</td></tr>
+<tr class="memitem:a391fe321452fcd146c3287bc5bcee950"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a391fe321452fcd146c3287bc5bcee950">TextureSample</a> (struct <a class="el" href="structtexture.html">texture</a> *<a class="el" href="structtexture.html">texture</a>, float u, float v)</td></tr>
+<tr class="memdesc:a391fe321452fcd146c3287bc5bcee950"><td class="mdescLeft">&#160;</td><td class="mdescRight">Texel lookup.  <a href="#a391fe321452fcd146c3287bc5bcee950">More...</a><br /></td></tr>
 <tr class="separator:a391fe321452fcd146c3287bc5bcee950"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a9d2ab87d8c30cbf53605598654511de1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d2ab87d8c30cbf53605598654511de1">&#9670;&nbsp;</a></span>TextureDeinit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TextureDeinit </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structtexture.html">texture</a> *&#160;</td>
+          <td class="paramname"><em>texture</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>De-initialize a texture object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">texture</td><td>The texture object to de-initialize </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abb654b7f7e436f514304c9a0cba313b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb654b7f7e436f514304c9a0cba313b3">&#9670;&nbsp;</a></span>TextureInitFromFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structtexture.html">texture</a>* TextureInitFromFile </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize a new texture object. </p>
+<p>This uses <a href="https://github.com/nothings/stb/blob/master/stb_image.h">stb_image</a>, and thus all the image formats supported by that library.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>Path to the image file to load </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>an initialized texture object </dd></dl>
+
+</div>
+</div>
+<a id="a391fe321452fcd146c3287bc5bcee950"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a391fe321452fcd146c3287bc5bcee950">&#9670;&nbsp;</a></span>TextureSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int TextureSample </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structtexture.html">texture</a> *&#160;</td>
+          <td class="paramname"><em>texture</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>u</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>v</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Texel lookup. </p>
+<p>Textures are organized such that (0,0) is the top-left corner, and (0,1) is the lower-left corner.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">texture</td><td>the Texture object to sample </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">u</td><td>the horizontal texture coordinate </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">v</td><td>the vertical texture coordinate </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

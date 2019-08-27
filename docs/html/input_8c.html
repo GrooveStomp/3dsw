@@ -92,9 +92,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a68054d62d814fb092e0927f163d0e8ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="input_8c.html#a68054d62d814fb092e0927f163d0e8ad">InputDeinit</a> (struct <a class="el" href="structinput.html">input</a> *i)</td></tr>
 <tr class="memdesc:a68054d62d814fb092e0927f163d0e8ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">De-initializes and frees memory for the given input object.  <a href="#a68054d62d814fb092e0927f163d0e8ad">More...</a><br /></td></tr>
 <tr class="separator:a68054d62d814fb092e0927f163d0e8ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f5f8ed38e1c000d6441daf26922e043"><td class="memItemLeft" align="right" valign="top"><a id="a5f5f8ed38e1c000d6441daf26922e043"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>InputIsQuitPressed</b> (struct <a class="el" href="structinput.html">input</a> *i, SDL_Event *event)</td></tr>
-<tr class="separator:a5f5f8ed38e1c000d6441daf26922e043"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adff53803428a584ff39c5094f2514ae9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="input_8c.html#adff53803428a584ff39c5094f2514ae9">InputIsQuitPressed</a> (SDL_Event *event)</td></tr>
+<tr class="memdesc:adff53803428a584ff39c5094f2514ae9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has tried to quit the program.  <a href="#adff53803428a584ff39c5094f2514ae9">More...</a><br /></td></tr>
+<tr class="separator:adff53803428a584ff39c5094f2514ae9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d53e96b684d7f742ce3864ca5b0e656"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="input_8c.html#a9d53e96b684d7f742ce3864ca5b0e656">InputProcess</a> (struct <a class="el" href="structinput.html">input</a> *i)</td></tr>
 <tr class="memdesc:a9d53e96b684d7f742ce3864ca5b0e656"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle input.  <a href="#a9d53e96b684d7f742ce3864ca5b0e656">More...</a><br /></td></tr>
 <tr class="separator:a9d53e96b684d7f742ce3864ca5b0e656"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -102,19 +102,24 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>InputIsQuitPressed</b>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a3424564b22c110ebf7cbfc61eae2709d"><td class="memItemLeft" align="right" valign="top"><a id="a3424564b22c110ebf7cbfc61eae2709d"></a>
-struct <a class="el" href="structvec3.html">vec3</a>&#160;</td><td class="memItemRight" valign="bottom"><b>camera</b></td></tr>
+struct <a class="el" href="structvec3.html">vec3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="input_8c.html#a3424564b22c110ebf7cbfc61eae2709d">camera</a></td></tr>
+<tr class="memdesc:a3424564b22c110ebf7cbfc61eae2709d"><td class="mdescLeft">&#160;</td><td class="mdescRight">global camera state <br /></td></tr>
 <tr class="separator:a3424564b22c110ebf7cbfc61eae2709d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af00c9a33a2edf335eb87b8d56735ffe8"><td class="memItemLeft" align="right" valign="top"><a id="af00c9a33a2edf335eb87b8d56735ffe8"></a>
-struct <a class="el" href="structvec3.html">vec3</a>&#160;</td><td class="memItemRight" valign="bottom"><b>lookDir</b></td></tr>
+struct <a class="el" href="structvec3.html">vec3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="input_8c.html#af00c9a33a2edf335eb87b8d56735ffe8">lookDir</a></td></tr>
+<tr class="memdesc:af00c9a33a2edf335eb87b8d56735ffe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">global look direction state <br /></td></tr>
 <tr class="separator:af00c9a33a2edf335eb87b8d56735ffe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3606c0811ea504b10ef1e666f2de161c"><td class="memItemLeft" align="right" valign="top"><a id="a3606c0811ea504b10ef1e666f2de161c"></a>
-struct <a class="el" href="structvec3.html">vec3</a>&#160;</td><td class="memItemRight" valign="bottom"><b>up</b></td></tr>
+struct <a class="el" href="structvec3.html">vec3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="input_8c.html#a3606c0811ea504b10ef1e666f2de161c">up</a></td></tr>
+<tr class="memdesc:a3606c0811ea504b10ef1e666f2de161c"><td class="mdescLeft">&#160;</td><td class="mdescRight">global up vector state <br /></td></tr>
 <tr class="separator:a3606c0811ea504b10ef1e666f2de161c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7efc219781df4a1e281cb5d348b7fbf9"><td class="memItemLeft" align="right" valign="top"><a id="a7efc219781df4a1e281cb5d348b7fbf9"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>yaw</b></td></tr>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="input_8c.html#a7efc219781df4a1e281cb5d348b7fbf9">yaw</a></td></tr>
+<tr class="memdesc:a7efc219781df4a1e281cb5d348b7fbf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">global view direction state <br /></td></tr>
 <tr class="separator:a7efc219781df4a1e281cb5d348b7fbf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57f63506d2191a58a41afec3c3060221"><td class="memItemLeft" align="right" valign="top"><a id="a57f63506d2191a58a41afec3c3060221"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>elapsedTime</b></td></tr>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="input_8c.html#a57f63506d2191a58a41afec3c3060221">elapsedTime</a></td></tr>
+<tr class="memdesc:a57f63506d2191a58a41afec3c3060221"><td class="mdescLeft">&#160;</td><td class="mdescRight">global time state <br /></td></tr>
 <tr class="separator:a57f63506d2191a58a41afec3c3060221"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -164,6 +169,33 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>elapsedTime</b></td
 
 </div>
 </div>
+<a id="adff53803428a584ff39c5094f2514ae9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adff53803428a584ff39c5094f2514ae9">&#9670;&nbsp;</a></span>InputIsQuitPressed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int InputIsQuitPressed </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Event *&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if the user has tried to quit the program. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>the event object to query </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if quit has been pressed, otherwise zero </dd></dl>
+
+</div>
+</div>
 <a id="a9d53e96b684d7f742ce3864ca5b0e656"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9d53e96b684d7f742ce3864ca5b0e656">&#9670;&nbsp;</a></span>InputProcess()</h2>
 
@@ -181,10 +213,11 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>elapsedTime</b></td
 </div><div class="memdoc">
 
 <p>Handle input. </p>
+<p>This function reaches into global state and changes it based on user input, doing things like changing the view direction.</p>
+<p>This interface is a prime candidate to be reworked into something far less intrusive, like a callback mechanism.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">input</td><td>Input state to be updated </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>SDL event to process </td></tr>
   </table>
   </dd>
 </dl>

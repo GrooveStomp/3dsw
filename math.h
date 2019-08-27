@@ -4,7 +4,7 @@
 
   File: math.h
   Created: 2019-08-13
-  Updated: 2019-08-25
+  Updated: 2019-08-27
   Author: Aaron Oman
   Notice: GNU GPLv3 License
 
@@ -15,12 +15,10 @@
  ******************************************************************************/
 
 //! \file math.h
-
 //! A collection of vector and matrix types and associated functions.
 
 #ifndef MATH_VERSION
-//! include guard
-#define MATH_VERSION "0.1.0"
+#define MATH_VERSION "0.1.0" //!< include guard
 
 //! \brief Homogenous 2D coordinates
 //!
@@ -101,10 +99,12 @@ struct mesh {
         int count;
 };
 
+//! A 3D matrix using homogenous coordinates.
 struct mat4x4 {
         float m[4][4];
 };
 
+//! \brief Prints debug information about the homogenous 3D vector
 void
 Vec3Debug(struct vec3 vec3, char *name);
 
@@ -157,25 +157,48 @@ struct triangle TriangleInit(
 //! plane and some on the other, then split the triangle into 1 or 2 smaller
 //! triangles that do not pass through the plane.
 //!
-//! \param plane point on the plane to clip against
-//! \param normal normal of the plane to clip against
-//! \param in the triangle to clip
-//! \param out1 one of the smaller triangles resulting from the clipping, if necessary
-//! \param out2 one of the smaller triangles resulting from the clipping, if necessary
+//! \param[in] plane point on the plane to clip against
+//! \param[in] normal normal of the plane to clip against
+//! \param[in] in the triangle to clip
+//! \param[out] out1 one of the smaller triangles resulting from the clipping, if necessary
+//! \param[out] out2 one of the smaller triangles resulting from the clipping, if necessary
 //! \return 0 if all points are outside the plane, 1 if the triangle is not
 //! clipped, otherwise the number of smaller triangles resulting from clipping.
 int
 TriangleClipAgainstPlane(struct vec3 plane, struct vec3 normal, struct triangle in, struct triangle *out1, struct triangle *out2);
 
+//! \brief Prints debug information about the triangle face.
 void
 TriangleDebug(struct triangle triangle, char *name);
 
+//! \brief Initialize a new mesh object
+//!
+//! This function is useful if a mesh needs to be explicitly, manually defined.
+//! Initialization here only refers to setting a valid "zero" state.
+//!
+//! \param[in] numTris the number of triangular faces the mesh will hold.
+//! \return a properly "zeroed" mesh object that can support numTris faces.
 struct mesh *
 MeshInit(int numTris);
 
+//! \brief Initialize a new mesh object from an obj file
+//!
+//! Loads the specified obj file and constructs a new mesh object representation of it.
+//!
+//! Note: This doesn't read material definitions properly, instead explicitly loading a predefined texture out-of-band and applying it if there are texture coordinates in the obj file.
+//!
+//! \param[in] objFile path to the obj file to read
+//! \return a mesh object representing the data in the obj file
+//!
+//! \see \ref features
 struct mesh *
 MeshInitFromObj(char *objFile);
 
+//! \brief De-initializes the mesh object
+//!
+//! Frees any memory allocated by the object and frees the pointer to the object itself.
+//!
+//! \param[in,out] mesh The mesh to be de-initialized
 void
 MeshDeinit(struct mesh *mesh);
 
@@ -210,6 +233,7 @@ Mat4x4InvertFast(struct mat4x4 matrix);
 struct mat4x4
 Mat4x4PointAt(struct vec3 pos, struct vec3 target, struct vec3 up);
 
+//! \brief Prints debug information about the 4x4 matrix.
 void
 Mat4x4Debug(struct mat4x4 mat, char *name);
 

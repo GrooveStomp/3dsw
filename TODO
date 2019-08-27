@@ -1,6 +1,9 @@
-- Create docs/doc_mainpage.txt, docs/doc_development.txt
-  > Explain how to use the program (key bindings)
+- Update documentation with:
   > Screenshots
   > Animated gifs
 - Finish documenting sourcecode
 - Update README GPLv3 link to link to official source
+- Read material properties from obj file to determine which texture to load
+- Support all obj face definitions
+- Rework InputProcess() into a callback mechanism
+- Rework struct triangle_list into a more robust, possibly generic interface

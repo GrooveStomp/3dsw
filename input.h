@@ -4,7 +4,7 @@
 
   File: input.h
   Created: 2019-07-21
-  Updated: 2019-08-25
+  Updated: 2019-08-27
   Author: Aaron Oman
   Notice: GNU GPLv3 License
 
@@ -15,14 +15,10 @@
  ******************************************************************************/
 
 //! \file input.h
-//!
-//! This package provides a small input abstraction layer to separate
-//! input processing from system emulation.
-//! Input operates in the same thread as graphics, at the same frequency (30hz)
-//! and calls back into the system emulation thread.
+//! A small interface to manage handling input separately from main().
 
 #ifndef INPUT_VERSION
-#define INPUT_VERSION "0.1.0"
+#define INPUT_VERSION "0.1.0" //!< include guard
 
 #include "SDL.h"
 
@@ -39,13 +35,22 @@ InputInit();
 void
 InputDeinit(struct input *input);
 
+//! \brief Check if the user has tried to quit the program
+//!
+//! \param[in] event the event object to query
+//! \return 1 if quit has been pressed, otherwise zero
 int
-InputIsQuitPressed(struct input *input, SDL_Event *event);
+InputIsQuitPressed(SDL_Event *event);
 
 //! \brief Handle input
 //!
+//! This function reaches into global state and changes it based on user input,
+//! doing things like changing the view direction.
+//!
+//! This interface is a prime candidate to be reworked into something far less
+//! intrusive, like a callback mechanism.
+//!
 //! \param[in,out] input Input state to be updated
-//! \param[in] event SDL event to process
 void
 InputProcess(struct input *input);
 

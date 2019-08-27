@@ -1,12 +1,13 @@
 var searchData=
 [
-  ['texture',['texture',['../structtexture.html',1,'']]],
-  ['texture_2ec',['texture.c',['../texture_8c.html',1,'']]],
-  ['texture_2eh',['texture.h',['../texture_8h.html',1,'']]],
-  ['triangle',['triangle',['../structtriangle.html',1,'']]],
-  ['triangle_5flist',['triangle_list',['../structtriangle__list.html',1,'']]],
-  ['triangle_5flist_2eh',['triangle_list.h',['../triangle__list_8h.html',1,'']]],
-  ['triangleclipagainstplane',['TriangleClipAgainstPlane',['../math_8c.html#ad5746897eb2f3a6dcf661385638a3e4d',1,'TriangleClipAgainstPlane(struct vec3 plane, struct vec3 normal, struct triangle in, struct triangle *out1, struct triangle *out2):&#160;math.c'],['../math_8h.html#ad5746897eb2f3a6dcf661385638a3e4d',1,'TriangleClipAgainstPlane(struct vec3 plane, struct vec3 normal, struct triangle in, struct triangle *out1, struct triangle *out2):&#160;math.c']]],
-  ['triangleinit',['TriangleInit',['../math_8c.html#a09061f35aa26ac2ea241c53a89982dbe',1,'TriangleInit(float x1, float y1, float z1, float u1, float v1, float x2, float y2, float z2, float u2, float v2, float x3, float y3, float z3, float u3, float v3):&#160;math.c'],['../math_8h.html#a09061f35aa26ac2ea241c53a89982dbe',1,'TriangleInit(float x1, float y1, float z1, float u1, float v1, float x2, float y2, float z2, float u2, float v2, float x3, float y3, float z3, float u3, float v3):&#160;math.c']]],
-  ['trianglesoliddrawline',['TriangleSolidDrawLine',['../graphics_8c.html#a1c0c231b466914b51781b0908836e682',1,'graphics.c']]]
+  ['mat4x4',['mat4x4',['../structmat4x4.html',1,'']]],
+  ['mat4x4debug',['Mat4x4Debug',['../math_8c.html#a34ca5ff0093e0b5c52af53e072aeb798',1,'Mat4x4Debug(struct mat4x4 mat, char *name):&#160;math.c'],['../math_8h.html#a34ca5ff0093e0b5c52af53e072aeb798',1,'Mat4x4Debug(struct mat4x4 mat, char *name):&#160;math.c']]],
+  ['mat4x4invertfast',['Mat4x4InvertFast',['../math_8c.html#a7548490f5b0f671ed4d451e70cf09180',1,'Mat4x4InvertFast(struct mat4x4 matrix):&#160;math.c'],['../math_8h.html#a7548490f5b0f671ed4d451e70cf09180',1,'Mat4x4InvertFast(struct mat4x4 matrix):&#160;math.c']]],
+  ['math_2ec',['math.c',['../math_8c.html',1,'']]],
+  ['math_2eh',['math.h',['../math_8h.html',1,'']]],
+  ['math_5fversion',['MATH_VERSION',['../math_8h.html#a2171b80d3e540c232ceb5542f172ddb4',1,'math.h']]],
+  ['mesh',['mesh',['../structmesh.html',1,'']]],
+  ['meshdeinit',['MeshDeinit',['../math_8c.html#a42944cfe95cfee1a57bceb58c46e5bca',1,'MeshDeinit(struct mesh *mesh):&#160;math.c'],['../math_8h.html#a42944cfe95cfee1a57bceb58c46e5bca',1,'MeshDeinit(struct mesh *mesh):&#160;math.c']]],
+  ['meshinit',['MeshInit',['../math_8c.html#a9c277ea118c7764f5373a812c1793912',1,'MeshInit(int numTris):&#160;math.c'],['../math_8h.html#a9c277ea118c7764f5373a812c1793912',1,'MeshInit(int numTris):&#160;math.c']]],
+  ['meshinitfromobj',['MeshInitFromObj',['../math_8c.html#acc332ef7c45f7d2b41eea974cd4586e9',1,'MeshInitFromObj(char *objFile):&#160;math.c'],['../math_8h.html#acc332ef7c45f7d2b41eea974cd4586e9',1,'MeshInitFromObj(char *objFile):&#160;math.c']]]
 ];

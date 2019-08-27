@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GrooveStomp&#39;s 3D Software Renderer: Main Page</title>
+<title>GrooveStomp&#39;s 3D Software Renderer: GrooveStomp&#39;s 3D Software Renderer</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -60,10 +60,83 @@ $(function() {
 
 <div class="header">
   <div class="headertitle">
-<div class="title">GrooveStomp's 3D Software Renderer Documentation</div>  </div>
+<div class="title">GrooveStomp's 3D Software Renderer </div>  </div>
 </div><!--header-->
 <div class="contents">
-</div><!-- contents -->
+<div class="textblock"><h1><a class="anchor" id="intro_sec"></a>
+Introduction</h1>
+<p>This software renderer is based heavily off of the <a href="https://github.com/OneLoneCoder/videos/blob/master/OneLoneCoder_olcEngine3D_Part4.cpp"><b>OneLoneCoder 3D Engine</b></a>, thus, it also preserves that copyleft license.</p>
+<p>This documentation is split into several pages:</p>
+<ul>
+<li><a class="el" href="development.html">Developing GrooveStomp's 3D Software Renderer</a> <br />
+ Dependencies, tools, commands, etc. used to develop this renderer.</li>
+<li><a class="el" href="license.html">License</a> <br />
+ The license this software is licensed under.</li>
+<li><a href="https://github.com/GrooveStomp/3dsw"><b>Source Code</b></a></li>
+</ul>
+<h1><a class="anchor" id="features"></a>
+Features</h1>
+<p>&bull; <b>Triangle polygons only</b> </p>
+<p>There is no automatic tesselation of higher order polygons into triangles, only triangles are supported.</p>
+<p>&bull; <b>Backface culling</b> </p>
+<p>Triangles facing away from the camera are not rendered.</p>
+<p>&bull; <b>View frustum culling</b> </p>
+<p>Triangles outside of the view frustum are not rendered.</p>
+<p>&bull; <b>View frustum clipping</b> </p>
+<p>Triangles that protrude outside of the viewing frustum are subdivided into triangles that lie entirely within the viewing frustum.</p>
+<p>&bull; <b>Near and far plane clipping</b> </p>
+<p>Triangles that protrude outside of the near or far view planes are subdivided into triangles that lie entirely between those two planes.</p>
+<p>&bull; <b>Obj model loading</b> </p>
+<p>Obj files are supported provided the following rules are followed:</p><ul>
+<li>Faces must be subdivided into triangles before export</li>
+<li>Faces must be wound clockwise</li>
+<li>Face definitions can be in either of the two following forms:<ul>
+<li>f v1 v2 v3</li>
+<li>f v1/t1 v2/t2 v3/t3</li>
+</ul>
+</li>
+</ul>
+<p>The software engine currently assumes which texture will be applied and explicitly loads it out-of-band.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="math_8c.html#acc332ef7c45f7d2b41eea974cd4586e9" title="Initialize a new mesh object from an obj file. ">MeshInitFromObj()</a> </dd></dl>
+<p>&bull; <b>Render scaling</b> </p>
+<p>An integer scale can be specified as a scale factor. This works by being multiplied separately against the window width and window height; so, for example, an integer scale factor of 3 results in (width x 3) and (height x 3), for a total scaling factor of (3 ^ 2). The scaling works internally by duplicating pixels. So with a scaling parameter of 3 we saw that the resulting scaling factor is 9; what this means is that any given pixel results in 9 total pixels being drawn.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="graphics_8c.html#a543e265f9ff924a1def601674c56b3a2" title="Creates and initializes a new graphics object isntance. ">GraphicsInit()</a> </dd></dl>
+<p>&bull; <b>Texture mapping</b> </p>
+<p>Perspective-correct texture mapping.</p>
+<p>Note that this is only pixel-accurate, so there is substantial aliasing; particularly when render scaling is used.</p>
+<p>&bull; <b>Solid color polygons</b></p>
+<p>&bull; <b>Wireframe polygons</b></p>
+<h1><a class="anchor" id="keys"></a>
+Key Mapping</h1>
+<p>This 3D renderer is configured to use traditional first person shooter keys.</p>
+<table class="doxtable">
+<tr>
+<th>Key </th><th>Action  </th></tr>
+<tr>
+<td>w </td><td>Move forward </td></tr>
+<tr>
+<td>a </td><td>Move backward </td></tr>
+<tr>
+<td>s </td><td>Strafe left </td></tr>
+<tr>
+<td>d </td><td>Strafe right </td></tr>
+<tr>
+<td>left </td><td>Turn Left </td></tr>
+<tr>
+<td>right </td><td>Turn right </td></tr>
+</table>
+<h1><a class="anchor" id="screenshots"></a>
+Screenshots</h1>
+<div class="image">
+<img src="3dsw-texture-cube.png" alt="3dsw-texture-cube.png"/>
+</div>
+<p> This screenshot illustrates a fully textured 3d obj file.</p>
+<div class="image">
+<img src="3dsw-clipping-terrain.png" alt="3dsw-clipping-terrain.png"/>
+</div>
+<p> This screenshot illustrates debug coloring for the clipping algorithm.</p>
+<p>Blue, red and green triangles illustrate where larger triangle polygons have been subdivided into smaller triangles that fit within the viewing frustum and near clipping planes. </p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

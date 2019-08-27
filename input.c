@@ -4,7 +4,7 @@
 
   File: input.c
   Created: 2019-06-21
-  Updated: 2019-08-25
+  Updated: 2019-08-27
   Author: Aaron Oman
   Notice: GNU GPLv3 License
 
@@ -20,15 +20,14 @@
 
 #include "math.h"
 
-extern struct vec3 camera;
-extern struct vec3 lookDir;
-extern struct vec3 up;
-extern float yaw;
-extern double elapsedTime;
+extern struct vec3 camera; //!< global camera state
+extern struct vec3 lookDir; //!< global look direction state
+extern struct vec3 up; //!< global up vector state
+extern float yaw; //!< global view direction state
+extern double elapsedTime; //!< global time state
 
 //! \brief Keypress state. Unexported.
 struct input {
-        int dummyValue;
         const unsigned char *sdlKeyStates;
 };
 
@@ -48,7 +47,7 @@ void InputDeinit(struct input *i) {
         free(i);
 }
 
-int InputIsQuitPressed(struct input *i, SDL_Event *event) {
+int InputIsQuitPressed(SDL_Event *event) {
         switch (event->type) {
                 case SDL_QUIT:
                         return 1;

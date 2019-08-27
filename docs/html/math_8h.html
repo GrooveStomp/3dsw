@@ -96,18 +96,21 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A collection of triangles representing some kind of 3D model.  <a href="structmesh.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmat4x4.html">mat4x4</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A 3D matrix using homogenous coordinates.  <a href="structmat4x4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a2171b80d3e540c232ceb5542f172ddb4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_8h.html#a2171b80d3e540c232ceb5542f172ddb4">MATH_VERSION</a>&#160;&#160;&#160;&quot;0.1.0&quot;</td></tr>
-<tr class="memdesc:a2171b80d3e540c232ceb5542f172ddb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">A collection of vector and matrix types and associated functions.  <a href="#a2171b80d3e540c232ceb5542f172ddb4">More...</a><br /></td></tr>
+<tr class="memitem:a2171b80d3e540c232ceb5542f172ddb4"><td class="memItemLeft" align="right" valign="top"><a id="a2171b80d3e540c232ceb5542f172ddb4"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_8h.html#a2171b80d3e540c232ceb5542f172ddb4">MATH_VERSION</a>&#160;&#160;&#160;&quot;0.1.0&quot;</td></tr>
+<tr class="memdesc:a2171b80d3e540c232ceb5542f172ddb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">include guard <br /></td></tr>
 <tr class="separator:a2171b80d3e540c232ceb5542f172ddb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a008825dd8d5b07d04ce7441a4342aae0"><td class="memItemLeft" align="right" valign="top"><a id="a008825dd8d5b07d04ce7441a4342aae0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Vec3Debug</b> (struct <a class="el" href="structvec3.html">vec3</a> <a class="el" href="structvec3.html">vec3</a>, char *name)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_8h.html#a008825dd8d5b07d04ce7441a4342aae0">Vec3Debug</a> (struct <a class="el" href="structvec3.html">vec3</a> <a class="el" href="structvec3.html">vec3</a>, char *name)</td></tr>
+<tr class="memdesc:a008825dd8d5b07d04ce7441a4342aae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints debug information about the homogenous 3D vector. <br /></td></tr>
 <tr class="separator:a008825dd8d5b07d04ce7441a4342aae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c9261cf5fecb28a6b1a91f8539fff5f"><td class="memItemLeft" align="right" valign="top"><a id="a8c9261cf5fecb28a6b1a91f8539fff5f"></a>
 struct <a class="el" href="structvec3.html">vec3</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Vec3Init</b> (float x, float y, float z)</td></tr>
@@ -144,16 +147,17 @@ struct <a class="el" href="structtriangle.html">triangle</a>&#160;</td><td class
 <tr class="memdesc:ad5746897eb2f3a6dcf661385638a3e4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clip a triangle against a plane.  <a href="#ad5746897eb2f3a6dcf661385638a3e4d">More...</a><br /></td></tr>
 <tr class="separator:ad5746897eb2f3a6dcf661385638a3e4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3661817fe250efb4f4fe22f2b70ddd1b"><td class="memItemLeft" align="right" valign="top"><a id="a3661817fe250efb4f4fe22f2b70ddd1b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>TriangleDebug</b> (struct <a class="el" href="structtriangle.html">triangle</a> <a class="el" href="structtriangle.html">triangle</a>, char *name)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_8h.html#a3661817fe250efb4f4fe22f2b70ddd1b">TriangleDebug</a> (struct <a class="el" href="structtriangle.html">triangle</a> <a class="el" href="structtriangle.html">triangle</a>, char *name)</td></tr>
+<tr class="memdesc:a3661817fe250efb4f4fe22f2b70ddd1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints debug information about the triangle face. <br /></td></tr>
 <tr class="separator:a3661817fe250efb4f4fe22f2b70ddd1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c277ea118c7764f5373a812c1793912"><td class="memItemLeft" align="right" valign="top"><a id="a9c277ea118c7764f5373a812c1793912"></a>
-struct <a class="el" href="structmesh.html">mesh</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>MeshInit</b> (int numTris)</td></tr>
+<tr class="memitem:a9c277ea118c7764f5373a812c1793912"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmesh.html">mesh</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_8h.html#a9c277ea118c7764f5373a812c1793912">MeshInit</a> (int numTris)</td></tr>
+<tr class="memdesc:a9c277ea118c7764f5373a812c1793912"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize a new mesh object.  <a href="#a9c277ea118c7764f5373a812c1793912">More...</a><br /></td></tr>
 <tr class="separator:a9c277ea118c7764f5373a812c1793912"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc332ef7c45f7d2b41eea974cd4586e9"><td class="memItemLeft" align="right" valign="top"><a id="acc332ef7c45f7d2b41eea974cd4586e9"></a>
-struct <a class="el" href="structmesh.html">mesh</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>MeshInitFromObj</b> (char *objFile)</td></tr>
+<tr class="memitem:acc332ef7c45f7d2b41eea974cd4586e9"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmesh.html">mesh</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_8h.html#acc332ef7c45f7d2b41eea974cd4586e9">MeshInitFromObj</a> (char *objFile)</td></tr>
+<tr class="memdesc:acc332ef7c45f7d2b41eea974cd4586e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize a new mesh object from an obj file.  <a href="#acc332ef7c45f7d2b41eea974cd4586e9">More...</a><br /></td></tr>
 <tr class="separator:acc332ef7c45f7d2b41eea974cd4586e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42944cfe95cfee1a57bceb58c46e5bca"><td class="memItemLeft" align="right" valign="top"><a id="a42944cfe95cfee1a57bceb58c46e5bca"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>MeshDeinit</b> (struct <a class="el" href="structmesh.html">mesh</a> *<a class="el" href="structmesh.html">mesh</a>)</td></tr>
+<tr class="memitem:a42944cfe95cfee1a57bceb58c46e5bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_8h.html#a42944cfe95cfee1a57bceb58c46e5bca">MeshDeinit</a> (struct <a class="el" href="structmesh.html">mesh</a> *<a class="el" href="structmesh.html">mesh</a>)</td></tr>
+<tr class="memdesc:a42944cfe95cfee1a57bceb58c46e5bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">De-initializes the mesh object.  <a href="#a42944cfe95cfee1a57bceb58c46e5bca">More...</a><br /></td></tr>
 <tr class="separator:a42944cfe95cfee1a57bceb58c46e5bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7d3b02d31d5ab0cf16b0127a2a09caa"><td class="memItemLeft" align="right" valign="top"><a id="aa7d3b02d31d5ab0cf16b0127a2a09caa"></a>
 struct <a class="el" href="structvec3.html">vec3</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Mat4x4MultiplyVec3</b> (struct <a class="el" href="structmat4x4.html">mat4x4</a> mat, struct <a class="el" href="structvec3.html">vec3</a> vec)</td></tr>
@@ -184,31 +188,101 @@ struct <a class="el" href="structmat4x4.html">mat4x4</a>&#160;</td><td class="me
 <tr class="memdesc:a7548490f5b0f671ed4d451e70cf09180"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fast matrix inverse. Doesn't work if matrix does scaling. <br /></td></tr>
 <tr class="separator:a7548490f5b0f671ed4d451e70cf09180"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0e023300a38e34bea1666e3f83d296d"><td class="memItemLeft" align="right" valign="top"><a id="ac0e023300a38e34bea1666e3f83d296d"></a>
-struct <a class="el" href="structmat4x4.html">mat4x4</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Mat4x4PointAt</b> (struct <a class="el" href="structvec3.html">vec3</a> pos, struct <a class="el" href="structvec3.html">vec3</a> target, struct <a class="el" href="structvec3.html">vec3</a> up)</td></tr>
+struct <a class="el" href="structmat4x4.html">mat4x4</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Mat4x4PointAt</b> (struct <a class="el" href="structvec3.html">vec3</a> pos, struct <a class="el" href="structvec3.html">vec3</a> target, struct <a class="el" href="structvec3.html">vec3</a> <a class="el" href="input_8c.html#a3606c0811ea504b10ef1e666f2de161c">up</a>)</td></tr>
 <tr class="separator:ac0e023300a38e34bea1666e3f83d296d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34ca5ff0093e0b5c52af53e072aeb798"><td class="memItemLeft" align="right" valign="top"><a id="a34ca5ff0093e0b5c52af53e072aeb798"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Mat4x4Debug</b> (struct <a class="el" href="structmat4x4.html">mat4x4</a> mat, char *name)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_8h.html#a34ca5ff0093e0b5c52af53e072aeb798">Mat4x4Debug</a> (struct <a class="el" href="structmat4x4.html">mat4x4</a> mat, char *name)</td></tr>
+<tr class="memdesc:a34ca5ff0093e0b5c52af53e072aeb798"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints debug information about the 4x4 matrix. <br /></td></tr>
 <tr class="separator:a34ca5ff0093e0b5c52af53e072aeb798"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a2171b80d3e540c232ceb5542f172ddb4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2171b80d3e540c232ceb5542f172ddb4">&#9670;&nbsp;</a></span>MATH_VERSION</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A collection of vector and matrix types and associated functions. </p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a42944cfe95cfee1a57bceb58c46e5bca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42944cfe95cfee1a57bceb58c46e5bca">&#9670;&nbsp;</a></span>MeshDeinit()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MATH_VERSION&#160;&#160;&#160;&quot;0.1.0&quot;</td>
+          <td class="memname">void MeshDeinit </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmesh.html">mesh</a> *&#160;</td>
+          <td class="paramname"><em>mesh</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>A collection of vector and matrix types and associated functions. </p>
-<p>include guard </p>
+<p>De-initializes the mesh object. </p>
+<p>Frees any memory allocated by the object and frees the pointer to the object itself.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">mesh</td><td>The mesh to be de-initialized </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<h2 class="groupheader">Function Documentation</h2>
+<a id="a9c277ea118c7764f5373a812c1793912"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c277ea118c7764f5373a812c1793912">&#9670;&nbsp;</a></span>MeshInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmesh.html">mesh</a>* MeshInit </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numTris</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize a new mesh object. </p>
+<p>This function is useful if a mesh needs to be explicitly, manually defined. Initialization here only refers to setting a valid "zero" state.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">numTris</td><td>the number of triangular faces the mesh will hold. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a properly "zeroed" mesh object that can support numTris faces. </dd></dl>
+
+</div>
+</div>
+<a id="acc332ef7c45f7d2b41eea974cd4586e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc332ef7c45f7d2b41eea974cd4586e9">&#9670;&nbsp;</a></span>MeshInitFromObj()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmesh.html">mesh</a>* MeshInitFromObj </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>objFile</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize a new mesh object from an obj file. </p>
+<p>Loads the specified obj file and constructs a new mesh object representation of it.</p>
+<p>Note: This doesn't read material definitions properly, instead explicitly loading a predefined texture out-of-band and applying it if there are texture coordinates in the obj file.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">objFile</td><td>path to the obj file to read </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a mesh object representing the data in the obj file</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="index.html#features">Features</a> </dd></dl>
+
+</div>
+</div>
 <a id="ad5746897eb2f3a6dcf661385638a3e4d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad5746897eb2f3a6dcf661385638a3e4d">&#9670;&nbsp;</a></span>TriangleClipAgainstPlane()</h2>
 
@@ -257,11 +331,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Mat4x4Debug</b> (stru
 <p>Given a triangle and a plane, if some of the points lie on one side of the plane and some on the other, then split the triangle into 1 or 2 smaller triangles that do not pass through the plane.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">plane</td><td>point on the plane to clip against </td></tr>
-    <tr><td class="paramname">normal</td><td>normal of the plane to clip against </td></tr>
-    <tr><td class="paramname">in</td><td>the triangle to clip </td></tr>
-    <tr><td class="paramname">out1</td><td>one of the smaller triangles resulting from the clipping, if necessary </td></tr>
-    <tr><td class="paramname">out2</td><td>one of the smaller triangles resulting from the clipping, if necessary </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">plane</td><td>point on the plane to clip against </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normal</td><td>normal of the plane to clip against </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">in</td><td>the triangle to clip </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">out1</td><td>one of the smaller triangles resulting from the clipping, if necessary </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">out2</td><td>one of the smaller triangles resulting from the clipping, if necessary </td></tr>
   </table>
   </dd>
 </dl>

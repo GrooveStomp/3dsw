@@ -1,0 +1,97 @@
+//! \mainpage GrooveStomp's 3D Software Renderer
+//!
+//! \section intro_sec Introduction
+//!
+//! This software renderer is based heavily off of the [<b>OneLoneCoder 3D
+//! Engine</b>](https://github.com/OneLoneCoder/videos/blob/master/OneLoneCoder_olcEngine3D_Part4.cpp),
+//! thus, it also preserves that copyleft license.
+//!
+//! This documentation is split into several pages:
+//!
+//! - \ref development "Developing GrooveStomp's 3D Software Renderer"
+//! <br/>
+//! Dependencies, tools, commands, etc. used to develop this renderer.
+//!
+//! - \ref license "License"
+//! <br/>
+//! The license this software is licensed under.
+//!
+//! - [<b>Source Code</b>](https://github.com/GrooveStomp/3dsw)
+//!
+//! \section features Features
+//!
+//! &bull; <b>Triangle polygons only</b>
+//! <p>There is no automatic tesselation of higher order polygons into
+//! triangles, only triangles are supported.</p>
+//!
+//! &bull; <b>Backface culling</b>
+//! <p>Triangles facing away from the camera are not rendered.</p>
+//!
+//! &bull; <b>View frustum culling</b>
+//! <p>Triangles outside of the view frustum are not rendered.</p>
+//!
+//! &bull; <b>View frustum clipping</b>
+//! <p>Triangles that protrude outside of the viewing frustum are subdivided
+//! into triangles that lie entirely within the viewing frustum.</p>
+//!
+//! &bull; <b>Near and far plane clipping</b>
+//! <p>Triangles that protrude outside of the near or far view planes are
+//! subdivided into triangles that lie entirely between those two planes.</p>
+//!
+//! &bull; <b>Obj model loading</b>
+//! <p>
+//!   Obj files are supported provided the following rules are followed:
+//!   - Faces must be subdivided into triangles before export
+//!   - Faces must be wound clockwise
+//!   - Face definitions can be in either of the two following forms:
+//!     - f v1 v2 v3
+//!     - f v1/t1 v2/t2 v3/t3
+//!  - The software engine currently assumes which texture will be applied and
+//!    explicitly loads it out-of-band.
+//!
+//! \see MeshInitFromObj()
+//! </p>
+//!
+//! &bull; <b>Render scaling</b>
+//! <p>An integer scale can be specified as a scale factor. This works by being
+//! multiplied separately against the window width and window height; so, for
+//! example, an integer scale factor of 3 results in (width x 3) and (height x 3),
+//! for a total scaling factor of (3 ^ 2).  The scaling works internally by
+//! duplicating pixels.  So with a scaling parameter of 3 we saw that the resulting
+//! scaling factor is 9; what this means is that any given pixel results in 9 total
+//! pixels being drawn.
+//!
+//! \see GraphicsInit()
+//! </p>
+//!
+//! &bull; <b>Texture mapping</b>
+//! <p>Perspective-correct texture mapping.</p>
+//! <p>Note that this is only pixel-accurate, so there is substantial aliasing; particularly when render scaling is used.</p>
+//!
+//! &bull; <b>Solid color polygons</b>
+//!
+//! &bull; <b>Wireframe polygons</b>
+//!
+//! \section keys Key Mapping
+//! This 3D renderer is configured to use traditional first person shooter keys.
+//!
+//! | Key | Action |
+//! |------------|---------------------|
+//! | w | Move forward |
+//! | a | Move backward |
+//! | s | Strafe left |
+//! | d | Strafe right |
+//! | left | Turn Left |
+//! | right | Turn right |
+//!
+//! \section screenshots Screenshots
+//!
+//! \image html 3dsw-texture-cube.png
+//! This screenshot illustrates a fully textured 3d obj file.
+//!
+//! \image html 3dsw-clipping-terrain.png
+//! This screenshot illustrates debug coloring for the clipping algorithm.
+//!
+//! Blue, red and green triangles illustrate where larger triangle polygons have
+//! been subdivided into smaller triangles that fit within the viewing frustum and
+//! near clipping planes.
