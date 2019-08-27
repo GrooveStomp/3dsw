@@ -4,7 +4,7 @@
 
   File: texture.c
   Created: 2019-08-18
-  Updated: 2019-08-25
+  Updated: 2019-08-26
   Author: Aaron Oman
   Notice: GNU GPLv3 License
 
@@ -49,7 +49,7 @@ void TextureDeinit(struct texture *t) {
 }
 
 unsigned int TextureSample(struct texture *t, float u, float v) {
-        int y = (int)(v * (float)t->height - 1);
+        int y = (int)(v * (float)t->height);
         int x = (int)(u * (float)t->width);
 
         if (x < 0 || x >= t->width || y < 0 || y >= t->height) {

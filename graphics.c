@@ -4,7 +4,7 @@
 
   File: graphics.c
   Created: 2019-06-25
-  Updated: 2019-08-25
+  Updated: 2019-08-26
   Author: Aaron Oman
   Notice: GNU GPLv3 License
 
@@ -150,9 +150,9 @@ void GraphicsClearScreen(struct graphics *graphics, unsigned int color) {
 //! \param[in] color Color to put into display buffer
 void PutPixelScaled(struct graphics *graphics, int x, int y, unsigned int color) {
         for (int sy = y; sy < y + graphics->scale; sy++) {
-                // int yFlipped = graphics->height - sy - 1;
+                int yFlipped = graphics->height - sy - 1;
                 for (int sx = x; sx < x + graphics->scale; sx++) {
-                        unsigned int *pixel = (unsigned int *)&graphics->pixels[y * graphics->bytesPerRow + x * 4];
+                        unsigned int *pixel = (unsigned int *)&graphics->pixels[yFlipped * graphics->bytesPerRow + x * 4];
                         *pixel = color;
                 }
         }
@@ -166,10 +166,10 @@ void PutPixelScaled(struct graphics *graphics, int x, int y, unsigned int color)
 //! \param[in] color Color to put into display buffer
 void PutPixel(struct graphics *graphics, int x, int y, unsigned int color) {
         if (x >= 0 && x < graphics->width && y >= 0 && y < graphics->height) {
-                int y2 = graphics->height - y - 1;
-                unsigned int *pixel = (unsigned int *)&graphics->pixels[y2 * graphics->bytesPerRow + x * 4];
-                *pixel = color;
-                //PutPixelScaled(graphics, x, y, color);
+                /* int y2 = graphics->height - y - 1; */
+                /* unsigned int *pixel = (unsigned int *)&graphics->pixels[y2 * graphics->bytesPerRow + x * 4]; */
+                /* *pixel = color; */
+                PutPixelScaled(graphics, x, y, color);
         }
 }
 

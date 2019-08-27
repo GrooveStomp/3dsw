@@ -1,7 +1,7 @@
 /******************************************************************************
   File: main.c
   Created: 2019-08-07
-  Updated: 2019-08-25
+  Updated: 2019-08-26
   Author: Aaron Oman
   Notice: Creative Commons Attribution 4.0 International License (CC-BY 4.0)
  ******************************************************************************/
@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
         struct timespec progStart;
         clock_gettime(CLOCK_REALTIME, &progStart);
 
-        graphics = GraphicsInit("3D Software Demo", SCREEN_WIDTH, SCREEN_HEIGHT, 1);
+        graphics = GraphicsInit("3D Software Demo", SCREEN_WIDTH, SCREEN_HEIGHT, 2);
         if (NULL == graphics) {
                 fprintf(stderr, "Couldn't initialize graphics");
                 Shutdown(1);
